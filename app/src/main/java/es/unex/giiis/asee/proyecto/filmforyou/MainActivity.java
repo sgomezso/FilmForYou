@@ -13,7 +13,10 @@ import androidx.navigation.ui.NavigationUI;
 
 import java.util.List;
 
-import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Interface.topMovies;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Interface.movies;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.movieDetail;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.searchMovie;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.searchMovieResults;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.top250movies;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.topMoviesObject;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.ActivityMainBinding;
@@ -44,10 +47,12 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
         getTopMovies();
+        getMovieDetail("tt0816692");
+        getSearchResults("Inter");
     }
     private void getTopMovies(){
         Retrofit retrofit = new Retrofit.Builder().baseUrl("https://imdb-api.com/en/API/").addConverterFactory(GsonConverterFactory.create()).build();
-        topMovies topMoviesInterface = retrofit.create(topMovies.class);
+        movies topMoviesInterface = retrofit.create(movies.class);
         Call<topMoviesObject> call = topMoviesInterface.getTopMovies();
         call.enqueue(new Callback<topMoviesObject>() {
             @Override
@@ -65,5 +70,43 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    private void getMovieDetail(String id){
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://imdb-api.com/en/API/").addConverterFactory(GsonConverterFactory.create()).build();
+        movies movieInterface = retrofit.create(movies.class);
+        Call<movieDetail> call = movieInterface.getMovieDetail(id);
+        call.enqueue(new Callback<movieDetail>() {
+            @Override
+            public void onResponse(Call<movieDetail> call, Response<movieDetail> response) {
+                if(!response.isSuccessful()){
+                    Log.i("Error response", response.body().getErrorMesssage());
+                }else{
+                    Log.i("Movie", response.body().toString());
+                }
+            }
+            @Override
+            public void onFailure(Call<movieDetail> call, Throwable t) {
+                Log.i("Error failure", t.getMessage());
+            }
+        });
+    }
+    private void getSearchResults(String title){
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://imdb-api.com/en/API/").addConverterFactory(GsonConverterFactory.create()).build();
+        movies movieInterface = retrofit.create(movies.class);
+        Call<searchMovieResults> call = movieInterface.getSearchResults(title);
+        call.enqueue(new Callback<searchMovieResults>() {
+            @Override
+            public void onResponse(Call<searchMovieResults> call, Response<searchMovieResults> response) {
+                if(!response.isSuccessful()){
+                    Log.i("Error response", "Search error");
+                }else{
+                    for(searchMovie movie: response.body().getResults())
+                        Log.i("Movie", movie.toString());
+                }
+            }
+            @Override
+            public void onFailure(Call<searchMovieResults> call, Throwable t) {
+                Log.i("Error failure", t.getMessage());
+            }
+        });
+    }
 }
