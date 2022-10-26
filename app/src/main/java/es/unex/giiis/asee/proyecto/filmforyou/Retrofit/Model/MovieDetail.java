@@ -1,6 +1,6 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model;
 
-public class movieDetail {
+public class MovieDetail {
     public String id;
     public String title;
     public String originalTitle;
@@ -89,7 +89,7 @@ public class movieDetail {
 
     @Override
     public String toString() {
-        return "movieDetail{" +
+        return "MovieDetail{" +
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", originalTitle='" + originalTitle + '\'' +

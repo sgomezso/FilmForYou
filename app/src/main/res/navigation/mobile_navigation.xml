@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="es.unex.giiis.asee.proyecto.filmforyou.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_movieList"
+        android:name="es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MovieListFragment"
+        android:label="@string/title_movieList"
+        tools:layout="@layout/fragment_movie_list" />
 
     <fragment
         android:id="@+id/navigation_notifications"

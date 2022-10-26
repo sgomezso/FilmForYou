@@ -1,6 +1,6 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model;
 
-public class top250movies {
+public class Movie {
     public String id;
     public String rank;
     public String title;
