@@ -4,6 +4,7 @@ import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieList;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -14,7 +15,7 @@ public interface ImdbApiEndPoint {
 
     //Get top 250 ImdbApiEndPoint
     @GET("Top250Movies/" + apiKey)
-    Call<List<Movie>> getTopMovies();
+    Call<MovieList> getTopMovies();
 
     //Get details of selected Movie
     @GET("Title/" + apiKey + "/{id}")
@@ -22,6 +23,6 @@ public interface ImdbApiEndPoint {
 
     //Get the ImdbApiEndPoint results of the search
     @GET("SearchMovie/" + apiKey + "/{title}")
-    Call<List<Movie>> getSearchResults(@Path("title") String id);
+    Call<MovieList> getSearchResults(@Path("title") String id);
 }
 

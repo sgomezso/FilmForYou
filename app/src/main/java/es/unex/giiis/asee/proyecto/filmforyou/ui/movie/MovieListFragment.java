@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Adapters.MoviesAdapter;
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
+import es.unex.giiis.asee.proyecto.filmforyou.MainActivity;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
@@ -25,9 +27,7 @@ public class MovieListFragment extends Fragment implements MoviesAdapter.OnListI
 
     private MovieListViewModel movieListViewModel;
     private FragmentMovieListBinding binding;
-    private RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
-    private Repository repository;
+    private Repository mRepository = new Repository() ;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -37,30 +37,25 @@ public class MovieListFragment extends Fragment implements MoviesAdapter.OnListI
         binding = FragmentMovieListBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        recyclerView = (RecyclerView) recyclerView.findViewById(R.id.movieList);
-//        recyclerView.setHasFixedSize(true);
-//        layoutManager = new LinearLayoutManager(MainActivity.class);
-//        recyclerView.setLayoutManager(layoutManager);
-        MoviesAdapter mAdapter = new MoviesAdapter(new ArrayList<Movie>(), this);
 
 //        AppExecutors.getInstance().networkIO().execute(new ReposNetworkLoaderRunnable((repos)-> mAdapter.swap(repos)));
         AppExecutors.getInstance().networkIO().execute(new Runnable() {
             @Override
             public void run() {
-                repository.getTopMovies(new Repository.RepositoryListener() {
+                mRepository.getTopMovies(new Repository.RepositoryListener() {
                     @Override
                     public void onTopMoviesResponse(List<Movie> top250movies) {
-                        mAdapter.swap(top250movies);
+                        binding.movieList.setLayoutManager(new LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL, false));
+                        MoviesAdapter adapter = new MoviesAdapter(top250movies, MovieListFragment.this);
+                        binding.movieList.setAdapter(adapter);
                     }
                     @Override
                     public void onMovieDetailResponse(MovieDetail movieDetail) {
+
                     }
                 }); ;
             }
         });
-
-
-        recyclerView.setAdapter(mAdapter);
         return root;
     }
 
@@ -69,16 +64,7 @@ public class MovieListFragment extends Fragment implements MoviesAdapter.OnListI
         repository.getTopMovies(new Repository.RepositoryListener() {
             @Override
             public void onTopMoviesResponse(List<Movie> top250movies) {
-
-                MoviesAdapter moviesAdapter = new MoviesAdapter(top250movies, new MoviesAdapter.OnListInteractionListener() {
-                    @Override
-                    public void onListInteraction(String url) {
-
-                    }
-
-                });
-                // no puedes hacer peticiones de red en hilo principal
-
+                MoviesAdapter moviesAdapter = new MoviesAdapter(top250movies, MovieListFragment.this );
             }
 
             @Override

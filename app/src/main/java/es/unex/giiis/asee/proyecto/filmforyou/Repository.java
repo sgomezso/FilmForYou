@@ -7,6 +7,7 @@ import java.util.List;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Interface.ImdbApiEndPoint;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,21 +27,21 @@ public class Repository {
     }
 
     public void getTopMovies(RepositoryListener callback){
-        Call<List<Movie>> call = topImdbApiEndPointInterface.getTopMovies();
+        Call<MovieList> call = topImdbApiEndPointInterface.getTopMovies();
         Log.i("Iniciando getTopMovies","Iniciando getTopMovies");
-        call.enqueue(new Callback<List<Movie>>() {
+        call.enqueue(new Callback<MovieList>() {
             @Override
-            public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
+            public void onResponse(Call<MovieList> call, Response<MovieList> response) {
                 if(!response.isSuccessful()){
                     Log.i("Error response", "Get top movies failed");
                 }else{
-                    for (Movie movie : response.body())
+                    for (Movie movie : response.body().getMovies())
                         Log.i("Movie", movie.getFullTitle());
-                    callback.onTopMoviesResponse(response.body());
+                    callback.onTopMoviesResponse(response.body().getMovies());
                 }
             }
             @Override
-            public void onFailure(Call<List<Movie>> call, Throwable t) {
+            public void onFailure(Call<MovieList> call, Throwable t) {
                 Log.i("Error failure", t.getMessage());
             }
         });
@@ -63,19 +64,19 @@ public class Repository {
         });
     }
     public void getSearchResults(String title){
-        Call<List<Movie>> call = topImdbApiEndPointInterface.getSearchResults(title);
-        call.enqueue(new Callback<List<Movie>>() {
+        Call<MovieList> call = topImdbApiEndPointInterface.getSearchResults(title);
+        call.enqueue(new Callback<MovieList>() {
             @Override
-            public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
+            public void onResponse(Call<MovieList> call, Response<MovieList> response) {
                 if(!response.isSuccessful()){
                     Log.i("Error response", "Search error");
                 }else{
-                    for(Movie movie : response.body())
+                    for(Movie movie : response.body().getMovies())
                         Log.i("Movie", movie.toString());
                 }
             }
             @Override
-            public void onFailure(Call<List<Movie>> call, Throwable t) {
+            public void onFailure(Call<MovieList> call, Throwable t) {
                 Log.i("Error failure", t.getMessage());
             }
         });
