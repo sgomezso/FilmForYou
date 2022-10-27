@@ -1,4 +1,4 @@
-package es.unex.giiis.asee.proyecto.filmforyou.ui.home;
+package es.unex.giiis.asee.proyecto.filmforyou.ui.search;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,18 +10,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Adapters.MoviesAdapter;
-import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentHomeBinding;
+import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentSearchBinding;
 
-public class HomeFragment extends Fragment implements MoviesAdapter.OnListInteractionListener  {
-    private HomeViewModel homeViewModel;
-    private FragmentHomeBinding binding;
+public class SearchFragment extends Fragment implements MoviesAdapter.OnListInteractionListener  {
+    private SearchViewModel searchViewModel;
+    private FragmentSearchBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        searchViewModel =
+                new ViewModelProvider(this).get(SearchViewModel.class);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
 

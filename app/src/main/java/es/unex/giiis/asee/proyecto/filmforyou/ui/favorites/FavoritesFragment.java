@@ -1,4 +1,4 @@
-package es.unex.giiis.asee.proyecto.filmforyou.ui.notifications;
+package es.unex.giiis.asee.proyecto.filmforyou.ui.favorites;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,29 +12,22 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import es.unex.giiis.asee.proyecto.filmforyou.R;
-import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentNotificationsBinding;
+import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentFavoritesBinding;
+import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentFavoritesBinding;
 
-public class NotificationsFragment extends Fragment {
+public class FavoritesFragment extends Fragment {
 
     private NotificationsViewModel notificationsViewModel;
-    private FragmentNotificationsBinding binding;
+    private FragmentFavoritesBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         notificationsViewModel =
                 new ViewModelProvider(this).get(NotificationsViewModel.class);
 
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentFavoritesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textNotifications;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
         return root;
     }
 

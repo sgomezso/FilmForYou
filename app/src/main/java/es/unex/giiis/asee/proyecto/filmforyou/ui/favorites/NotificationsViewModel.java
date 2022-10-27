@@ -1,4 +1,4 @@
-package es.unex.giiis.asee.proyecto.filmforyou.ui.notifications;
+package es.unex.giiis.asee.proyecto.filmforyou.ui.favorites;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -10,7 +10,7 @@ public class NotificationsViewModel extends ViewModel {
 
     public NotificationsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        mText.setValue("This is favorites fragment");
     }
 
     public LiveData<String> getText() {
