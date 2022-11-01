@@ -1,11 +1,15 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Adapters;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -27,6 +31,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView mTitleView;
+        public TextView mYearView;
+        public ImageView mImageView;
         public View mView;
 
         public Movie mItem;
@@ -35,6 +41,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
             super(v);
             mView=v;
             mTitleView = v.findViewById(R.id.movieTitle);
+            mYearView = v.findViewById((R.id.idYear));
+            mImageView = v.findViewById(R.id.idImagen);
         }
     }
 
@@ -60,6 +68,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         holder.mItem = mDataset.get(position);
         holder.mTitleView.setText(mDataset.get(position).getTitle());
+        holder.mYearView.setText(mDataset.get(position).getYear());
+        Picasso.get().load(mDataset.get(position).getImage()).into(holder.mImageView);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
