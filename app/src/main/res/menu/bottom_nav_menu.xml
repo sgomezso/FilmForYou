@@ -3,25 +3,25 @@
 
     <item
         android:id="@+id/navigation_search"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="Search" />
+        android:icon="@drawable/inicio_logo_foreground"
+        android:title="INICIO" />
 
     <item
         android:id="@+id/navigation_movieList"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="Movies" />
+        android:icon="@drawable/top_logo_foreground"
+        android:title="TOP" />
 
     <item
         android:id="@+id/navigation_profile"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="Profile" />
+        android:icon="@drawable/acoount_logo_foreground"
+        android:title="MI CUENTA" />
     <item
         android:id="@+id/navigation_favorites"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="Favorites" />
+        android:icon="@drawable/like_logo_foreground"
+        android:title="FAVORITAS" />
     <item
         android:id="@+id/navigation_pending"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="Pending" />
+        android:icon="@drawable/create_logo_foreground"
+        android:title="AÑADIR" />
 
 </menu>

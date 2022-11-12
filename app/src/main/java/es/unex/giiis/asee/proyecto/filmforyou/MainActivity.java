@@ -1,6 +1,8 @@
 package es.unex.giiis.asee.proyecto.filmforyou;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

@@ -1,5 +1,6 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Adapters;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         public TextView mTitleView;
         public TextView mYearView;
         public ImageView mImageView;
+        public TextView mRanking;
         public View mView;
 
         public Movie mItem;
@@ -43,6 +45,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
             mTitleView = v.findViewById(R.id.movieTitle);
             mYearView = v.findViewById((R.id.idYear));
             mImageView = v.findViewById(R.id.idImagen);
+            mRanking = v.findViewById(R.id.idRanking);
         }
     }
 
@@ -69,6 +72,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         holder.mItem = mDataset.get(position);
         holder.mTitleView.setText(mDataset.get(position).getTitle());
         holder.mYearView.setText(mDataset.get(position).getYear());
+        holder.mRanking.setText(mDataset.get(position).getRank());
+        holder.mRanking.setTextColor(Color.YELLOW);
         Picasso.get().load(mDataset.get(position).getImage()).into(holder.mImageView);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
