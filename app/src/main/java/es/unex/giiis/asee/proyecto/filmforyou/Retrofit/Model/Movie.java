@@ -1,5 +1,8 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model;
 
+import androidx.room.Entity;
+
+@Entity(tableName = "movies")
 public class Movie {
     public String id;
     public String rank;
@@ -10,6 +13,8 @@ public class Movie {
     public String crew;
     public String imDbRating;
     public String imDbRatingCount;
+    public boolean esFavorite;
+    public boolean esPendent;
 
     public String getId() {
         return id;
@@ -46,4 +51,13 @@ public class Movie {
     public String getImDbRatingCount() {
         return imDbRatingCount;
     }
+
+    public boolean isEsFavorite() {
+        return esFavorite;
+    }
+
+    public boolean isEsPendent() {
+        return esPendent;
+    }
+
 }

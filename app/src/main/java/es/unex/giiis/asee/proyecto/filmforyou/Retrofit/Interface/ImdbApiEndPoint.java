@@ -1,7 +1,6 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Interface;
 
 import java.util.List;
-
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieList;
@@ -24,5 +23,11 @@ public interface ImdbApiEndPoint {
     //Get the ImdbApiEndPoint results of the search
     @GET("SearchMovie/" + apiKey + "/{title}")
     Call<MovieList> getSearchResults(@Path("title") String id);
+
+    @GET("FavoritesMovies/" + apiKey + "/{idUser}")
+    Call<MovieList> getFavoritesUserMovies(@Path("idUser") String idUser);
+
+    @GET("PendingMovies/" + apiKey + "/{idUser}")
+    Call<MovieList> getPendingUserMovies(@Path("idUser") String idUser);
 }
 
