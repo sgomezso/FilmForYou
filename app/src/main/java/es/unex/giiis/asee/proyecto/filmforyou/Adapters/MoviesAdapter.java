@@ -19,9 +19,23 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder> {
     private List<Movie> mDataset;
+    private ItemClickListener onItemClickListener;
 
-    public interface OnListInteractionListener{
+    public void clear() {
+        mDataset.clear();
+        notifyDataSetChanged();
+    }
+
+    public interface OnListInteractionListener {
         public void onListInteraction(String url);
+    }
+
+    public interface ItemClickListener {
+        void onItemClick(Movie movie);
+    }
+
+    public void setItemClickListener(ItemClickListener clickListener) {
+        onItemClickListener = clickListener;
     }
 
     public OnListInteractionListener mListener;
@@ -41,7 +55,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
         public MyViewHolder(View v) {
             super(v);
-            mView=v;
+            mView = v;
             mTitleView = v.findViewById(R.id.movieTitle);
             mYearView = v.findViewById((R.id.idYear));
             mImageView = v.findViewById(R.id.idImagen);
@@ -97,7 +111,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         return mDataset.size();
     }
 
-    public void swap(List<Movie> dataset){
+    public void swap(List<Movie> dataset) {
         mDataset = dataset;
         notifyDataSetChanged();
     }

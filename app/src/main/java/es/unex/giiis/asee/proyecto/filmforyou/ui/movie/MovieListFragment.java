@@ -27,7 +27,7 @@ public class MovieListFragment extends Fragment implements MoviesAdapter.OnListI
 
     private MovieListViewModel movieListViewModel;
     private FragmentMovieListBinding binding;
-    private Repository mRepository = new Repository() ;
+    private Repository mRepository = new Repository();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class MovieListFragment extends Fragment implements MoviesAdapter.OnListI
                     public void onMovieDetailResponse(MovieDetail movieDetail) {
 
                     }
-                }); ;
+                });
             }
         });
         return root;
