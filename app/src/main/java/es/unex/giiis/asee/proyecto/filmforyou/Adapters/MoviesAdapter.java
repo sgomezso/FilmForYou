@@ -1,7 +1,6 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Adapters;
 
 import android.graphics.Color;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +25,18 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
 
     public OnListInteractionListener mListener;
 
+    private ItemClickListener onItemClickListener;
+
+
+    public interface ItemClickListener {
+        void onItemClick(Movie movie);
+    }
+
+    public void setItemClickListener(ItemClickListener clickListener) {
+        onItemClickListener = clickListener;
+    }
+
+
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -46,6 +57,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
             mYearView = v.findViewById((R.id.idYear));
             mImageView = v.findViewById(R.id.idImagen);
             mRanking = v.findViewById(R.id.idRanking);
+        }
+        public void bind(final Movie movie, final ItemClickListener onItemClickListener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    onItemClickListener.onItemClick(movie);
+                }
+            });
+
         }
     }
 

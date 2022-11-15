@@ -1,6 +1,8 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.movie;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,12 +25,14 @@ import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentMovieListBinding;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.movieDetail.MostrarMovieActivity;
 
 public class MovieListFragment extends Fragment implements MoviesAdapter.OnListInteractionListener {
 
     private MovieListViewModel movieListViewModel;
     private FragmentMovieListBinding binding;
     private Repository mRepository = new Repository() ;
+    private MoviesAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -46,7 +51,17 @@ public class MovieListFragment extends Fragment implements MoviesAdapter.OnListI
                     @Override
                     public void onTopMoviesResponse(List<Movie> top250movies) {
                         binding.movieList.setLayoutManager(new LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL, false));
-                        MoviesAdapter adapter = new MoviesAdapter(top250movies, MovieListFragment.this);
+                        adapter = new MoviesAdapter(top250movies, MovieListFragment.this);
+                            Log.i("MovieList","No es null");
+                            adapter.setItemClickListener(new MoviesAdapter.ItemClickListener() {
+                                public void onItemClick(Movie movie) {
+                                    Log.i("MovieList", "Entra");
+                                    Intent intent = new Intent(getContext(), MostrarMovieActivity.class);
+                                    intent.putExtra("movie", (Serializable) movie);
+                                    startActivity(intent);
+                                }
+
+                            });
                         binding.movieList.setAdapter(adapter);
                     }
                     @Override
@@ -64,7 +79,7 @@ public class MovieListFragment extends Fragment implements MoviesAdapter.OnListI
         repository.getTopMovies(new Repository.RepositoryListener() {
             @Override
             public void onTopMoviesResponse(List<Movie> top250movies) {
-                MoviesAdapter moviesAdapter = new MoviesAdapter(top250movies, MovieListFragment.this );
+                adapter = new MoviesAdapter(top250movies, MovieListFragment.this );
             }
 
             @Override
