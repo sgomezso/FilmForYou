@@ -57,7 +57,7 @@ public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListI
         recyclerMovies.setLayoutManager(linearLayoutManager);
 
         AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
-        favoritesViewModel = new ViewModelProvider(this, appContainer.favoritesVMFactory).get(FavoritesViewModel.class);
+        //favoritesViewModel = new ViewModelProvider(this, appContainer.favoritesVMFactory).get(FavoritesViewModel.class);
 
         favoriteMovies = new ArrayList<Movie>();
         moviesAdapter = new MoviesAdapter(favoriteMovies,this);

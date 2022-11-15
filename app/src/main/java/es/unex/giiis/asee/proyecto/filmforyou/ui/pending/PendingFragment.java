@@ -63,7 +63,7 @@ public class PendingFragment extends Fragment implements MoviesAdapter.OnListInt
         recyclerMovies.setLayoutManager(linearLayoutManager);
 
         AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
-        pendingViewModel = new ViewModelProvider(this, appContainer.pendingVMFactory).get(PendingViewModel.class);
+        //pendingViewModel = new ViewModelProvider(this, appContainer.pendingVMFactory).get(PendingViewModel.class);
 
         pendingMovies = new ArrayList<Movie>();
         moviesAdapter = new MoviesAdapter(pendingMovies,this);
