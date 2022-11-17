@@ -1,5 +1,6 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.login;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import es.unex.giiis.asee.proyecto.filmforyou.MainActivity;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 
 /**
@@ -21,14 +23,12 @@ import es.unex.giiis.asee.proyecto.filmforyou.R;
  */
 public class RegisterFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
     private static final String PASSWORD2 = "password2";
 
 
-    // TODO: Rename and change types of parameters
     private EditText username;
     private EditText password;
     private EditText password2;
@@ -70,6 +70,8 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        // TODO Viewgroup cual es?
+
         View v = inflater.inflate(R.layout.fragment_register, container, false);
         username = v.findViewById(R.id.username);
         password = v.findViewById(R.id.password);
@@ -87,6 +89,16 @@ public class RegisterFragment extends Fragment {
                     password.setError("Please Enter password",icon);
                 if( TextUtils.isEmpty(password2.getText().toString().trim()))
                     password2.setError("Please Enter the confirm password",icon);
+
+                if(password == password2) {
+                    UserRepository userRepository = new UserRepository(getActivity());
+                    userRepository.registerUser(username.toString(),password.toString());
+                    userRepository.preference.edit().putLong("userId",userRepository.getUserId(username.toString(),password.toString()));
+                    Intent i = new Intent(getActivity(), MainActivity.class);
+                    startActivity(i);
+                } else {
+                    password2.setError("The passwords have to be the same",icon);
+                }
             }
         });
 

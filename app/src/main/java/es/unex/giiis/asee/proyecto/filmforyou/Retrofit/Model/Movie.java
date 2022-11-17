@@ -1,9 +1,13 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 @Entity(tableName = "movies")
 public class Movie {
+    @NonNull
+    @PrimaryKey
     public String id;
     public String rank;
     public String title;
