@@ -11,11 +11,11 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 public class FavoritesViewModel extends ViewModel {
 
     private LiveData<List<Movie>> mRepos;
-    private final Repository mRepository;
+//    private final Repository mRepository;
 
     public FavoritesViewModel(Repository repo) {
-        mRepository = repo;
-        mRepos = mRepository.getFavoritesUserMovies();
+//        mRepository = repo;
+//        mRepos = mRepository.getFavoritesUserMovies();
     }
 
     public LiveData<List<Movie>> getFavoriteMovies() {

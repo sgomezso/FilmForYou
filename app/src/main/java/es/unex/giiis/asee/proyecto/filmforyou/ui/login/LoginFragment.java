@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import es.unex.giiis.asee.proyecto.filmforyou.MainActivity;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
@@ -66,7 +67,7 @@ public class LoginFragment extends Fragment {
 
         UserRepository userRepository = new UserRepository(getActivity());
          if (userRepository.checkUser(username,password)){
-             userRepository.preference.edit().putLong("userId",userRepository.getUserId(username,password));
+
              Intent i = new Intent(getActivity(), MainActivity.class);
              startActivity(i);
          } else {
@@ -75,7 +76,7 @@ public class LoginFragment extends Fragment {
     }
 
     public void goRegister (){
-        getFragmentManager().beginTransaction().replace(R.id.fragment_login, new RegisterFragment()).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_login, RegisterFragment.newInstance()).commit();
     }
 
     @Override
@@ -83,6 +84,21 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        View v =  inflater.inflate(R.layout.fragment_login, container, false);
+        v.findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText usernameET = v.findViewById(R.id.username);
+                EditText passwordET = v.findViewById(R.id.password);
+                checkUser(usernameET.getText().toString(),passwordET.getText().toString());
+            }
+        });
+        v.findViewById(R.id.register).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goRegister();
+            }
+        });
+        return v;
     }
 }

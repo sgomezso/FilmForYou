@@ -17,8 +17,18 @@ public class Movie {
     public String crew;
     public String imDbRating;
     public String imDbRatingCount;
-    public boolean esFavorite;
-    public boolean esPendent;
+
+    public Movie(@NonNull String id, String rank, String title, String fullTitle, String year, String image, String crew, String imDbRating, String imDbRatingCount) {
+        this.id = id;
+        this.rank = rank;
+        this.title = title;
+        this.fullTitle = fullTitle;
+        this.year = year;
+        this.image = image;
+        this.crew = crew;
+        this.imDbRating = imDbRating;
+        this.imDbRatingCount = imDbRatingCount;
+    }
 
     public String getId() {
         return id;
@@ -56,12 +66,6 @@ public class Movie {
         return imDbRatingCount;
     }
 
-    public boolean isEsFavorite() {
-        return esFavorite;
-    }
 
-    public boolean isEsPendent() {
-        return esPendent;
-    }
 
 }

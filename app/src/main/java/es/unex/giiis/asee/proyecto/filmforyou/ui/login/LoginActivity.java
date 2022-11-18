@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
             public void run() {
                 if (userRepository.checkIsUserIsLoged() ==true){
                     // TODO get Base Contenxt esta bien?
-                    Intent i = new Intent(getBaseContext(),MainActivity.class);
+                    Intent i = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(i);
                 } else {
                     getSupportFragmentManager().beginTransaction().replace(R.id.activityLayout,new LoginFragment()).commit();

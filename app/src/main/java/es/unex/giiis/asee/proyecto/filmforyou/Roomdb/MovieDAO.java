@@ -13,12 +13,8 @@ public interface MovieDAO {
     @Query("select * from movies order by title asc")
     public LiveData<List<Movie>> getTop250Movies();
 
-    @Query("select * from movies where esFavorite = 1 order by title asc")
-    public LiveData<List<Movie>> getFavoritesMovies();
-
-    @Query("select * from movies where esPendent = 1 order by title asc")
-    public LiveData<List<Movie>> getPendingMovies();
-
     @Query("select * from movies where id = :uId")
     public LiveData<List<Movie>> getMovie(String uId);
+
+
 }

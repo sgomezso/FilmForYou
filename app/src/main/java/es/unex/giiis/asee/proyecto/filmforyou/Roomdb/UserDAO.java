@@ -9,6 +9,8 @@ import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.User;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
+
 @Dao
 public interface UserDAO {
 
@@ -26,4 +28,7 @@ public interface UserDAO {
 
     @Query("select id from User where username = :username and password= :password")
     long getUserId(String username, String password);
+
+    @Query("select * from User")
+    List<UserFavoritesMovies> getMoviesUserLogged ();
 }
