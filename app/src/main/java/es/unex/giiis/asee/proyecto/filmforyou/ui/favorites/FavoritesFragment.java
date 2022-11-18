@@ -57,7 +57,7 @@ public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListI
         recyclerMovies.setLayoutManager(linearLayoutManager);
 
         AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
-        //favoritesViewModel = new ViewModelProvider(this, appContainer.favoritesVMFactory).get(FavoritesViewModel.class);
+        favoritesViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.favoritesVMFactory).get(FavoritesViewModel.class);
 
         favoriteMovies = new ArrayList<Movie>();
         moviesAdapter = new MoviesAdapter(favoriteMovies,this);
@@ -69,7 +69,8 @@ public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListI
         moviesAdapter.setItemClickListener(new MoviesAdapter.ItemClickListener() {
             @Override
             public void onItemClick(Movie movie) {
-                Intent intent = new Intent(getContext(), MainActivity.class);
+                // activity que esta siendo implementada por ventura
+                Intent intent = new Intent(getContext(), MostrarMovieActivity.class);
                 intent.putExtra("Movie", (Serializable) movie);
                 startActivity(intent);
             }

@@ -19,8 +19,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Repository {
 
-    private ImdbApiEndPoint topImdbApiEndPointInterface = new Retrofit.Builder().baseUrl("https://imdb-api.com/en/API/").addConverterFactory(GsonConverterFactory.create()).build().create(ImdbApiEndPoint.class);
+    public ImdbApiEndPoint topImdbApiEndPointInterface = new Retrofit.Builder().baseUrl("https://imdb-api.com/en/API/").addConverterFactory(GsonConverterFactory.create()).build().create(ImdbApiEndPoint.class);
     private static MovieDAO movieDAO;
+    // For Singleton instantiation
+    private static Repository sInstance;
 
     public interface RepositoryListener {
         public void onTopMoviesResponse(List<Movie> top250movies);
@@ -34,8 +36,16 @@ public class Repository {
 
     }
 
+    public synchronized static Repository getInstance(MovieDAO dao) {
+        if (sInstance == null) {
+            sInstance = new Repository(dao);
+        }
+        return sInstance;
+    }
+
     private Repository(MovieDAO mDAO) {
         movieDAO = mDAO;
+        //movieDAO.getTop250Movies();
     }
 
     public void getTopMovies(RepositoryListener callback) {

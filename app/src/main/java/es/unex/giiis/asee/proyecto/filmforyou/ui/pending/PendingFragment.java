@@ -47,7 +47,7 @@ public class PendingFragment extends Fragment implements MoviesAdapter.OnListInt
     }
 
     public static PendingFragment newInstance(String param1, String param2) {
-        PendingFragment fragment= new PendingFragment();
+        PendingFragment fragment = new PendingFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -63,10 +63,10 @@ public class PendingFragment extends Fragment implements MoviesAdapter.OnListInt
         recyclerMovies.setLayoutManager(linearLayoutManager);
 
         AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
-        //pendingViewModel = new ViewModelProvider(this, appContainer.pendingVMFactory).get(PendingViewModel.class);
+        pendingViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.pendingVMFactory).get(PendingViewModel.class);
 
         pendingMovies = new ArrayList<Movie>();
-        moviesAdapter = new MoviesAdapter(pendingMovies,this);
+        moviesAdapter = new MoviesAdapter(pendingMovies, this);
         pendingViewModel.getPendingMovies().observe(getViewLifecycleOwner(), movie -> {
             moviesAdapter.clear();
             moviesAdapter.swap(movie);
@@ -75,7 +75,8 @@ public class PendingFragment extends Fragment implements MoviesAdapter.OnListInt
         moviesAdapter.setItemClickListener(new MoviesAdapter.ItemClickListener() {
             @Override
             public void onItemClick(Movie movie) {
-                Intent intent = new Intent(getContext(), MainActivity.class);
+                // activity que esta siendo implementada por ventura
+                Intent intent = new Intent(getContext(), MostrarMovieActivity.class);
                 intent.putExtra("Movie", (Serializable) movie);
                 startActivity(intent);
             }

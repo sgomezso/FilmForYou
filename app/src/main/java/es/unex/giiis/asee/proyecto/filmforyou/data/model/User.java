@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository
  */
-@Entity(tableName = "User")
+@Entity(tableName = "user")
 public class User {
 
     @PrimaryKey(autoGenerate = true)
