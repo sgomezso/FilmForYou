@@ -12,11 +12,11 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 public class PendingViewModel extends ViewModel {
 
     private LiveData<List<Movie>> mRepos;
-    private final Repository mRepository;
+//    private final Repository mRepository;
 
     public PendingViewModel(Repository repository) {
-        this.mRepository = repository;
-        mRepos = mRepository.getPendingMovies();
+//        this.mRepository = repository;
+//        mRepos = mRepository.getPendingMovies();
     }
 
     public LiveData<List<Movie>> getPendingMovies() {

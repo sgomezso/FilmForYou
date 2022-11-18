@@ -98,10 +98,10 @@ public class Repository {
             }
         });
     }
-
+    /*
     public LiveData<List<Movie>> getFavoritesUserMovies() {
         return movieDAO.getFavoritesMovies();
-        /*
+
         Call<MovieList> call = topImdbApiEndPointInterface.getFavoritesUserMovies(idUser);
         Log.i("Iniciando getFavoritesUserMovies", "Iniciando getFavoritesUserMovies");
         call.enqueue(new Callback<MovieList>() {
@@ -120,10 +120,12 @@ public class Repository {
             public void onFailure(Call<MovieList> call, Throwable t) {
                 Log.i("Error failure", t.getMessage());
             }
-        });*/
+        });
     }
 
     public LiveData<List<Movie>> getPendingMovies() {
         return movieDAO.getPendingMovies();
     }
+    */
+
 }

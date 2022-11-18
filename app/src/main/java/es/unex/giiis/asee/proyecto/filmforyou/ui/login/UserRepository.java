@@ -27,7 +27,12 @@ public class UserRepository {
     }
 
     public boolean checkUser(String username, String password) {
-        return database.getUser(username, password) !=null;
+        if(database.getUser(username, password) !=null){
+            preference.edit().putLong("userId",getUserId(username,password));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void registerUser(String username, String Password) {
