@@ -1,7 +1,6 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Adapters;
 
 import android.graphics.Color;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +15,11 @@ import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
-import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder> {
-    private List<Movie> mDataset;
+public class PendingMoviesAdapter extends RecyclerView.Adapter<PendingMoviesAdapter.MyViewHolder>{
+
+    private List<UserPendingMovies> mDataset;
     private ItemClickListener onItemClickListener;
 
     public void clear() {
@@ -65,14 +65,19 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MoviesAdapter(List<Movie> myDataset, OnListInteractionListener listener) {
+    public PendingMoviesAdapter(List<UserPendingMovies> myDataset, OnListInteractionListener listener) {
         mDataset = myDataset;
         mListener = listener;
     }
 
+//    public MoviesAdapter(List<UserFavoritesMovies> myDataset, OnListInteractionListener listener) {
+//        mFavDataset = myDataset;
+//        mListener = listener;
+//    }
+
     @Override
-    public MoviesAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                         int viewType) {
+    public PendingMoviesAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
+                                                                 int viewType) {
         // create a new view
         // Create new views (invoked by the layout manager)
         View v = LayoutInflater.from(parent.getContext())
@@ -112,7 +117,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         return mDataset.size();
     }
 
-    public void swap(List<Movie> dataset) {
+    public void swap(List<UserPendingMovies> dataset) {
         mDataset = dataset;
         notifyDataSetChanged();
     }

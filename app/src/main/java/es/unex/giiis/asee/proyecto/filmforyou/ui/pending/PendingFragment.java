@@ -10,9 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,25 +19,23 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.unex.giiis.asee.proyecto.filmforyou.Adapters.MoviesAdapter;
+import es.unex.giiis.asee.proyecto.filmforyou.Adapters.PendingMoviesAdapter;
 import es.unex.giiis.asee.proyecto.filmforyou.AppContainer;
-import es.unex.giiis.asee.proyecto.filmforyou.MainActivity;
 import es.unex.giiis.asee.proyecto.filmforyou.MyApplication;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
-import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentFavoritesBinding;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentPendingBinding;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoritesFragment;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoritesViewModel;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.movieDetail.MostrarMovieActivity;
 
-public class PendingFragment extends Fragment implements MoviesAdapter.OnListInteractionListener {
+public class PendingFragment extends Fragment implements PendingMoviesAdapter.OnListInteractionListener {
 
     private PendingViewModel pendingViewModel;
     private FragmentPendingBinding binding;
-    private MoviesAdapter moviesAdapter;
+    private PendingMoviesAdapter pendingMoviesAdapter;
     RecyclerView recyclerMovies;
     private LinearLayoutManager linearLayoutManager;
-    private List<Movie> pendingMovies;
+    private List<UserPendingMovies> pendingMovies;
     private PendingFragment.OnFragmentInteractionListener mListener;
 
     public PendingFragment() {
@@ -65,14 +61,14 @@ public class PendingFragment extends Fragment implements MoviesAdapter.OnListInt
         AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
         pendingViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.pendingVMFactory).get(PendingViewModel.class);
 
-        pendingMovies = new ArrayList<Movie>();
-        moviesAdapter = new MoviesAdapter(pendingMovies, this);
+        pendingMovies = new ArrayList<UserPendingMovies>();
+        pendingMoviesAdapter = new PendingMoviesAdapter(pendingMovies, this);
         pendingViewModel.getPendingMovies().observe(getViewLifecycleOwner(), movie -> {
-            moviesAdapter.clear();
-            moviesAdapter.swap(movie);
+            pendingMoviesAdapter.clear();
+            pendingMoviesAdapter.swap(movie);
         });
 
-        moviesAdapter.setItemClickListener(new MoviesAdapter.ItemClickListener() {
+        pendingMoviesAdapter.setItemClickListener(new PendingMoviesAdapter.ItemClickListener() {
             @Override
             public void onItemClick(Movie movie) {
                 // activity que esta siendo implementada por ventura
@@ -82,7 +78,7 @@ public class PendingFragment extends Fragment implements MoviesAdapter.OnListInt
             }
         });
 
-        recyclerMovies.setAdapter(moviesAdapter);
+        recyclerMovies.setAdapter(pendingMoviesAdapter);
         return vista;
     }
 

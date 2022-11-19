@@ -17,22 +17,24 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.unex.giiis.asee.proyecto.filmforyou.Adapters.MoviesAdapter;
+import es.unex.giiis.asee.proyecto.filmforyou.Adapters.FavoriteMoviesAdapter;
 import es.unex.giiis.asee.proyecto.filmforyou.AppContainer;
 import es.unex.giiis.asee.proyecto.filmforyou.MainActivity;
 import es.unex.giiis.asee.proyecto.filmforyou.MyApplication;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentFavoritesBinding;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.movieDetail.MostrarMovieActivity;
 
-public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListInteractionListener {
+public class FavoritesFragment extends Fragment implements FavoriteMoviesAdapter.OnListInteractionListener {
 
     private FavoritesViewModel favoritesViewModel;
     private FragmentFavoritesBinding binding;
-    private MoviesAdapter moviesAdapter;
+    private FavoriteMoviesAdapter favMoviesAdapter;
     RecyclerView recyclerMovies;
     private LinearLayoutManager linearLayoutManager;
-    private List<Movie> favoriteMovies;
+    private List<UserFavoritesMovies> favoriteMovies;
     private OnFragmentInteractionListener mListener;
 
     public FavoritesFragment() {
@@ -59,14 +61,14 @@ public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListI
         AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
         favoritesViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.favoritesVMFactory).get(FavoritesViewModel.class);
 
-        favoriteMovies = new ArrayList<Movie>();
-        moviesAdapter = new MoviesAdapter(favoriteMovies,this);
+        favoriteMovies = new ArrayList<UserFavoritesMovies>();
+        favMoviesAdapter = new FavoriteMoviesAdapter(favoriteMovies, this);
         favoritesViewModel.getFavoriteMovies().observe(getViewLifecycleOwner(), movie -> {
-            moviesAdapter.clear();
-            moviesAdapter.swap(movie);
+            favMoviesAdapter.clear();
+            favMoviesAdapter.swap(movie);
         });
 
-        moviesAdapter.setItemClickListener(new MoviesAdapter.ItemClickListener() {
+        favMoviesAdapter.setItemClickListener(new FavoriteMoviesAdapter.ItemClickListener() {
             @Override
             public void onItemClick(Movie movie) {
                 // activity que esta siendo implementada por ventura
@@ -76,7 +78,7 @@ public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListI
             }
         });
 
-        recyclerMovies.setAdapter(moviesAdapter);
+        recyclerMovies.setAdapter(favMoviesAdapter);
         return vista;
     }
 

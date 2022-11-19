@@ -11,6 +11,9 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieList;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.MovieDAO;
+import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserDAO;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,6 +24,7 @@ public class Repository {
 
     public ImdbApiEndPoint topImdbApiEndPointInterface = new Retrofit.Builder().baseUrl("https://imdb-api.com/en/API/").addConverterFactory(GsonConverterFactory.create()).build().create(ImdbApiEndPoint.class);
     private static MovieDAO movieDAO;
+    private static UserDAO userDAO;
     // For Singleton instantiation
     private static Repository sInstance;
 
@@ -108,10 +112,10 @@ public class Repository {
             }
         });
     }
-    /*
-    public LiveData<List<Movie>> getFavoritesUserMovies() {
-        return movieDAO.getFavoritesMovies();
 
+    public LiveData<List<UserFavoritesMovies>> getFavoritesUserMovies() {
+        return (LiveData<List<UserFavoritesMovies>>) userDAO.getFavoriteMoviesUserLogged();
+        /*
         Call<MovieList> call = topImdbApiEndPointInterface.getFavoritesUserMovies(idUser);
         Log.i("Iniciando getFavoritesUserMovies", "Iniciando getFavoritesUserMovies");
         call.enqueue(new Callback<MovieList>() {
@@ -130,12 +134,12 @@ public class Repository {
             public void onFailure(Call<MovieList> call, Throwable t) {
                 Log.i("Error failure", t.getMessage());
             }
-        });
+        });*/
     }
 
-    public LiveData<List<Movie>> getPendingMovies() {
-        return movieDAO.getPendingMovies();
+    public LiveData<List<UserPendingMovies>> getPendingMovies() {
+        return (LiveData<List<UserPendingMovies>>) userDAO.getPendingMoviesUserLogged();
     }
-    */
+
 
 }
