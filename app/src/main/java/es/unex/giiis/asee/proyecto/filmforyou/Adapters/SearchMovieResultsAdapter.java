@@ -17,7 +17,7 @@ import java.util.List;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder> {
+public class SearchMovieResultsAdapter extends RecyclerView.Adapter<SearchMovieResultsAdapter.MyViewHolder> {
     private List<Movie> mDataset;
 
     public interface OnListInteractionListener{
@@ -37,9 +37,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView mTitleView;
-        public TextView mYearView;
         public ImageView mImageView;
-        public TextView mRanking;
         public View mView;
 
         public Movie mItem;
@@ -48,26 +46,23 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
             super(v);
             mView=v;
             mTitleView = v.findViewById(R.id.movieTitle);
-            mYearView = v.findViewById((R.id.idYear));
             mImageView = v.findViewById(R.id.idImagen);
-            mRanking = v.findViewById(R.id.idRanking);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MoviesAdapter(List<Movie> myDataset, OnListInteractionListener listener) {
+    public SearchMovieResultsAdapter(List<Movie> myDataset, OnListInteractionListener listener) {
         mDataset = myDataset;
         mListener = listener;
     }
 
     @Override
-    public MoviesAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
+    public SearchMovieResultsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                          int viewType) {
         // create a new view
         // Create new views (invoked by the layout manager)
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.movie_item_view, parent, false);
-
+                .inflate(R.layout.movie_item_search, parent, false);
         return new MyViewHolder(v);
     }
 
@@ -76,9 +71,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         holder.mItem = mDataset.get(position);
         holder.mTitleView.setText(mDataset.get(position).getTitle());
-        holder.mYearView.setText(mDataset.get(position).getYear());
-        holder.mRanking.setText(mDataset.get(position).getRank());
-        holder.mRanking.setTextColor(Color.YELLOW);
         Picasso.get().load(mDataset.get(position).getImage()).into(holder.mImageView);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

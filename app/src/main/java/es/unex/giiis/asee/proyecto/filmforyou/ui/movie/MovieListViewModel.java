@@ -29,14 +29,11 @@ public class MovieListViewModel extends ViewModel {
         Repository repository = new Repository();
         repository.getTopMovies(new Repository.RepositoryListener() {
             @Override
-            public void onTopMoviesResponse(List<Movie> top250movies) {
-
-            }
-
+            public void onTopMoviesResponse(List<Movie> top250movies) {}
             @Override
-            public void onMovieDetailResponse(MovieDetail movieDetail) {
-
-            }
+            public void onSearchResultsExpresionResponse(List<Movie> resultsSearch) {}
+            @Override
+            public void onMovieDetailResponse(MovieDetail movieDetail) {}
         });
     }
 }

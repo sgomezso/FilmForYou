@@ -8,6 +8,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Interface.ImdbApiEndPoint
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieList;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Search;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,6 +20,7 @@ public class Repository {
     private ImdbApiEndPoint topImdbApiEndPointInterface = new Retrofit.Builder().baseUrl("https://imdb-api.com/en/API/").addConverterFactory(GsonConverterFactory.create()).build().create(ImdbApiEndPoint.class);
     public interface RepositoryListener {
         public void onTopMoviesResponse (List<Movie> top250movies);
+        public void onSearchResultsExpresionResponse(List<Movie> resultsSearch);
         public  void onMovieDetailResponse (MovieDetail movieDetail);
     }
 
@@ -77,6 +79,26 @@ public class Repository {
             }
             @Override
             public void onFailure(Call<MovieList> call, Throwable t) {
+                Log.i("Error failure", t.getMessage());
+            }
+        });
+    }
+
+    public void getSearchResultsExpresion(String expresion, RepositoryListener callback){
+        Call<Search> call = topImdbApiEndPointInterface.getSearchResultsExpresion(expresion);
+        call.enqueue(new Callback<Search>() {
+            @Override
+            public void onResponse(Call<Search> call, Response<Search> response) {
+                if(!response.isSuccessful()){
+                    Log.i("Error response", "Search expresion error");
+                }else{
+                    for(Movie movie : response.body().getResults())
+                        Log.i("Movie", movie.toString());
+                    callback.onSearchResultsExpresionResponse(response.body().getResults());
+                }
+            }
+            @Override
+            public void onFailure(Call<Search> call, Throwable t) {
                 Log.i("Error failure", t.getMessage());
             }
         });

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item
-        android:id="@+id/navigation_search"
-        android:icon="@drawable/inicio_logo_foreground"
-        android:title="INICIO" />
-
     <item
         android:id="@+id/navigation_movieList"
         android:icon="@drawable/top_logo_foreground"
         android:title="TOP" />
+
+    <item
+        android:id="@+id/navigation_search"
+        android:icon="@drawable/search_logo_foreground"
+        android:title="BUSCAR" />
 
     <item
         android:id="@+id/navigation_profile"
