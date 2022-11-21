@@ -114,7 +114,7 @@ public class Repository {
     }
 
     public LiveData<List<UserFavoritesMovies>> getFavoritesUserMovies() {
-        return (LiveData<List<UserFavoritesMovies>>) userDAO.getFavoriteMoviesUserLogged();
+        return userDAO.getFavoriteMoviesUserLogged();
         /*
         Call<MovieList> call = topImdbApiEndPointInterface.getFavoritesUserMovies(idUser);
         Log.i("Iniciando getFavoritesUserMovies", "Iniciando getFavoritesUserMovies");
@@ -138,7 +138,7 @@ public class Repository {
     }
 
     public LiveData<List<UserPendingMovies>> getPendingMovies() {
-        return (LiveData<List<UserPendingMovies>>) userDAO.getPendingMoviesUserLogged();
+        return userDAO.getPendingMoviesUserLogged();
     }
 
 

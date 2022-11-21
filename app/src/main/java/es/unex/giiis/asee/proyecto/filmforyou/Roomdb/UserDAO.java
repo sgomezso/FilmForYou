@@ -31,8 +31,8 @@ public interface UserDAO {
     long getUserId(String username, String password);
 
     @Query("select * from User")
-    List<UserFavoritesMovies> getFavoriteMoviesUserLogged();
+    LiveData<List<UserFavoritesMovies>> getFavoriteMoviesUserLogged();
 
     @Query("select * from User")
-    List<UserPendingMovies> getPendingMoviesUserLogged();
+    LiveData<List<UserPendingMovies>> getPendingMoviesUserLogged();
 }

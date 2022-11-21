@@ -19,7 +19,6 @@ import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Adapters.FavoriteMoviesAdapter;
 import es.unex.giiis.asee.proyecto.filmforyou.AppContainer;
-import es.unex.giiis.asee.proyecto.filmforyou.MainActivity;
 import es.unex.giiis.asee.proyecto.filmforyou.MyApplication;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
@@ -37,8 +36,8 @@ public class FavoritesFragment extends Fragment implements FavoriteMoviesAdapter
     private List<UserFavoritesMovies> favoriteMovies;
     private OnFragmentInteractionListener mListener;
 
+    // Required empty public favorites constructor
     public FavoritesFragment() {
-
     }
 
     public static FavoritesFragment newInstance(String param1, String param2) {

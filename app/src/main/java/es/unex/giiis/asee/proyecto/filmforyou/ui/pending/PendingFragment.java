@@ -38,8 +38,8 @@ public class PendingFragment extends Fragment implements PendingMoviesAdapter.On
     private List<UserPendingMovies> pendingMovies;
     private PendingFragment.OnFragmentInteractionListener mListener;
 
+    // Required empty public favorites constructor
     public PendingFragment() {
-
     }
 
     public static PendingFragment newInstance(String param1, String param2) {
@@ -53,6 +53,7 @@ public class PendingFragment extends Fragment implements PendingMoviesAdapter.On
                              ViewGroup container, Bundle savedInstanceState) {
         // pendingViewModel = new ViewModelProvider(this).get(PendingViewModel.class);
         // binding = FragmentPendingBinding.inflate(inflater, container, false);
+
         View vista = inflater.inflate(R.layout.fragment_pending, container, false);
         recyclerMovies = (RecyclerView) vista.findViewById(R.id.recyclerId);
         linearLayoutManager = new LinearLayoutManager(getActivity());

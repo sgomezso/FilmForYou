@@ -10,7 +10,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 
 public class UserPendingMovies extends Movie{
 
-    @Embedded
+    @Embedded(prefix = "pend_")
     public User user;
     @Relation(parentColumn = "id", entityColumn = "id")
     public List<Movie> movies;

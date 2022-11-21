@@ -11,7 +11,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 
 public class UserFavoritesMovies extends Movie {
 
-    @Embedded
+    @Embedded(prefix = "fav_")
     public User user;
     @Relation(parentColumn = "id",entityColumn = "id")
     public List<Movie> movies;

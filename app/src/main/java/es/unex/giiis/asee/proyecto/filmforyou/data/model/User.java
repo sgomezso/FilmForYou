@@ -1,5 +1,6 @@
 package es.unex.giiis.asee.proyecto.filmforyou.data.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
@@ -18,6 +19,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieList;
 public class User {
 
     @PrimaryKey(autoGenerate = true)
+    @NonNull
     private Long id;
     @ColumnInfo(name = "username")
     private String username;
@@ -25,8 +27,6 @@ public class User {
     private String password;
     @ColumnInfo(name = "description")
     private String description;
-
-
 
     public String getUsername() {
         return username;
