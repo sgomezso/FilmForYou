@@ -40,6 +40,11 @@ public class FavoritesFragment extends Fragment implements FavoriteMoviesAdapter
     public FavoritesFragment() {
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     public static FavoritesFragment newInstance(String param1, String param2) {
         FavoritesFragment fragment= new FavoritesFragment();
         Bundle args = new Bundle();

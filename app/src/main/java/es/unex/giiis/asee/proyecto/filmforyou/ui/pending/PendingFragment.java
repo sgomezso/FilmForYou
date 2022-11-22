@@ -49,6 +49,11 @@ public class PendingFragment extends Fragment implements PendingMoviesAdapter.On
         return fragment;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         // pendingViewModel = new ViewModelProvider(this).get(PendingViewModel.class);
