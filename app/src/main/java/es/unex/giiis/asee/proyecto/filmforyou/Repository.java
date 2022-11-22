@@ -37,9 +37,11 @@ public class Repository {
                 if(!response.isSuccessful()){
                     Log.i("Error response", "Get top movies failed");
                 }else{
-                    for (Movie movie : response.body().getMovies())
-                        Log.i("Movie", movie.getFullTitle());
-                    callback.onTopMoviesResponse(response.body().getMovies());
+                    if(response.body().getMovies() != null) {
+                        for (Movie movie : response.body().getMovies())
+                            Log.i("Movie", movie.getFullTitle());
+                        callback.onTopMoviesResponse(response.body().getMovies());
+                    }
                 }
             }
             @Override
@@ -48,7 +50,7 @@ public class Repository {
             }
         });
     }
-    public void getMovieDetail(String id){
+    public void getMovieDetail(String id, RepositoryListener callback){
         Call<MovieDetail> call = topImdbApiEndPointInterface.getMovieDetail(id);
         call.enqueue(new Callback<MovieDetail>() {
             @Override
@@ -56,7 +58,10 @@ public class Repository {
                 if(!response.isSuccessful()){
                     Log.i("Error response", "Get top movies failed");
                 }else{
-                    Log.i("Movie", response.body().toString());
+                    if(response.body() != null) {
+                        Log.i("Movie", response.body().toString());
+                        callback.onMovieDetailResponse(response.body());
+                    }
                 }
             }
             @Override
@@ -92,9 +97,11 @@ public class Repository {
                 if(!response.isSuccessful()){
                     Log.i("Error response", "Search expresion error");
                 }else{
-                    for(Movie movie : response.body().getResults())
-                        Log.i("Movie", movie.toString());
-                    callback.onSearchResultsExpresionResponse(response.body().getResults());
+                    if(response.body().getResults() != null) {
+                        for (Movie movie : response.body().getResults())
+                            Log.i("Movie search", movie.toString());
+                        callback.onSearchResultsExpresionResponse(response.body().getResults());
+                    }
                 }
             }
             @Override

@@ -12,6 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FilmForYou">
         <activity
+            android:name=".ui.movie.MostrarMovieActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ui.resultsSearch.ResultsSearchActivity"
             android:exported="false"
             android:label="@string/title_activity_results_search"

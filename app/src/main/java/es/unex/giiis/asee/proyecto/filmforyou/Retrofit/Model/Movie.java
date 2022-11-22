@@ -1,6 +1,8 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model;
 
-public class Movie {
+import java.io.Serializable;
+
+public class Movie implements Serializable {
     public String id;
     public String rank;
     public String title;

@@ -1,5 +1,6 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Adapters;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -8,17 +9,26 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.List;
 
+import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
+import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MostrarMovieActivity;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.resultsSearch.ResultsSearchActivity;
 
 public class SearchMovieResultsAdapter extends RecyclerView.Adapter<SearchMovieResultsAdapter.MyViewHolder> {
     private List<Movie> mDataset;
+    private Movie movieSelected = new Movie();
+    private final Repository mRepository = new Repository() ;
 
     public interface OnListInteractionListener{
         public void onListInteraction(String url);
@@ -76,13 +86,28 @@ public class SearchMovieResultsAdapter extends RecyclerView.Adapter<SearchMovieR
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /* if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListInteraction(holder.mItem.getSvnUrl());
-                }
+                AppExecutors.getInstance().networkIO().execute(() -> mRepository.getMovieDetail(holder.mItem.getFullTitle(), new Repository.RepositoryListener() {
+                    @Override
+                    public void onTopMoviesResponse(List<Movie> top250movies) {}
+                    @Override
+                    public void onSearchResultsExpresionResponse(List<Movie> resultsSearch) {}
+                    @Override
+                    public void onMovieDetailResponse(MovieDetail movieDetail) {
+                        movieSelected.setTitle(movieDetail.getTitle());
+                        movieSelected.setFullTitle(movieDetail.getFullTitle());
+                        movieSelected.setRank("");
+                        movieSelected.setImDbRating(movieDetail.getImdbRating());
+                        movieSelected.setYear(movieDetail.getYear());
+                        movieSelected.setId(movieDetail.getId());
+                        movieSelected.setImage(movieDetail.getImage());
+                        movieSelected.setCrew(movieDetail.getStars());
+                        movieSelected.setImDbRatingCount(movieDetail.getImdbRatingVotes());
 
-                 */
+                        Intent intent = new Intent(v.getContext(), MostrarMovieActivity.class);
+                        intent.putExtra("Movie", (Serializable) movieSelected);
+                        v.getContext().startActivity(intent);
+                    }
+                }));
             }
         });
 
