@@ -8,6 +8,11 @@ public class Movie implements Serializable {
     public String title;
     public String fullTitle;
     public String year;
+    public String image;
+    public String crew;
+    public String imDbRating;
+    public String imDbRatingCount;
+    public String directors;
 
     public void setId(String id) {
         this.id = id;
@@ -45,10 +50,9 @@ public class Movie implements Serializable {
         this.imDbRatingCount = imDbRatingCount;
     }
 
-    public String image;
-    public String crew;
-    public String imDbRating;
-    public String imDbRatingCount;
+    public void setDirectors(String directors){
+        this.directors=directors;
+    }
 
     public String getId() {
         return id;
@@ -85,4 +89,6 @@ public class Movie implements Serializable {
     public String getImDbRatingCount() {
         return imDbRatingCount;
     }
+
+    public String getDirectors(){return directors;}
 }

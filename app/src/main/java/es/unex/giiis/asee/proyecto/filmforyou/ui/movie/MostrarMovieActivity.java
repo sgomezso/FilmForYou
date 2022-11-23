@@ -19,19 +19,17 @@ public class MostrarMovieActivity extends AppCompatActivity {
     private TextView id;
     private TextView rank;
     private TextView title;
-    private TextView fullTitle;
     private TextView year;
     private ImageView image;
+    private ImageView imageReparto;
     private TextView crew;
     private TextView imDbRating;
     private TextView imDbRatingCount;
-    FloatingActionButton EFbutton;
-    //private MostrarMovieViewModel mViewModel;
+    private TextView directors;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("Movie","Pasa por aqui");
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -39,14 +37,14 @@ public class MostrarMovieActivity extends AppCompatActivity {
 
         rank = (TextView) findViewById(R.id.textRankIMDB);
         year = (TextView) findViewById(R.id.textYear);
-        fullTitle = (TextView) findViewById(R.id.textDirector);
+        directors = (TextView) findViewById(R.id.textDirector);
         imDbRating = (TextView) findViewById(R.id.textRating);
         imDbRatingCount = (TextView) findViewById(R.id.textRatingCount);
         crew = (TextView) findViewById(R.id.textReparto);
         image = (ImageView) findViewById(R.id.idImagenMovie);
+        imageReparto=(ImageView) findViewById(R.id.idImagenReparto);
 
-        //AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
-        // mViewModel = new ViewModelProvider((ViewModelStoreOwner) this, (ViewModelProvider.Factory) appContainer.mostrarMovieFactory).get(MostrarMovieViewModel.class);
+
         Movie movie = new Movie();
         movie = (Movie) getIntent().getSerializableExtra("Movie");
         if(movie != null){
@@ -64,11 +62,11 @@ public class MostrarMovieActivity extends AppCompatActivity {
             year.setText(movie.getYear());
         }
 
-        if(movie.getFullTitle()==null){
-            fullTitle.setText("Ejemplo");
+        if(movie.getDirectors()==null){
+            directors.setText("No hay directores");
 
         }else{
-            fullTitle.setText(movie.getFullTitle());
+            directors.setText(movie.getDirectors());
         }
 
         if(movie.getImDbRating()==null){
@@ -80,14 +78,22 @@ public class MostrarMovieActivity extends AppCompatActivity {
         if(movie.getImDbRatingCount()==null){
             imDbRatingCount.setText("0");
         }else{
-            imDbRating.setText(movie.getImDbRatingCount());
+            imDbRatingCount.setText(movie.getImDbRatingCount());
         }
 
         if(movie.getImage() != null){
             Picasso.get().load(movie.getImage()).into(image);
         }else{
-            Picasso.get().load("https://http2.mlstatic.com/storage/mshops-appearance-api/images/15/254304515/logo-2020060212005277900.png").into(image);
+            Picasso.get().load("https://png.pngtree.com/element_our/png_detail/20181227/movie-icon-which-is-designed-for-all-application-purpose-new-png_287896.jpg").into(image);
         }
+
+        if(movie.getCrew()==null){
+            crew.setText("Ninguno");
+        }else{
+            crew.setText(movie.getCrew());
+        }
+
+        Picasso.get().load("https://cdn-icons-png.flaticon.com/512/74/74472.png").into(imageReparto);
 
     }
 

@@ -11,6 +11,7 @@ public class MovieDetail implements Serializable {
     public String releaseDate;
     public String runtimeStr;
     public String plot;
+    public String directors;
 
     public void setId(String id) {
         this.id = id;
@@ -76,13 +77,13 @@ public class MovieDetail implements Serializable {
         this.imDbRatingVotes = imDbRatingVotes;
     }
 
+
     public void setErrorMesssage(String errorMesssage) {
         this.errorMesssage = errorMesssage;
     }
 
     public String awards;
     public String image;
-    public String directors;
     public String stars;
     public String genres;
     public String languages;

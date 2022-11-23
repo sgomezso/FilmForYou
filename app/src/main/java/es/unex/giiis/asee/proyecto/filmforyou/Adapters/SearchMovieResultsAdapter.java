@@ -102,6 +102,7 @@ public class SearchMovieResultsAdapter extends RecyclerView.Adapter<SearchMovieR
                         movieSelected.setImage(movieDetail.getImage());
                         movieSelected.setCrew(movieDetail.getStars());
                         movieSelected.setImDbRatingCount(movieDetail.getImdbRatingVotes());
+                        movieSelected.setDirectors(movieDetail.getDirectors());
 
                         Intent intent = new Intent(v.getContext(), MostrarMovieActivity.class);
                         intent.putExtra("Movie", (Serializable) movieSelected);
