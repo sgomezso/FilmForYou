@@ -9,7 +9,6 @@ import android.view.View;
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.MainActivity;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
-import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 
 public class LoginActivity extends AppCompatActivity {
 
