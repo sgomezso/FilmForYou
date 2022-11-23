@@ -20,7 +20,6 @@ public class MostrarProfileActivity extends AppCompatActivity {
     private TextView directorFav;
     FloatingActionButton EFbutton;
     private Profile profile;
-    //private MostrarProfileViewModel mViewModel;
 
 
     @SuppressLint("MissingInflatedId")
@@ -37,9 +36,6 @@ public class MostrarProfileActivity extends AppCompatActivity {
         peliculaFav = (TextView) findViewById(R.id.textPeliculaFav);
         directorFav = (TextView) findViewById(R.id.textDirectorFav);
 
-        //Obtener los perfiles
-       // AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
-       // mViewModel = new ViewModelProvider(this, appContainer.mostrarProfileFactory).get(MostrarProfileViewModel.class);
 
         profile = (Profile) getIntent().getSerializableExtra("profile");
 

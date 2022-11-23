@@ -29,5 +29,15 @@ public class Profile {
     public String getDirectorFav() {
         return directorFav;
     }
+
+    public void setNombreU(String nombreU){this.nombreU=nombreU;}
+
+    public void setEdad(int edad){this.edad=edad;}
+
+    public void setGeneroFav(String generoFav){this.generoFav=generoFav;}
+
+    public void setPeliculaFav(String peliculaFav){this.peliculaFav=peliculaFav;}
+
+    public void setDirectorFav(String directorFav){this.directorFav=directorFav;}
 }
 
