@@ -1,18 +1,14 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.pending;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,67 +17,72 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.unex.giiis.asee.proyecto.filmforyou.Adapters.MoviesAdapter;
+import es.unex.giiis.asee.proyecto.filmforyou.Adapters.PendingMoviesAdapter;
 import es.unex.giiis.asee.proyecto.filmforyou.AppContainer;
-import es.unex.giiis.asee.proyecto.filmforyou.MainActivity;
 import es.unex.giiis.asee.proyecto.filmforyou.MyApplication;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
-import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentFavoritesBinding;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentPendingBinding;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoritesFragment;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoritesViewModel;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MostrarMovieActivity;
 
-public class PendingFragment extends Fragment implements MoviesAdapter.OnListInteractionListener {
+public class PendingFragment extends Fragment implements PendingMoviesAdapter.OnListInteractionListener {
 
     private PendingViewModel pendingViewModel;
     private FragmentPendingBinding binding;
-    private MoviesAdapter moviesAdapter;
+    private PendingMoviesAdapter pendingMoviesAdapter;
     RecyclerView recyclerMovies;
     private LinearLayoutManager linearLayoutManager;
-    private List<Movie> pendingMovies;
+    private List<UserPendingMovies> pendingMovies;
     private PendingFragment.OnFragmentInteractionListener mListener;
 
+    // Required empty public favorites constructor
     public PendingFragment() {
-
     }
 
     public static PendingFragment newInstance(String param1, String param2) {
-        PendingFragment fragment= new PendingFragment();
+        PendingFragment fragment = new PendingFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         // pendingViewModel = new ViewModelProvider(this).get(PendingViewModel.class);
         // binding = FragmentPendingBinding.inflate(inflater, container, false);
+
         View vista = inflater.inflate(R.layout.fragment_pending, container, false);
         recyclerMovies = (RecyclerView) vista.findViewById(R.id.recyclerId);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerMovies.setLayoutManager(linearLayoutManager);
 
         AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
-        //pendingViewModel = new ViewModelProvider(this, appContainer.pendingVMFactory).get(PendingViewModel.class);
+        pendingViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.pendingVMFactory).get(PendingViewModel.class);
 
-        pendingMovies = new ArrayList<Movie>();
-        moviesAdapter = new MoviesAdapter(pendingMovies,this);
+        pendingMovies = new ArrayList<UserPendingMovies>();
+        pendingMoviesAdapter = new PendingMoviesAdapter(pendingMovies, this);
         pendingViewModel.getPendingMovies().observe(getViewLifecycleOwner(), movie -> {
-            moviesAdapter.clear();
-            moviesAdapter.swap(movie);
+            pendingMoviesAdapter.clear();
+            pendingMoviesAdapter.swap(movie);
         });
 
-        moviesAdapter.setItemClickListener(new MoviesAdapter.ItemClickListener() {
+        pendingMoviesAdapter.setItemClickListener(new PendingMoviesAdapter.ItemClickListener() {
             @Override
             public void onItemClick(Movie movie) {
-                Intent intent = new Intent(getContext(), MainActivity.class);
+                // activity que esta siendo implementada por ventura
+                Intent intent = new Intent(getContext(), MostrarMovieActivity.class);
                 intent.putExtra("Movie", (Serializable) movie);
                 startActivity(intent);
             }
         });
 
-        recyclerMovies.setAdapter(moviesAdapter);
+        recyclerMovies.setAdapter(pendingMoviesAdapter);
         return vista;
     }
 

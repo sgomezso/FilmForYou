@@ -1,5 +1,6 @@
 package es.unex.giiis.asee.proyecto.filmforyou.data.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
@@ -15,10 +16,11 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository
  */
-@Entity(tableName = "User")
+@Entity(tableName = "user")
 public class User {
 
     @PrimaryKey(autoGenerate = true)
+    @NonNull
     private Long id;
     @ColumnInfo(name = "username")
     private String username;
@@ -26,8 +28,6 @@ public class User {
     private String password;
     @ColumnInfo(name = "description")
     private String description;
-
-
 
     public String getUsername() {
         return username;

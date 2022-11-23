@@ -8,18 +8,19 @@ import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 
 public class PendingViewModel extends ViewModel {
 
-    private LiveData<List<Movie>> mRepos;
-//    private final Repository mRepository;
+    private LiveData<List<UserPendingMovies>> mRepos;
+    private final Repository mRepository;
 
     public PendingViewModel(Repository repository) {
-//        this.mRepository = repository;
-//        mRepos = mRepository.getPendingMovies();
+        this.mRepository = repository;
+        mRepos = mRepository.getPendingMovies();
     }
 
-    public LiveData<List<Movie>> getPendingMovies() {
+    public LiveData<List<UserPendingMovies>> getPendingMovies() {
         return mRepos;
     }
 }

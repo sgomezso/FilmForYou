@@ -1,13 +1,13 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Adapters;
 
 import android.graphics.Color;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -18,8 +18,9 @@ import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
 
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHolder> {
-    private List<Movie> mDataset;
+public class FavoriteMoviesAdapter extends RecyclerView.Adapter<FavoriteMoviesAdapter.MyViewHolder> {
+
+    private List<UserFavoritesMovies> mDataset;
     private ItemClickListener onItemClickListener;
 
     public void clear() {
@@ -65,13 +66,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MoviesAdapter(List<Movie> myDataset, OnListInteractionListener listener) {
+    public FavoriteMoviesAdapter(List<UserFavoritesMovies> myDataset, OnListInteractionListener listener) {
         mDataset = myDataset;
         mListener = listener;
     }
 
     @Override
-    public MoviesAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
+    public FavoriteMoviesAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
                                                          int viewType) {
         // create a new view
         // Create new views (invoked by the layout manager)
@@ -112,7 +113,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         return mDataset.size();
     }
 
-    public void swap(List<Movie> dataset) {
+    public void swap(List<UserFavoritesMovies> dataset) {
         mDataset = dataset;
         notifyDataSetChanged();
     }

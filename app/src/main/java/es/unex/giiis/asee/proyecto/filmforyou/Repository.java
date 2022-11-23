@@ -11,6 +11,9 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieList;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.MovieDAO;
+import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserDAO;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,8 +22,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Repository {
 
-    private ImdbApiEndPoint topImdbApiEndPointInterface = new Retrofit.Builder().baseUrl("https://imdb-api.com/en/API/").addConverterFactory(GsonConverterFactory.create()).build().create(ImdbApiEndPoint.class);
+    public ImdbApiEndPoint topImdbApiEndPointInterface = new Retrofit.Builder().baseUrl("https://imdb-api.com/en/API/").addConverterFactory(GsonConverterFactory.create()).build().create(ImdbApiEndPoint.class);
     private static MovieDAO movieDAO;
+    private static UserDAO userDAO;
+    // For Singleton instantiation
+    private static Repository sInstance;
 
     public interface RepositoryListener {
         public void onTopMoviesResponse(List<Movie> top250movies);
@@ -34,8 +40,16 @@ public class Repository {
 
     }
 
+    public synchronized static Repository getInstance(MovieDAO dao) {
+        if (sInstance == null) {
+            sInstance = new Repository(dao);
+        }
+        return sInstance;
+    }
+
     private Repository(MovieDAO mDAO) {
         movieDAO = mDAO;
+        //movieDAO.getTop250Movies();
     }
 
     public void getTopMovies(RepositoryListener callback) {
@@ -98,34 +112,14 @@ public class Repository {
             }
         });
     }
-    /*
-    public LiveData<List<Movie>> getFavoritesUserMovies() {
-        return movieDAO.getFavoritesMovies();
 
-        Call<MovieList> call = topImdbApiEndPointInterface.getFavoritesUserMovies(idUser);
-        Log.i("Iniciando getFavoritesUserMovies", "Iniciando getFavoritesUserMovies");
-        call.enqueue(new Callback<MovieList>() {
-            @Override
-            public void onResponse(Call<MovieList> call, Response<MovieList> response) {
-                if (!response.isSuccessful()) {
-                    Log.i("Error response", "Get favorites user movies failed");
-                } else {
-                    for (Movie movie : response.body().getMovies())
-                        Log.i("Movie", movie.getTitle());
-                    //callback.onTopMoviesResponse(response.body().getMovies());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MovieList> call, Throwable t) {
-                Log.i("Error failure", t.getMessage());
-            }
-        });
+    public LiveData<List<UserFavoritesMovies>> getFavoritesUserMovies() {
+        return userDAO.getFavoriteMoviesUserLogged();
     }
 
-    public LiveData<List<Movie>> getPendingMovies() {
-        return movieDAO.getPendingMovies();
+    public LiveData<List<UserPendingMovies>> getPendingMovies() {
+        return userDAO.getPendingMoviesUserLogged();
     }
-    */
+
 
 }

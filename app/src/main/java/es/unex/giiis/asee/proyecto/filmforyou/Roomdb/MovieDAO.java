@@ -16,5 +16,4 @@ public interface MovieDAO {
     @Query("select * from movies where id = :uId")
     public LiveData<List<Movie>> getMovie(String uId);
 
-
 }

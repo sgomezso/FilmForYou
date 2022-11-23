@@ -15,6 +15,7 @@ public class AppContainer {
 
     public AppContainer(Context context) {
         database = Database.getInstance(context);
+        repository =Repository.getInstance(database.movieDAO());
         favoritesVMFactory = new FavoritesViewModelFactory(repository);
         pendingVMFactory = new PendingViewModelFactory(repository);
     }

@@ -10,6 +10,7 @@ import java.util.List;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.User;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 
 @Dao
 public interface UserDAO {
@@ -30,5 +31,8 @@ public interface UserDAO {
     long getUserId(String username, String password);
 
     @Query("select * from User")
-    List<UserFavoritesMovies> getMoviesUserLogged ();
+    public LiveData<List<UserFavoritesMovies>> getFavoriteMoviesUserLogged();
+
+    @Query("select * from User")
+    public LiveData<List<UserPendingMovies>> getPendingMoviesUserLogged();
 }
