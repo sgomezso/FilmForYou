@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/f4y_logo_red"
         android:label="@string/app_name"
@@ -19,8 +18,19 @@
         </activity>
         <activity
             android:name=".ui.movie.MostrarMovieActivity"
-            android:exported="true"
-            android:label="MostrarMovieActivity">
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.resultsSearch.ResultsSearchActivity"
+            android:exported="false"
+            android:label="@string/title_activity_results_search"
+            android:theme="@style/Theme.FilmForYou.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
         <activity
             android:name=".MainActivity"

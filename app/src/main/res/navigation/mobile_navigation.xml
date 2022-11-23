@@ -4,31 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_movieList">
-
     <fragment
         android:id="@+id/navigation_movieList"
         android:name="es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MovieListFragment"
         android:label="@string/title_movieList"
         tools:layout="@layout/fragment_movie_list" />
-
     <fragment
         android:id="@+id/navigation_search"
         android:name="es.unex.giiis.asee.proyecto.filmforyou.ui.search.SearchFragment"
-        android:label="@string/title_home"
+        android:label="¿QUÉ PELI ESTÁS BUSCANDO?"
         tools:layout="@layout/fragment_search" />
-
     <fragment
         android:id="@+id/navigation_profile"
         android:name="es.unex.giiis.asee.proyecto.filmforyou.ui.profile.ProfileFragment"
         android:label="MI CUENTA"
         tools:layout="@layout/fragment_profile" />
-
     <fragment
         android:id="@+id/navigation_favorites"
         android:name="es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoritesFragment"
         android:label="FAVORITAS"
         tools:layout="@layout/fragment_favorites" />
-
     <fragment
         android:id="@+id/navigation_pending"
         android:name="es.unex.giiis.asee.proyecto.filmforyou.ui.pending.PendingFragment"
