@@ -38,7 +38,6 @@ public class MovieListFragment extends Fragment implements MoviesAdapter.OnListI
         View root = binding.getRoot();
 
 
-//        AppExecutors.getInstance().networkIO().execute(new ReposNetworkLoaderRunnable((repos)-> mAdapter.swap(repos)));
         AppExecutors.getInstance().networkIO().execute(new Runnable() {
             @Override
             public void run() {

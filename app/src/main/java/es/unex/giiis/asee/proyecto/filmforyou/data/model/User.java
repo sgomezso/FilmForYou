@@ -9,7 +9,8 @@ import androidx.room.PrimaryKey;
 import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
-import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieList;
+
+ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieList;
 
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository

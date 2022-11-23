@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.MainActivity;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 
@@ -41,8 +42,6 @@ public class RegisterFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
-
      */
     // TODO: Rename and change types and number of parameters
     public static RegisterFragment newInstance() {
@@ -56,8 +55,6 @@ public class RegisterFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -76,27 +73,40 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Drawable icon = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_baseline_warning_24);
-                icon.setBounds(0,0,icon.getIntrinsicWidth(),icon.getIntrinsicHeight());
+                icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
 
-                if( TextUtils.isEmpty(username.getText().toString().trim()))
-                    username.setError("Please Enter Username",icon);
-                if( TextUtils.isEmpty(password.getText().toString().trim()))
-                    password.setError("Please Enter password",icon);
-                if( TextUtils.isEmpty(password2.getText().toString().trim()))
-                    password2.setError("Please Enter the confirm password",icon);
+                String usernameText = username.getText().toString();
+                String passwordText = password.getText().toString();
+                String password2Text = password2.getText().toString();
 
-                if(password == password2) {
-                    UserRepository userRepository = new UserRepository(getActivity());
-                    userRepository.registerUser(username.toString(),password.toString());
-                    userRepository.preference.edit().putLong("userId",userRepository.getUserId(username.toString(),password.toString()));
-                    Intent i = new Intent(getActivity(), MainActivity.class);
-                    startActivity(i);
-                } else {
-                    password2.setError("The passwords have to be the same",icon);
-                }
+
+                if (TextUtils.isEmpty(usernameText.trim()))
+                    username.setError("Please Enter Username", icon);
+                if (TextUtils.isEmpty(passwordText.trim()))
+                    password.setError("Please Enter password", icon);
+                if (TextUtils.isEmpty(password2Text.trim()))
+                    password2.setError("Please Enter the confirm password", icon);
+
+                if (passwordText.equals(password2Text)) {
+
+                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            UserRepository userRepository = new UserRepository(getActivity());
+                            userRepository.registerUser(usernameText, passwordText);
+                            userRepository.preference.edit().putLong("userId", userRepository.getUserId(username.toString(), password.toString())).commit();
+                            Intent i = new Intent(getActivity(), MainActivity.class);
+                            startActivity(i);
+                        }
+                    });
+                } else
+
+            {
+                password2.setError("The passwords have to be the same", icon);
             }
-        });
+        }
+    });
 
         return v;
-    }
+}
 }

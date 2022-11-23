@@ -10,8 +10,8 @@ import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.User;
 
 public class UserRepository {
-    UserDAO database;
-    SharedPreferences preference;
+    public UserDAO database;
+    public SharedPreferences preference;
 
     public UserRepository(Context context) {
         database = Room.databaseBuilder(context, Database.class, "database").build().userDAO();
@@ -28,7 +28,7 @@ public class UserRepository {
 
     public boolean checkUser(String username, String password) {
         if(database.getUser(username, password) !=null){
-            preference.edit().putLong("userId",getUserId(username,password));
+            preference.edit().putLong("userId",getUserId(username,password)).commit();
             return true;
         } else {
             return false;
@@ -37,6 +37,8 @@ public class UserRepository {
 
     public void registerUser(String username, String Password) {
             database.CreateNewUser(username, Password);
+            preference.edit().putLong("userId",getUserId(username,Password)).commit();
+
     }
 
     public long getUserId(String username, String password) {

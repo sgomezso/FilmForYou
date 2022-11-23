@@ -16,7 +16,7 @@ public abstract class Database extends RoomDatabase {
 
     public static Database getInstance(Context context) {
         if (instance == null)
-            instance = Room.databaseBuilder(context.getApplicationContext(), Database.class, "movie.db").build();
+            instance = Room.databaseBuilder(context.getApplicationContext(), Database.class, "movie.db").allowMainThreadQueries().build();
         return instance;
     }
 

@@ -1,5 +1,8 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.profile;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +15,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import es.unex.giiis.asee.proyecto.filmforyou.MainActivity;
+import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentProfileBinding;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.login.LoginActivity;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.login.UserRepository;
 
 public class ProfileFragment extends Fragment {
 
@@ -26,6 +33,17 @@ public class ProfileFragment extends Fragment {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        UserRepository userRepository = new UserRepository(getActivity());
+
+        binding.endSession.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences settings = getActivity().getSharedPreferences("preference", Context.MODE_PRIVATE);
+                settings.edit().clear().commit();
+                Intent i = new Intent(getActivity(), LoginActivity.class);
+                startActivity(i);
+            }
+        });
 
         return root;
     }

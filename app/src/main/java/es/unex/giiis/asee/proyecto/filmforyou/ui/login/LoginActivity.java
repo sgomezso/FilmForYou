@@ -9,6 +9,7 @@ import android.view.View;
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.MainActivity;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
+import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -24,11 +25,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (userRepository.checkIsUserIsLoged() ==true){
-                    // TODO get Base Contenxt esta bien?
                     Intent i = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(i);
                 } else {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.activityLayout,new LoginFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.activityLayout,new LoginFragment()).addToBackStack(null).commit();
                 }
             }
         });
