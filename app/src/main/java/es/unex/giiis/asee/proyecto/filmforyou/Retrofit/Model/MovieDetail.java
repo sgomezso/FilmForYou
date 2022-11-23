@@ -1,6 +1,8 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model;
 
-public class MovieDetail {
+import java.io.Serializable;
+
+public class MovieDetail implements Serializable {
     public String id;
     public String title;
     public String originalTitle;
@@ -9,9 +11,79 @@ public class MovieDetail {
     public String releaseDate;
     public String runtimeStr;
     public String plot;
+    public String directors;
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
+    public void setFullTitle(String fullTitle) {
+        this.fullTitle = fullTitle;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setRuntimeStr(String runtimeStr) {
+        this.runtimeStr = runtimeStr;
+    }
+
+    public void setPlot(String plot) {
+        this.plot = plot;
+    }
+
+    public void setAwards(String awards) {
+        this.awards = awards;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setDirectors(String directors) {
+        this.directors = directors;
+    }
+
+    public void setStars(String stars) {
+        this.stars = stars;
+    }
+
+    public void setGenres(String genres) {
+        this.genres = genres;
+    }
+
+    public void setLanguages(String languages) {
+        this.languages = languages;
+    }
+
+    public void setImDbRating(String imDbRating) {
+        this.imDbRating = imDbRating;
+    }
+
+    public void setImDbRatingVotes(String imDbRatingVotes) {
+        this.imDbRatingVotes = imDbRatingVotes;
+    }
+
+
+    public void setErrorMesssage(String errorMesssage) {
+        this.errorMesssage = errorMesssage;
+    }
+
     public String awards;
     public String image;
-    public String directors;
     public String stars;
     public String genres;
     public String languages;

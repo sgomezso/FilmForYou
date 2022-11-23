@@ -1,6 +1,8 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model;
 
-public class Movie {
+import java.io.Serializable;
+
+public class Movie implements Serializable {
     public String id;
     public String rank;
     public String title;
@@ -10,6 +12,47 @@ public class Movie {
     public String crew;
     public String imDbRating;
     public String imDbRatingCount;
+    public String directors;
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setFullTitle(String fullTitle) {
+        this.fullTitle = fullTitle;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setCrew(String crew) {
+        this.crew = crew;
+    }
+
+    public void setImDbRating(String imDbRating) {
+        this.imDbRating = imDbRating;
+    }
+
+    public void setImDbRatingCount(String imDbRatingCount) {
+        this.imDbRatingCount = imDbRatingCount;
+    }
+
+    public void setDirectors(String directors){
+        this.directors=directors;
+    }
 
     public String getId() {
         return id;
@@ -46,4 +89,6 @@ public class Movie {
     public String getImDbRatingCount() {
         return imDbRatingCount;
     }
+
+    public String getDirectors(){return directors;}
 }

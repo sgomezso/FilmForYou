@@ -1,6 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/cinema_small">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/idTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="60dp"
+        android:text="TÍTULO:"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/idValorTitulo"
+        android:layout_width="188dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="48dp"
+        android:inputType="text"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:backgroundTint="@color/white"
+        app:layout_constraintStart_toEndOf="@+id/idTitulo"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <TextView
+        android:id="@+id/idGenero"
+        android:textColor="@color/white"
+        android:layout_width="70dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="40dp"
+        android:text="GÉNERO:"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idTitulo"
+        tools:ignore="MissingConstraints" />
+
+    <Spinner
+        android:id="@+id/idSpinnerGenero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="28dp"
+        android:background="#FFFFFF"
+        android:outlineAmbientShadowColor="@color/white"
+        app:layout_constraintStart_toEndOf="@+id/idGenero"
+        app:layout_constraintTop_toBottomOf="@+id/idValorTitulo"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:textColor="@color/white"
+        android:id="@+id/idDirector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
+        android:text="DIRECTOR:"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idGenero"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/idValorDirector"
+        android:layout_width="188dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/white"
+        android:inputType="text"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        app:layout_constraintStart_toEndOf="@+id/idDirector"
+        app:layout_constraintTop_toBottomOf="@+id/idSpinnerGenero"
+        tools:ignore="MissingConstraints,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <TextView
+        android:id="@+id/idActor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="44dp"
+        android:text="ACTOR:"
+        android:textSize="16dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idDirector"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/idValorActor"
+        android:layout_width="188dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="28dp"
+        android:backgroundTint="@color/white"
+        android:inputType="text"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        app:layout_constraintStart_toEndOf="@+id/idActor"
+        app:layout_constraintTop_toBottomOf="@+id/idValorDirector"
+        tools:ignore="MissingConstraints,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <TextView
+        android:textColor="@color/white"
+        android:id="@+id/idAno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="40dp"
+        android:text="AÑO:"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idActor"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:backgroundTint="@color/white"
+        android:id="@+id/idValorAno"
+        android:layout_width="66dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:inputType="number"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        app:layout_constraintStart_toEndOf="@+id/idAno"
+        app:layout_constraintTop_toBottomOf="@+id/idValorActor"
+        tools:ignore="MissingConstraints,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/idBuscar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="60dp"
+        android:text="BUSCAR"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idAno"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

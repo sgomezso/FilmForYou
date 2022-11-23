@@ -5,6 +5,7 @@ import java.util.List;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieList;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Search;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -24,5 +25,9 @@ public interface ImdbApiEndPoint {
     //Get the ImdbApiEndPoint results of the search
     @GET("SearchMovie/" + apiKey + "/{title}")
     Call<MovieList> getSearchResults(@Path("title") String id);
+
+    //Get the ImdbApiEndPoint results of the search with title, year, director, ..
+    @GET("Search/" + apiKey + "/{expresion}")
+    Call<Search> getSearchResultsExpresion(@Path("expresion") String id);
 }
 
