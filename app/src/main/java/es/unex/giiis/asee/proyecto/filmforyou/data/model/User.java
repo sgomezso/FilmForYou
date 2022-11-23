@@ -16,7 +16,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository
  */
-@Entity(tableName = "user")
+@Entity(tableName = "User")
 public class User {
 
     @PrimaryKey(autoGenerate = true)

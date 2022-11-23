@@ -2,6 +2,8 @@ package es.unex.giiis.asee.proyecto.filmforyou;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
 import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Interface.ImdbApiEndPoint;
@@ -93,13 +95,13 @@ public class Repository {
         });
     }
 
-    public LiveData<List<UserFavoritesMovies>> getFavoritesUserMovies() {
-        return userDAO.getFavoriteMoviesUserLogged();
-    }
-
-    public LiveData<List<UserPendingMovies>> getPendingMovies() {
-        return userDAO.getPendingMoviesUserLogged();
-    }
+//    public LiveData<List<UserFavoritesMovies>> getFavoritesUserMovies() {
+//        return userDAO.getFavoriteMoviesUserLogged();
+//    }
+//
+//    public LiveData<List<UserPendingMovies>> getPendingMovies() {
+//        return userDAO.getPendingMoviesUserLogged();
+//    }
 
 
 

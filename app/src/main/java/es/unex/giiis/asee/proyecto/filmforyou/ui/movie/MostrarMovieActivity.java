@@ -62,12 +62,12 @@ public class MostrarMovieActivity extends AppCompatActivity {
             year.setText(movie.getYear());
         }
 
-        if(movie.getDirectors()==null){
-            directors.setText("No hay directores");
-
-        }else{
-            directors.setText(movie.getDirectors());
-        }
+//        if(movie.getDirectors()==null){
+//            directors.setText("No hay directores");
+//
+//        }else{
+//            directors.setText(movie.getDirectors());
+//        }
 
         if(movie.getImDbRating()==null){
             imDbRating.setText("0");

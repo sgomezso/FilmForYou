@@ -18,7 +18,7 @@ public interface UserDAO {
     @Query("select * from movies order by title asc")
     public LiveData<List<Movie>> getTop250Movies();
 
-    @Query("select * from user where id = :id")
+    @Query("select * from User where id = :id")
     public User getUserById(String id);
 
     @Query("select * from user where username= :username and password = :password")

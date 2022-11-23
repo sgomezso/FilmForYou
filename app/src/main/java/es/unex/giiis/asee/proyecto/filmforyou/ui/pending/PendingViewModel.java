@@ -17,7 +17,7 @@ public class PendingViewModel extends ViewModel {
 
     public PendingViewModel(Repository repository) {
         this.mRepository = repository;
-        mRepos = mRepository.getPendingMovies();
+//        mRepos = mRepository.getPendingMovies();
     }
 
     public LiveData<List<UserPendingMovies>> getPendingMovies() {
