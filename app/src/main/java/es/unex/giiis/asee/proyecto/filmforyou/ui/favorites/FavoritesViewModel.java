@@ -15,7 +15,7 @@ public class FavoritesViewModel extends ViewModel {
     private final Repository mRepository;
 
     public FavoritesViewModel(Repository repo) {
-        mRepository = repo;
+        this.mRepository = repo;
         mRepos = mRepository.getFavoritesUserMovies();
     }
 

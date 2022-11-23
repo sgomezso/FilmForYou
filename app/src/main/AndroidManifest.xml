@@ -18,6 +18,11 @@
             android:label="@string/title_activity_login">
         </activity>
         <activity
+            android:name=".ui.movie.MostrarMovieActivity"
+            android:exported="true"
+            android:label="MostrarMovieActivity">
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name">

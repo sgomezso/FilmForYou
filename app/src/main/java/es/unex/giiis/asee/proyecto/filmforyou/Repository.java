@@ -115,26 +115,6 @@ public class Repository {
 
     public LiveData<List<UserFavoritesMovies>> getFavoritesUserMovies() {
         return userDAO.getFavoriteMoviesUserLogged();
-        /*
-        Call<MovieList> call = topImdbApiEndPointInterface.getFavoritesUserMovies(idUser);
-        Log.i("Iniciando getFavoritesUserMovies", "Iniciando getFavoritesUserMovies");
-        call.enqueue(new Callback<MovieList>() {
-            @Override
-            public void onResponse(Call<MovieList> call, Response<MovieList> response) {
-                if (!response.isSuccessful()) {
-                    Log.i("Error response", "Get favorites user movies failed");
-                } else {
-                    for (Movie movie : response.body().getMovies())
-                        Log.i("Movie", movie.getTitle());
-                    //callback.onTopMoviesResponse(response.body().getMovies());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MovieList> call, Throwable t) {
-                Log.i("Error failure", t.getMessage());
-            }
-        });*/
     }
 
     public LiveData<List<UserPendingMovies>> getPendingMovies() {

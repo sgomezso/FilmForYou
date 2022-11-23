@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "movies")
-public class Movie {
+public class Movie implements Serializable {
     @NonNull
     @PrimaryKey
     public String id;
@@ -28,6 +30,10 @@ public class Movie {
         this.crew = crew;
         this.imDbRating = imDbRating;
         this.imDbRatingCount = imDbRatingCount;
+    }
+
+    public Movie() {
+
     }
 
     public String getId() {

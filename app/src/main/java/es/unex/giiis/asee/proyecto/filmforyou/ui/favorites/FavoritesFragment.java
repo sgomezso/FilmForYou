@@ -24,7 +24,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentFavoritesBinding;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.movieDetail.MostrarMovieActivity;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MostrarMovieActivity;
 
 public class FavoritesFragment extends Fragment implements FavoriteMoviesAdapter.OnListInteractionListener {
 
