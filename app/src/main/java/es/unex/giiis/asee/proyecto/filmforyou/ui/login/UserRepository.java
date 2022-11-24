@@ -35,8 +35,8 @@ public class UserRepository {
         }
     }
 
-    public void registerUser(String username, String Password,String email, String edad, String generoFav, String peliculaFav,String directorFav,String imagen) {
-            database.CreateNewUser(username, Password,email,edad,generoFav,peliculaFav,directorFav,imagen);
+    public void registerUser(String username, String Password,String email, String generoFav, String peliculaFav,String directorFav,String imagen) {
+            database.CreateNewUser(username, Password,email,generoFav,peliculaFav,directorFav,imagen);
             preference.edit().putLong("userId",getUserId(username,Password)).commit();
 
     }
@@ -45,7 +45,7 @@ public class UserRepository {
         return database.getUserId(username,password);
     }
 
-    public void addFav(Long userId, String id) {
-//        database.addFav(userId.toString(),id);
+    public void updateImage(String img, Long id) {
+        database.updateImage(img,id.toString());
     }
 }

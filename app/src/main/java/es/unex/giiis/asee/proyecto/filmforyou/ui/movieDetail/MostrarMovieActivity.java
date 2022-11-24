@@ -64,18 +64,6 @@ public class MostrarMovieActivity extends AppCompatActivity {
 
         Button addFav = findViewById(R.id.addFav);
         SharedPreferences settings = getSharedPreferences("preference", Context.MODE_PRIVATE);
-        addFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        Long userId = settings.getLong("userId",-1);
-                        userRepository.addFav(userId,movie.getMovieId());
-                    }
-                });
-            }
-        });
 
         if(movie.getRank()==null){
             rank.setText("0º");

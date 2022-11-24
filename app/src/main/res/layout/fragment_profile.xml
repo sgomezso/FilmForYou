@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <Button
         android:id="@+id/endSession"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="132dp"
         android:backgroundTint="#5E5C5C"
         android:text="Cerrar sesión"
         android:textColor="@color/white"
@@ -21,64 +22,45 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent" />
 
-
     <TextView
         android:id="@+id/UsernameField"
         android:layout_width="142dp"
         android:layout_height="38dp"
         android:layout_marginStart="32dp"
+        android:layout_marginTop="44dp"
         android:text="Username:"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="239dp" />
+        app:layout_constraintTop_toBottomOf="@+id/idImagenMovie" />
 
     <TextView
         android:id="@+id/UsernameValue"
         android:layout_width="142dp"
         android:layout_height="38dp"
+        android:layout_marginTop="256dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toEndOf="@+id/UsernameField"
-        tools:layout_editor_absoluteY="239dp" />
-
-    <TextView
-        android:id="@+id/EdadField"
-        android:layout_width="142dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="28dp"
-        android:text="Edad:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/UsernameField" />
-
-    <TextView
-        android:id="@+id/EdadValue"
-        android:layout_width="142dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="28dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
-        app:layout_constraintStart_toEndOf="@+id/EdadField"
-        app:layout_constraintTop_toBottomOf="@+id/UsernameValue" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/PeliculaFavField"
         android:layout_width="142dp"
         android:layout_height="38dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:text="Pelicula Favorita:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EdadField" />
+        app:layout_constraintTop_toBottomOf="@+id/UsernameField" />
 
     <TextView
         android:id="@+id/PeliculaFavValue"
         android:layout_width="142dp"
         android:layout_height="38dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toEndOf="@+id/PeliculaFavField"
-        app:layout_constraintTop_toBottomOf="@+id/EdadValue" />
+        app:layout_constraintTop_toBottomOf="@+id/UsernameValue" />
 
     <TextView
         android:id="@+id/DirectorFavField"
@@ -94,7 +76,7 @@
         android:id="@+id/DirectorFavValue"
         android:layout_width="142dp"
         android:layout_height="38dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toEndOf="@+id/DirectorFavField"
@@ -114,19 +96,23 @@
         android:id="@+id/GeneroFavValue"
         android:layout_width="142dp"
         android:layout_height="38dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toEndOf="@+id/GeneroFavField"
-        tools:layout_editor_absoluteY="500dp" />
+        app:layout_constraintTop_toBottomOf="@+id/DirectorFavValue" />
 
     <ImageView
         android:id="@+id/idImagenMovie"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
+        android:layout_width="154dp"
+        android:layout_height="154dp"
         android:layout_marginTop="24dp"
+        android:src="@drawable/emptyprofile"
         app:layout_constraintBottom_toTopOf="@+id/UsernameValue"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.411" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
