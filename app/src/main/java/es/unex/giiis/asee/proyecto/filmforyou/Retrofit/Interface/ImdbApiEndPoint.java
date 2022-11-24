@@ -6,6 +6,8 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieList;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Search;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -26,11 +28,11 @@ public interface ImdbApiEndPoint {
     @GET("SearchMovie/" + apiKey + "/{title}")
     Call<MovieList> getSearchResults(@Path("title") String id);
 
-//    @GET("FavoritesMovies/" + apiKey + "/{idUser}")
-//    Call<MovieList> getFavoritesUserMovies(@Path("idUser") String idUser);
+    @GET("FavoritesMovies/" + apiKey + "/{idUser}")
+    Call<UserFavoritesMovies> getFavoritesUserMovies(@Path("idUser") String idUser);
 
     @GET("PendingMovies/" + apiKey + "/{idUser}")
-    Call<MovieList> getPendingUserMovies(@Path("idUser") String idUser);
+    Call<UserPendingMovies> getPendingUserMovies(@Path("idUser") String idUser);
 
     //Get the ImdbApiEndPoint results of the search with title, year, director, ..
     @GET("Search/" + apiKey + "/{expresion}")

@@ -18,4 +18,28 @@ public class UserPendingMovies extends Movie{
     public UserPendingMovies(@NonNull String id, String rank, String title, String fullTitle, String year, String image, String crew, String imDbRating, String imDbRatingCount) {
         super(id, rank, title, fullTitle, year, image, crew, imDbRating, imDbRatingCount);
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+    }
+
+    @Override
+    public String toString() {
+        return "UserPendingMovies{" +
+                "user=" + user +
+                ", movies=" + movies +
+                '}';
+    }
 }

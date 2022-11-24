@@ -17,6 +17,8 @@ import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.ActivityResultsSearchBinding;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MovieListFragment;
 
@@ -48,6 +50,16 @@ public class ResultsSearchActivity extends AppCompatActivity implements SearchMo
             }
             @Override
             public void onMovieDetailResponse(MovieDetail movieDetail) {}
+
+            @Override
+            public void onFavoriteUserMovies(List<UserFavoritesMovies> userFavoritesMoviesList) {
+
+            }
+
+            @Override
+            public void onPendingUserMovies(List<UserPendingMovies> userPendingMoviesList) {
+
+            }
         }));
 
 

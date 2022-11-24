@@ -13,10 +13,34 @@ public class UserFavoritesMovies extends Movie {
 
     @Embedded(prefix = "fav_")
     public User user;
-    @Relation(parentColumn = "id",entityColumn = "id")
+    @Relation(parentColumn = "id", entityColumn = "id")
     public List<Movie> movies;
 
     public UserFavoritesMovies(@NonNull String id, String rank, String title, String fullTitle, String year, String image, String crew, String imDbRating, String imDbRatingCount) {
         super(id, rank, title, fullTitle, year, image, crew, imDbRating, imDbRatingCount);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+    }
+
+    @Override
+    public String toString() {
+        return "UserFavoritesMovies{" +
+                "user=" + user +
+                ", movies=" + movies +
+                '}';
     }
 }

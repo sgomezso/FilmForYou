@@ -28,7 +28,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.ui.resultsSearch.ResultsSearchActi
 public class SearchMovieResultsAdapter extends RecyclerView.Adapter<SearchMovieResultsAdapter.MyViewHolder> {
     private List<Movie> mDataset;
     private Movie movieSelected = new Movie();
-    private final Repository mRepository = new Repository() ;
+    private final Repository mRepository = new Repository();
 
     public interface OnListInteractionListener{
         public void onListInteraction(String url);
