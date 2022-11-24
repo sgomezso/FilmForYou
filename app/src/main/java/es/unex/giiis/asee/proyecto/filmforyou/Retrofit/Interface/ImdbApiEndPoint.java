@@ -28,11 +28,11 @@ public interface ImdbApiEndPoint {
     @GET("SearchMovie/" + apiKey + "/{title}")
     Call<MovieList> getSearchResults(@Path("title") String id);
 
-    @GET("FavoritesMovies/" + apiKey + "/{idUser}")
-    Call<UserFavoritesMovies> getFavoritesUserMovies(@Path("idUser") String idUser);
+    @GET("FavoritesMovies/" + apiKey + "/{idFav}")
+    Call<UserFavoritesMovies> getFavoritesUserMovies(@Path("idFav") String idFav);
 
-    @GET("PendingMovies/" + apiKey + "/{idUser}")
-    Call<UserPendingMovies> getPendingUserMovies(@Path("idUser") String idUser);
+    @GET("PendingMovies/" + apiKey + "/{idPend}")
+    Call<UserPendingMovies> getPendingUserMovies(@Path("idPend") String idPend);
 
     //Get the ImdbApiEndPoint results of the search with title, year, director, ..
     @GET("Search/" + apiKey + "/{expresion}")

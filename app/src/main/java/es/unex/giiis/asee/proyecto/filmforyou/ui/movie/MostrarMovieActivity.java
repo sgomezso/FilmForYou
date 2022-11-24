@@ -1,7 +1,11 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.movie;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,8 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
+import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.UserMovieRepository;
 
 
 public class MostrarMovieActivity extends AppCompatActivity {
@@ -26,7 +32,8 @@ public class MostrarMovieActivity extends AppCompatActivity {
     private TextView imDbRating;
     private TextView imDbRatingCount;
     private TextView directors;
-
+    public SharedPreferences preference;
+    private Button addFavoriteBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +50,27 @@ public class MostrarMovieActivity extends AppCompatActivity {
         crew = (TextView) findViewById(R.id.textReparto);
         image = (ImageView) findViewById(R.id.idImagenMovie);
         imageReparto=(ImageView) findViewById(R.id.idImagenReparto);
+        UserMovieRepository userMovieRepository = new UserMovieRepository(this);
+        addFavoriteBtn = findViewById(R.id.add_favorite);
+        Movie movie = (Movie) getIntent().getSerializableExtra("Movie");
+        SharedPreferences preference = getSharedPreferences("preference", Context.MODE_PRIVATE);
+        addFavoriteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppExecutors.getInstance().networkIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        Long idUser = preference.getLong("idUser", -1);
+                        if(!userMovieRepository.checkFav(idUser, movie.getMovieId())) {
+                            userMovieRepository.addFav(idUser, movie.getMovieId());
+                        } else {
+                            userMovieRepository.deleteFav(idUser, movie.getMovieId());
+                        }
+                    }
+                });
+            }
+        });
 
-
-        Movie movie = new Movie();
-        movie = (Movie) getIntent().getSerializableExtra("Movie");
         if(movie != null){
             Log.i("Pulsar", movie.getTitle() + " " + movie.getRank());
         }

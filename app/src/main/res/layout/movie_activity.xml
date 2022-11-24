@@ -149,4 +149,14 @@
         app:layout_constraintBottom_toBottomOf="@+id/idImagenReparto"
         app:layout_constraintStart_toEndOf="@+id/idImagenReparto" />
 
+    <Button
+        android:id="@+id/add_favorite"
+        android:layout_width="79dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="16dp"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

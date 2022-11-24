@@ -7,7 +7,7 @@
     tools:context=".ui.favorites.FavoritesFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerId"
+        android:id="@+id/fav_movieList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

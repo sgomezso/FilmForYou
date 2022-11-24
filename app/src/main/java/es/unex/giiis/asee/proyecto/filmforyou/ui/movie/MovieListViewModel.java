@@ -36,16 +36,6 @@ public class MovieListViewModel extends ViewModel {
             public void onSearchResultsExpresionResponse(List<Movie> resultsSearch) {}
             @Override
             public void onMovieDetailResponse(MovieDetail movieDetail) {}
-
-            @Override
-            public void onFavoriteUserMovies(List<UserFavoritesMovies> userFavoritesMoviesList) {
-
-            }
-
-            @Override
-            public void onPendingUserMovies(List<UserPendingMovies> userPendingMoviesList) {
-
-            }
         });
     }
 }

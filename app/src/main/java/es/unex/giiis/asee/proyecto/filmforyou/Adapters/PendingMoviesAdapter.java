@@ -89,7 +89,7 @@ public class PendingMoviesAdapter extends RecyclerView.Adapter<PendingMoviesAdap
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        holder.mItem = mDataset.get(position);
+        /*holder.mItem = mDataset.get(position);
         holder.mTitleView.setText(mDataset.get(position).getTitle());
         holder.mYearView.setText(mDataset.get(position).getYear());
         holder.mRanking.setText(mDataset.get(position).getRank());
@@ -105,9 +105,9 @@ public class PendingMoviesAdapter extends RecyclerView.Adapter<PendingMoviesAdap
                     mListener.onListInteraction(holder.mItem.getSvnUrl());
                 }
 
-                 */
+
             }
-        });
+        });*/
 
     }
 

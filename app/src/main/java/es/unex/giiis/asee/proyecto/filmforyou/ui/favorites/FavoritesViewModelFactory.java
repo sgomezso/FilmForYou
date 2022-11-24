@@ -7,15 +7,15 @@ import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 
 public class FavoritesViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private final Repository mRepository;
-
-    public FavoritesViewModelFactory(Repository repository) {
-        this.mRepository = repository;
-    }
-
-    @Override
-    public <T extends ViewModel> T create(Class<T> modelClass) {
-        //noinspection unchecked
-        return (T) new FavoritesViewModel(mRepository);
-    }
+//    private final Repository mRepository;
+//
+//    public FavoritesViewModelFactory(Repository repository) {
+//        this.mRepository = repository;
+//    }
+//
+//    @Override
+//    public <T extends ViewModel> T create(Class<T> modelClass) {
+//        //noinspection unchecked
+//        return (T) new FavoritesViewModel(mRepository);
+//    }
 }

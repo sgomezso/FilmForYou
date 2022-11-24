@@ -31,7 +31,7 @@ public class Repository {
     public interface RepositoryListener {
         public void onTopMoviesResponse (List<Movie> top250movies);
         public void onSearchResultsExpresionResponse(List<Movie> resultsSearch);
-        public  void onMovieDetailResponse (MovieDetail movieDetail);
+        public void onMovieDetailResponse (MovieDetail movieDetail);
     }
 
     public Repository (){
@@ -111,13 +111,27 @@ public class Repository {
         });
     }
 
-    public LiveData<List<UserFavoritesMovies>> getFavoritesUserMovies() {
-        return userDAO.getFavoriteMoviesUserLogged();
-    }
-
-    public LiveData<List<UserPendingMovies>> getPendingMovies() {
-        return userDAO.getPendingMoviesUserLogged();
-    }
+    /*public void getFavoritesUserMovies(String idUser, RepositoryListener callback) {
+        Call<UserFavoritesMovies> call = topImdbApiEndPointInterface.getTopMovies();
+        call.enqueue(new Callback<UserFavoritesMovies>() {
+            @Override
+            public void onResponse(Call<UserFavoritesMovies> call, Response<UserFavoritesMovies> response) {
+                if(!response.isSuccessful()){
+                    Log.i("Error response", "Search error");
+                }else{
+                    if(response.body().getMovies() != null) {
+                        for (Movie movie : response.body().getMovies())
+                            Log.i("Movie", movie.getFullTitle());
+                        callback.onFavoriteMovies(response.body().);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<UserFavoritesMovies> call, Throwable t) {
+                Log.i("Error failure", t.getMessage());
+            }
+        });
+    }*/
 
     public void getSearchResultsExpresion(String expresion, RepositoryListener callback){
         Call<Search> call = topImdbApiEndPointInterface.getSearchResultsExpresion(expresion);

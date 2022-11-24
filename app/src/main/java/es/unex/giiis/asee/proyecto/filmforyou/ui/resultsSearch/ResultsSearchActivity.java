@@ -50,16 +50,6 @@ public class ResultsSearchActivity extends AppCompatActivity implements SearchMo
             }
             @Override
             public void onMovieDetailResponse(MovieDetail movieDetail) {}
-
-            @Override
-            public void onFavoriteUserMovies(List<UserFavoritesMovies> userFavoritesMoviesList) {
-
-            }
-
-            @Override
-            public void onPendingUserMovies(List<UserPendingMovies> userPendingMoviesList) {
-
-            }
         }));
 
 
