@@ -93,7 +93,7 @@ public class RegisterFragment extends Fragment {
                         @Override
                         public void run() {
                             UserRepository userRepository = new UserRepository(getActivity());
-                            userRepository.registerUser(usernameText, passwordText);
+                            userRepository.registerUser(usernameText, passwordText,"","","","","","");
                             userRepository.preference.edit().putLong("userId", userRepository.getUserId(username.toString(), password.toString())).commit();
                             Intent i = new Intent(getActivity(), MainActivity.class);
                             startActivity(i);

@@ -24,10 +24,20 @@ public class User {
     private Long id;
     @ColumnInfo(name = "username")
     private String username;
+    @ColumnInfo(name = "email")
+    private String email;
     @ColumnInfo(name = "password")
     private String password;
-    @ColumnInfo(name = "description")
-    private String description;
+    @ColumnInfo(name = "edad")
+    private String edad;
+    @ColumnInfo(name = "directorFav")
+    private String directorFav;
+    @ColumnInfo(name = "generoFav")
+    private String generoFav;
+    @ColumnInfo(name = "peliculaFav")
+    private String peliculaFav;
+    @ColumnInfo(name = "imagen")
+    private String imagen;
 
     public String getUsername() {
         return username;
@@ -43,11 +53,64 @@ public class User {
 
     public User(){}
 
-    public User(Long id, String username, String password, String description) {
+    public String getEdad() {
+        return edad;
+    }
+
+    public User(@NonNull Long id,String email, String username, String password, String edad, String directorFav, String generoFav, String peliculaFav, String imagen) {
         this.id = id;
+        this.email = email;
         this.username = username;
         this.password = password;
-        this.description = description;
+        this.edad = edad;
+        this.directorFav = directorFav;
+        this.generoFav = generoFav;
+        this.peliculaFav = peliculaFav;
+        this.imagen = imagen;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setEdad(String edad) {
+        this.edad = edad;
+    }
+
+    public String getDirectorFav() {
+        return directorFav;
+    }
+
+    public void setDirectorFav(String directorFav) {
+        this.directorFav = directorFav;
+    }
+
+    public String getGeneroFav() {
+        return generoFav;
+    }
+
+    public void setGeneroFav(String generoFav) {
+        this.generoFav = generoFav;
+    }
+
+    public String getPeliculaFav() {
+        return peliculaFav;
+    }
+
+    public void setPeliculaFav(String peliculaFav) {
+        this.peliculaFav = peliculaFav;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public String getPassword() {
@@ -58,13 +121,7 @@ public class User {
         this.password = password;
     }
 
-    public String getDescription() {
-        return description;
-    }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public void setId(Long id) {
         this.id = id;

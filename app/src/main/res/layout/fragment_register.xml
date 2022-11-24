@@ -24,6 +24,7 @@
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
+        android:textColor="#757575"
         android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,6 +41,7 @@
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
+        android:textColor="#757575"
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
         android:textColorHint="@color/white"
@@ -60,11 +62,96 @@
         android:inputType="textPassword"
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
+        android:textColor="#757575"
         android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.937"
+        app:layout_constraintHorizontal_bias="0.531"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="380dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:drawablePadding="20dp"
+        android:hint="Email"
+        android:imeActionLabel="@string/action_sign_in_short"
+        android:imeOptions="actionDone"
+        android:minHeight="48dp"
+        android:selectAllOnFocus="true"
+        android:textColor="#757575"
+        android:textColorHint="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/password2"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <EditText
+        android:id="@+id/FavoriteMovie"
+        android:layout_width="378dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="20dp"
+        android:hint="Favorite Movie"
+        android:imeActionLabel="@string/action_sign_in_short"
+        android:imeOptions="actionDone"
+        android:minHeight="48dp"
+
+        android:selectAllOnFocus="true"
+        android:textColor="#757575"
+        android:textColorHint="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/FavoriteDirector"
+        tools:layout_editor_absoluteX="-3dp" />
+
+    <EditText
+        android:id="@+id/FavoriteDirector"
+        android:layout_width="378dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:drawablePadding="20dp"
+        android:hint="Favorite Movie"
+        android:imeActionLabel="@string/action_sign_in_short"
+        android:imeOptions="actionDone"
+
+        android:minHeight="48dp"
+        android:selectAllOnFocus="true"
+        android:textColor="#757575"
+        android:textColorHint="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/FavoriteGenre"
+        tools:layout_editor_absoluteX="-3dp" />
+
+    <EditText
+        android:id="@+id/FavoriteGenre"
+        android:layout_width="379dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:drawablePadding="20dp"
+        android:hint="Favorite Movie"
+        android:imeActionLabel="@string/action_sign_in_short"
+        android:imeOptions="actionDone"
+        android:minHeight="48dp"
+        android:selectAllOnFocus="true"
+        android:textColor="#757575"
+        android:textColorHint="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/imagen"
+        android:layout_width="127dp"
+        android:layout_height="43dp"
+        android:layout_gravity="start"
+        android:layout_marginBottom="64dp"
+        android:backgroundTint="#5E5C5C"
+        android:text="Select picture for profile"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.468"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/FavoriteMovie"
+        app:layout_constraintVertical_bias="0.191" />
 
     <Button
         android:id="@+id/register"
@@ -80,9 +167,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password2"
-        app:layout_constraintVertical_bias="0.114" />
+        app:layout_constraintTop_toBottomOf="@+id/imagen"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

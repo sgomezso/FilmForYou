@@ -10,14 +10,123 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="40dp"
         android:backgroundTint="#5E5C5C"
         android:text="Cerrar sesión"
         android:textColor="@color/white"
         android:textSize="26sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <TextView
+        android:id="@+id/UsernameField"
+        android:layout_width="142dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="32dp"
+        android:text="Username:"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="239dp" />
+
+    <TextView
+        android:id="@+id/UsernameValue"
+        android:layout_width="142dp"
+        android:layout_height="38dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toEndOf="@+id/UsernameField"
+        tools:layout_editor_absoluteY="239dp" />
+
+    <TextView
+        android:id="@+id/EdadField"
+        android:layout_width="142dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="28dp"
+        android:text="Edad:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/UsernameField" />
+
+    <TextView
+        android:id="@+id/EdadValue"
+        android:layout_width="142dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toEndOf="@+id/EdadField"
+        app:layout_constraintTop_toBottomOf="@+id/UsernameValue" />
+
+    <TextView
+        android:id="@+id/PeliculaFavField"
+        android:layout_width="142dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:text="Pelicula Favorita:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EdadField" />
+
+    <TextView
+        android:id="@+id/PeliculaFavValue"
+        android:layout_width="142dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toEndOf="@+id/PeliculaFavField"
+        app:layout_constraintTop_toBottomOf="@+id/EdadValue" />
+
+    <TextView
+        android:id="@+id/DirectorFavField"
+        android:layout_width="142dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="28dp"
+        android:text="Director Favoritos:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PeliculaFavField" />
+
+    <TextView
+        android:id="@+id/DirectorFavValue"
+        android:layout_width="142dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toEndOf="@+id/DirectorFavField"
+        app:layout_constraintTop_toBottomOf="@+id/PeliculaFavValue" />
+
+    <TextView
+        android:id="@+id/GeneroFavField"
+        android:layout_width="142dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="28dp"
+        android:text="Género favorito:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DirectorFavField" />
+
+    <TextView
+        android:id="@+id/GeneroFavValue"
+        android:layout_width="142dp"
+        android:layout_height="38dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintStart_toEndOf="@+id/GeneroFavField"
+        tools:layout_editor_absoluteY="500dp" />
+
+    <ImageView
+        android:id="@+id/idImagenMovie"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/UsernameValue"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
