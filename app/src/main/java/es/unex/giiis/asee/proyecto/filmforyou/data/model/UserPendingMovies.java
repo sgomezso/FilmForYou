@@ -10,12 +10,12 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 
 public class UserPendingMovies extends Movie{
 
-    @Embedded(prefix = "pend_")
-    public User user;
-    @Relation(parentColumn = "id", entityColumn = "id")
-    public List<Movie> movies;
-
-    public UserPendingMovies(@NonNull String id, String rank, String title, String fullTitle, String year, String image, String crew, String imDbRating, String imDbRatingCount) {
-        super(id, rank, title, fullTitle, year, image, crew, imDbRating, imDbRatingCount);
-    }
+//    @Embedded(prefix = "pend_")
+//    public User user;
+//    @Relation(parentColumn = "id", entityColumn = "id")
+//    public List<Movie> movies;
+//
+//    public UserPendingMovies(@NonNull String id, String rank, String title, String fullTitle, String year, String image, String crew, String imDbRating, String imDbRatingCount) {
+//        super(id, rank, title, fullTitle, year, image, crew, imDbRating, imDbRatingCount);
+//    }
 }

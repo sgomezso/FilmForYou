@@ -15,8 +15,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.MainActivity;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.User;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentProfileBinding;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.login.LoginActivity;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.login.UserRepository;
@@ -25,6 +29,12 @@ public class ProfileFragment extends Fragment {
 
     private ProfileViewModel profileViewModel;
     private FragmentProfileBinding binding;
+    private TextView username;
+    private TextView edad;
+    private TextView generoFav;
+    private TextView peliculaFav;
+    private TextView directorFav;
+    private User user;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -33,17 +43,40 @@ public class ProfileFragment extends Fragment {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        SharedPreferences settings = getActivity().getSharedPreferences("preference", Context.MODE_PRIVATE);
         UserRepository userRepository = new UserRepository(getActivity());
+        Long userId = settings.getLong("userId",-1);
+
+        if(userId!=-1){
+            username = (TextView) binding.UsernameValue;
+            edad = (TextView) binding.EdadValue;
+            generoFav = (TextView) binding.GeneroFavValue;
+            peliculaFav = (TextView) binding.PeliculaFavValue;
+            directorFav = (TextView)binding.DirectorFavValue;
+
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    user = userRepository.getUser(userId);
+                    username.setText(user.getUsername());
+                    edad.setText(user.getEdad());
+                    generoFav.setText(user.getGeneroFav());
+                    peliculaFav.setText(user.getPeliculaFav());
+                    directorFav.setText(user.getDirectorFav());
+                }
+            });
+
+            }
 
         binding.endSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences settings = getActivity().getSharedPreferences("preference", Context.MODE_PRIVATE);
                 settings.edit().clear().commit();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
             }
         });
+
 
         return root;
     }

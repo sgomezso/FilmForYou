@@ -22,8 +22,8 @@ public class UserRepository {
         return preference.getLong("userId", 0) != 0;
     }
 
-    public User getUser(String id) {
-        return database.getUserById(id);
+    public User getUser(Long id) {
+        return database.getUserById(id.toString());
     }
 
     public boolean checkUser(String username, String password) {
@@ -35,13 +35,17 @@ public class UserRepository {
         }
     }
 
-    public void registerUser(String username, String Password) {
-            database.CreateNewUser(username, Password);
+    public void registerUser(String username, String Password,String email, String edad, String generoFav, String peliculaFav,String directorFav,String imagen) {
+            database.CreateNewUser(username, Password,email,edad,generoFav,peliculaFav,directorFav,imagen);
             preference.edit().putLong("userId",getUserId(username,Password)).commit();
 
     }
 
     public long getUserId(String username, String password) {
         return database.getUserId(username,password);
+    }
+
+    public void addFav(Long userId, String id) {
+//        database.addFav(userId.toString(),id);
     }
 }

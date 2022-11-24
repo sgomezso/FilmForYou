@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Movie implements Serializable {
     @NonNull
     @PrimaryKey
-    public String id;
+    public String movieId;
     public String rank;
     public String title;
     public String fullTitle;
@@ -22,8 +22,8 @@ public class Movie implements Serializable {
 
     public Movie(){}
 
-    public Movie(@NonNull String id, String rank, String title, String fullTitle, String year, String image, String crew, String imDbRating, String imDbRatingCount) {
-        this.id = id;
+    public Movie(@NonNull String movieId, String rank, String title, String fullTitle, String year, String image, String crew, String imDbRating, String imDbRatingCount) {
+        this.movieId = movieId;
         this.rank = rank;
         this.title = title;
         this.fullTitle = fullTitle;
@@ -34,8 +34,8 @@ public class Movie implements Serializable {
         this.imDbRatingCount = imDbRatingCount;
     }
 
-    public String getId() {
-        return id;
+    public String getMovieId() {
+        return movieId;
     }
 
     public String getRank() {
@@ -70,8 +70,8 @@ public class Movie implements Serializable {
         return imDbRatingCount;
     }
 
-    public void setId(@NonNull String id) {
-        this.id = id;
+    public void setMovieId(@NonNull String movieId) {
+        this.movieId = movieId;
     }
 
     public void setRank(String rank) {

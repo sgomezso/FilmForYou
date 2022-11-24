@@ -1,25 +1,23 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.movieDetail;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.EditText;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
-import es.unex.giiis.asee.proyecto.filmforyou.MainActivity;
+import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.login.UserRepository;
 
 
 public class MostrarMovieActivity extends AppCompatActivity {
@@ -46,6 +44,10 @@ public class MostrarMovieActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         setContentView(R.layout.fragment_movie);
 
+        UserRepository userRepository = new UserRepository(this);
+
+
+
         rank = (TextView) findViewById(R.id.textRankIMDB);
         year = (TextView) findViewById(R.id.textYear);
         fullTitle = (TextView) findViewById(R.id.textDirector);
@@ -58,6 +60,22 @@ public class MostrarMovieActivity extends AppCompatActivity {
        // mViewModel = new ViewModelProvider((ViewModelStoreOwner) this, (ViewModelProvider.Factory) appContainer.mostrarMovieFactory).get(MostrarMovieViewModel.class);
 
         movie = (Movie) getIntent().getSerializableExtra("movie");
+
+
+        Button addFav = findViewById(R.id.addFav);
+        SharedPreferences settings = getSharedPreferences("preference", Context.MODE_PRIVATE);
+        addFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        Long userId = settings.getLong("userId",-1);
+                        userRepository.addFav(userId,movie.getMovieId());
+                    }
+                });
+            }
+        });
 
         if(movie.getRank()==null){
             rank.setText("0º");

@@ -2,11 +2,14 @@ package es.unex.giiis.asee.proyecto.filmforyou.ui.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,16 +48,6 @@ public class LoginFragment extends Fragment {
 
     }
 
-    public void checkUser(String username, String password) {
-        UserRepository userRepository = new UserRepository(getActivity());
-        if (userRepository.checkUser(username, password)) {
-            userRepository.preference.edit().putLong("userId", userRepository.getUserId(username, password));
-            Intent i = new Intent(getActivity(), MainActivity.class);
-            startActivity(i);
-        } else {
-            // TODO Mostrar error
-        }
-    }
 
     public void goRegister() {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.activityLayout, new RegisterFragment()).commit();
@@ -76,9 +69,21 @@ public class LoginFragment extends Fragment {
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
-                        checkUser(usernameET.getText().toString(), passwordET.getText().toString());
+                        if (userRepository.checkUser(usernameET.getText().toString(), passwordET.getText().toString())) {
+                            userRepository.preference.edit().putLong("userId", userRepository.getUserId(usernameET.getText().toString(), passwordET.getText().toString()));
+                            Intent i = new Intent(getActivity(), MainActivity.class);
+                            startActivity(i);
+                        }
                     }
                 });
+                Drawable icon = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_baseline_warning_24);
+                icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
+                if (TextUtils.isEmpty(usernameET.getText().toString().trim()))
+                    usernameET.setError("Please Enter Username", icon);
+                if (TextUtils.isEmpty(passwordET.getText().toString().trim()))
+                    passwordET.setError("Please Enter password", icon);
+                if (!TextUtils.isEmpty(passwordET.getText().toString().trim()) && !TextUtils.isEmpty(passwordET.getText().toString().trim()))
+                    passwordET.setError("Username o password incorrect", icon);
             }
         });
         v.findViewById(R.id.registerLogin).setOnClickListener(new View.OnClickListener() {

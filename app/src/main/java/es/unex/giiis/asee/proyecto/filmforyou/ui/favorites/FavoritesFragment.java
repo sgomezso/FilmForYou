@@ -26,8 +26,8 @@ import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentFavoritesBinding;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MostrarMovieActivity;
 
-public class FavoritesFragment extends Fragment implements FavoriteMoviesAdapter.OnListInteractionListener {
-
+public class FavoritesFragment extends Fragment {
+//implements FavoriteMoviesAdapter.OnListInteractionListener
     private FavoritesViewModel favoritesViewModel;
     private FragmentFavoritesBinding binding;
     private FavoriteMoviesAdapter favMoviesAdapter;
@@ -58,31 +58,31 @@ public class FavoritesFragment extends Fragment implements FavoriteMoviesAdapter
         //binding = FragmentFavoritesBinding.inflate(inflater, container, false);
 
         View vista = inflater.inflate(R.layout.fragment_favorites, container, false);
-        recyclerMovies = (RecyclerView) vista.findViewById(R.id.recyclerId);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerMovies.setLayoutManager(linearLayoutManager);
-
-        AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
-        favoritesViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.favoritesVMFactory).get(FavoritesViewModel.class);
-
-        favoriteMovies = new ArrayList<UserFavoritesMovies>();
-        favMoviesAdapter = new FavoriteMoviesAdapter(favoriteMovies, this);
-        favoritesViewModel.getFavoriteMovies().observe(getViewLifecycleOwner(), movie -> {
-            favMoviesAdapter.clear();
-            favMoviesAdapter.swap(movie);
-        });
-
-        favMoviesAdapter.setItemClickListener(new FavoriteMoviesAdapter.ItemClickListener() {
-            @Override
-            public void onItemClick(Movie movie) {
-                // activity que esta siendo implementada por ventura
-                Intent intent = new Intent(getContext(), MostrarMovieActivity.class);
-                intent.putExtra("Movie", (Serializable) movie);
-                startActivity(intent);
-            }
-        });
-
-        recyclerMovies.setAdapter(favMoviesAdapter);
+//        recyclerMovies = (RecyclerView) vista.findViewById(R.id.recyclerId);
+//        linearLayoutManager = new LinearLayoutManager(getActivity());
+//        recyclerMovies.setLayoutManager(linearLayoutManager);
+//
+//        AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
+//        favoritesViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.favoritesVMFactory).get(FavoritesViewModel.class);
+//
+//        favoriteMovies = new ArrayList<UserFavoritesMovies>();
+//        favMoviesAdapter = new FavoriteMoviesAdapter(favoriteMovies, this);
+//        favoritesViewModel.getFavoriteMovies().observe(getViewLifecycleOwner(), movie -> {
+//            favMoviesAdapter.clear();
+//            favMoviesAdapter.swap(movie);
+//        });
+//
+//        favMoviesAdapter.setItemClickListener(new FavoriteMoviesAdapter.ItemClickListener() {
+//            @Override
+//            public void onItemClick(Movie movie) {
+//                // activity que esta siendo implementada por ventura
+//                Intent intent = new Intent(getContext(), MostrarMovieActivity.class);
+//                intent.putExtra("Movie", (Serializable) movie);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        recyclerMovies.setAdapter(favMoviesAdapter);
         return vista;
     }
 
@@ -98,10 +98,10 @@ public class FavoritesFragment extends Fragment implements FavoriteMoviesAdapter
         binding = null;
     }
 
-    @Override
-    public void onListInteraction(String url) {
-
-    }
+//    @Override
+//    public void onListInteraction(String url) {
+//
+//    }
 
     /**
      * This interface must be implemented by activities that contain this
