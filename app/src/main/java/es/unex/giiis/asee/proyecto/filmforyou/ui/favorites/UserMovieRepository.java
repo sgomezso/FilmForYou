@@ -62,7 +62,7 @@ public class UserMovieRepository {
     }
 
     public boolean checkFav(Long idUser, String idMovie) {
-        if (database.checkUserFavoriteMovie(idUser.toString(), idMovie) ==null)
+        if (database.checkUserFavoriteMovie(idUser.toString(), idMovie) == null)
             return false;
         else
             return true;

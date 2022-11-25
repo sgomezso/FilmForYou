@@ -150,16 +150,5 @@
         android:textStyle="bold"
         tools:layout_editor_absoluteX="32dp" />
 
-    <Button
-        android:id="@+id/addPen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:backgroundTint="#5E5C5C"
-        android:text="AddPen"
-        android:textColor="@color/white"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="217dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
