@@ -66,6 +66,7 @@ public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListI
         SharedPreferences settings = getActivity().getSharedPreferences("preference", Context.MODE_PRIVATE);
         Long userId = settings.getLong("userId", -1);
         AppExecutors.getInstance().diskIO().execute(() -> mRepository.loadFavoriteMoviesByUser(userId, movies -> {
+            adapter = new MoviesAdapter(movies, FavoritesFragment.this);
             binding.favList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
             binding.favList.setAdapter(adapter);
         }));
