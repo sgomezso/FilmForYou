@@ -114,8 +114,8 @@ public class ProfileFragment extends Fragment {
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    UserRepository userRepository = new UserRepository(getActivity());
-                    userRepository.updateImage(selectedImage.toString(),userId);
+//                    UserRepository userRepository = new UserRepository(getActivity());
+//                    userRepository.updateImage(selectedImage.toString(),userId);
                 }
             });
         }
