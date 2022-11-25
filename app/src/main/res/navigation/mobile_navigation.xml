@@ -22,11 +22,11 @@
     <fragment
         android:id="@+id/navigation_favorites"
         android:name="es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoritesFragment"
-        android:label="FAVORITAS"
+        android:label="PELÍCULAS FAVORITAS"
         tools:layout="@layout/fragment_favorites" />
     <fragment
         android:id="@+id/navigation_pending"
         android:name="es.unex.giiis.asee.proyecto.filmforyou.ui.pending.PendingFragment"
-        android:label="AÑADIR"
+        android:label="PELÍCULAS PENDIENTES DE VER"
         tools:layout="@layout/fragment_pending" />
 </navigation>

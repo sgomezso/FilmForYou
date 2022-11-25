@@ -20,7 +20,7 @@
         android:title="FAVORITAS" />
     <item
         android:id="@+id/navigation_pending"
-        android:icon="@drawable/create_logo_foreground"
-        android:title="AÑADIR" />
+        android:icon="@drawable/pending_logo_foreground"
+        android:title="PENDIENTES" />
 
 </menu>
