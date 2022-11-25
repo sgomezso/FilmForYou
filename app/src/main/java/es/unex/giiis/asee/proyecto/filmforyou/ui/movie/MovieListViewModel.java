@@ -10,6 +10,8 @@ import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 
 public class MovieListViewModel extends ViewModel {
 

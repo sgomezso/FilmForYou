@@ -24,14 +24,30 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Repository {
 
     private ImdbApiEndPoint topImdbApiEndPointInterface = new Retrofit.Builder().baseUrl("https://imdb-api.com/en/API/").addConverterFactory(GsonConverterFactory.create()).build().create(ImdbApiEndPoint.class);
+    private static UserDAO userDAO;
+    private static MovieDAO movieDAO;
+    private static Repository sInstance;
+
     public interface RepositoryListener {
         public void onTopMoviesResponse (List<Movie> top250movies);
         public void onSearchResultsExpresionResponse(List<Movie> resultsSearch);
-        public  void onMovieDetailResponse (MovieDetail movieDetail);
+        public void onMovieDetailResponse (MovieDetail movieDetail);
     }
 
     public Repository (){
 
+    }
+
+    private Repository(MovieDAO mDAO) {
+        movieDAO = mDAO;
+        //movieDAO.getTop250Movies();
+    }
+
+    public synchronized static Repository getInstance(MovieDAO dao) {
+        if (sInstance == null) {
+            sInstance = new Repository(dao);
+        }
+        return sInstance;
     }
 
     public void getTopMovies(RepositoryListener callback){
@@ -95,15 +111,27 @@ public class Repository {
         });
     }
 
-//    public LiveData<List<UserFavoritesMovies>> getFavoritesUserMovies() {
-//        return userDAO.getFavoriteMoviesUserLogged();
-//    }
-//
-//    public LiveData<List<UserPendingMovies>> getPendingMovies() {
-//        return userDAO.getPendingMoviesUserLogged();
-//    }
-
-
+    /*public void getFavoritesUserMovies(String idUser, RepositoryListener callback) {
+        Call<UserFavoritesMovies> call = topImdbApiEndPointInterface.getTopMovies();
+        call.enqueue(new Callback<UserFavoritesMovies>() {
+            @Override
+            public void onResponse(Call<UserFavoritesMovies> call, Response<UserFavoritesMovies> response) {
+                if(!response.isSuccessful()){
+                    Log.i("Error response", "Search error");
+                }else{
+                    if(response.body().getMovies() != null) {
+                        for (Movie movie : response.body().getMovies())
+                            Log.i("Movie", movie.getFullTitle());
+                        callback.onFavoriteMovies(response.body().);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<UserFavoritesMovies> call, Throwable t) {
+                Log.i("Error failure", t.getMessage());
+            }
+        });
+    }*/
 
     public void getSearchResultsExpresion(String expresion, RepositoryListener callback){
         Call<Search> call = topImdbApiEndPointInterface.getSearchResultsExpresion(expresion);
