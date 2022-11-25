@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Adapters.PendingMoviesAdapter;
-import es.unex.giiis.asee.proyecto.filmforyou.AppContainer;
-import es.unex.giiis.asee.proyecto.filmforyou.MyApplication;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
@@ -58,31 +56,6 @@ public class PendingFragment extends Fragment implements PendingMoviesAdapter.On
         // binding = FragmentPendingBinding.inflate(inflater, container, false);
 
         View vista = inflater.inflate(R.layout.fragment_pending, container, false);
-        recyclerMovies = (RecyclerView) vista.findViewById(R.id.recyclerId);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerMovies.setLayoutManager(linearLayoutManager);
-
-        AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
-        pendingViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.pendingVMFactory).get(PendingViewModel.class);
-
-        pendingMovies = new ArrayList<UserPendingMovies>();
-        pendingMoviesAdapter = new PendingMoviesAdapter(pendingMovies, this);
-        pendingViewModel.getPendingMovies().observe(getViewLifecycleOwner(), movie -> {
-            pendingMoviesAdapter.clear();
-            pendingMoviesAdapter.swap(movie);
-        });
-
-        pendingMoviesAdapter.setItemClickListener(new PendingMoviesAdapter.ItemClickListener() {
-            @Override
-            public void onItemClick(Movie movie) {
-                // activity que esta siendo implementada por ventura
-                Intent intent = new Intent(getContext(), MostrarMovieActivity.class);
-                intent.putExtra("Movie", (Serializable) movie);
-                startActivity(intent);
-            }
-        });
-
-        recyclerMovies.setAdapter(pendingMoviesAdapter);
         return vista;
     }
 

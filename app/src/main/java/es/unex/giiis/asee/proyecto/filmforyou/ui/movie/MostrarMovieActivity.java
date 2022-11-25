@@ -1,7 +1,10 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.movie;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,8 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
+import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.UserMovieRepository;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.login.UserRepository;
 
 
 public class MostrarMovieActivity extends AppCompatActivity {
@@ -44,9 +50,30 @@ public class MostrarMovieActivity extends AppCompatActivity {
         image = (ImageView) findViewById(R.id.idImagenMovie);
         imageReparto=(ImageView) findViewById(R.id.idImagenReparto);
 
+        UserMovieRepository userMovieRepository = new UserMovieRepository(this);
+        Movie movie = (Movie) getIntent().getSerializableExtra("Movie");
+        SharedPreferences settings = getSharedPreferences("preference", Context.MODE_PRIVATE);
+        Long userId = settings.getLong("userId",-1);
 
-        Movie movie = new Movie();
-        movie = (Movie) getIntent().getSerializableExtra("Movie");
+        findViewById(R.id.addFavButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+//                        MovieRepository movieRepository = new MovieRepository(getBaseContext());
+//                        String movieId = movieRepository.getMovieId(movie.getFullTitle(),movie.getYear());
+                        if( userMovieRepository.checkFav(userId,movie.getMovieId())){
+                            userMovieRepository.deleteFav(userId,movie.getMovieId());
+                        } else {
+                            userMovieRepository.addFav(userId, movie.getMovieId());
+                        }
+                    }
+                });
+
+
+            }
+        });
         if(movie != null){
             Log.i("Pulsar", movie.getTitle() + " " + movie.getRank());
         }

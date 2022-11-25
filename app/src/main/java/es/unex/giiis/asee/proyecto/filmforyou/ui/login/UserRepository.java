@@ -14,7 +14,7 @@ public class UserRepository {
     public SharedPreferences preference;
 
     public UserRepository(Context context) {
-        database = Room.databaseBuilder(context, Database.class, "database").build().userDAO();
+        database = Room.databaseBuilder(context, Database.class, "database").allowMainThreadQueries().build().userDAO();
         preference = context.getSharedPreferences("preference", Context.MODE_PRIVATE);
     }
 

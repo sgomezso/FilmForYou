@@ -149,4 +149,12 @@
         app:layout_constraintBottom_toBottomOf="@+id/idImagenReparto"
         app:layout_constraintStart_toEndOf="@+id/idImagenReparto" />
 
+    <Button
+        android:id="@+id/addFavButton"
+        android:layout_width="82dp"
+        android:layout_height="39dp"
+        android:text="Fav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,5 @@
 package es.unex.giiis.asee.proyecto.filmforyou;
 
-import android.content.Context;
-
-import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Interface.ImdbApiEndPoint;
-import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoritesViewModelFactory;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.pending.PendingViewModelFactory;
-
 public class InjectorUtils {
 
 
