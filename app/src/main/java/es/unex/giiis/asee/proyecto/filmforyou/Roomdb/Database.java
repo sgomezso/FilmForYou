@@ -8,9 +8,8 @@ import androidx.room.RoomDatabase;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.User;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
-import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 
-@androidx.room.Database(entities = {Movie.class, User.class, UserFavoritesMovies.class, UserPendingMovies.class}, version = 1, exportSchema = false)
+@androidx.room.Database(entities = {Movie.class, User.class, UserFavoritesMovies.class}, version = 1, exportSchema = false)
 public abstract class Database extends RoomDatabase {
 
     private static Database instance;
@@ -23,7 +22,6 @@ public abstract class Database extends RoomDatabase {
 
     public abstract MovieDAO movieDAO();
     public abstract UserDAO userDAO();
-    public abstract UserFavoriteMoviesDAO userFavoriteMoviesDAO();
-    public abstract UserPendingMoviesDAO userPendingMoviesDAO();
 
+    public abstract UserFavoriteMoviesDAO userFavoriteMoviesDAO() ;
 }

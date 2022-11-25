@@ -24,12 +24,14 @@ public interface UserDAO {
     @Query("select * from user where username= :username and password = :password")
     User getUser(String username, String password);
 
-    @Query("Insert into User (username,password,email,edad,generoFav,peliculaFav,directorFav,imagen) values (:username, :password,:email,:edad,:generoFav,:peliculaFav,:directorFav,:imagen)")
-    void CreateNewUser(String username, String password,String email, String edad, String generoFav, String peliculaFav,String directorFav,String imagen);
+    @Query("Insert into User (username,password,email,generoFav,peliculaFav,directorFav,imagen) values (:username, :password,:email,:generoFav,:peliculaFav,:directorFav,:imagen)")
+    void CreateNewUser(String username, String password,String email, String generoFav, String peliculaFav,String directorFav,String imagen);
 
     @Query("select id from User where username = :username and password= :password")
     long getUserId(String username, String password);
 
+    @Query("update User set imagen = :img where id = :id")
+    void updateImage(String img,String id);
 
 //    @Query("select * from User")
 //    public LiveData<List<UserFavoritesMovies>> getFavoriteMoviesUserLogged();

@@ -20,10 +20,11 @@
         android:layout_marginTop="96dp"
         android:drawableLeft="@drawable/ic_baseline_person_outline_24"
         android:drawablePadding="20dp"
-        android:hint="@string/prompt_email"
+        android:hint="Username"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
+
         android:textColor="#757575"
         android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,6 +80,7 @@
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:minHeight="48dp"
+        android:text=""
         android:selectAllOnFocus="true"
         android:textColor="#757575"
         android:textColorHint="@color/white"
@@ -95,6 +97,7 @@
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:minHeight="48dp"
+        android:text=""
 
         android:selectAllOnFocus="true"
         android:textColor="#757575"
@@ -108,9 +111,10 @@
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
         android:drawablePadding="20dp"
-        android:hint="Favorite Movie"
+        android:hint="Favorite Director"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
+        android:text=""
 
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
@@ -125,33 +129,18 @@
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
         android:drawablePadding="20dp"
-        android:hint="Favorite Movie"
+        android:hint="Favorite Genre"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:minHeight="48dp"
+        android:text=""
+
         android:selectAllOnFocus="true"
         android:textColor="#757575"
         android:textColorHint="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/email"
         tools:layout_editor_absoluteX="0dp" />
 
-    <Button
-        android:id="@+id/imagen"
-        android:layout_width="127dp"
-        android:layout_height="43dp"
-        android:layout_gravity="start"
-        android:layout_marginBottom="64dp"
-        android:backgroundTint="#5E5C5C"
-        android:text="Select picture for profile"
-        android:textColor="@color/white"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.468"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/FavoriteMovie"
-        app:layout_constraintVertical_bias="0.191" />
 
     <Button
         android:id="@+id/register"

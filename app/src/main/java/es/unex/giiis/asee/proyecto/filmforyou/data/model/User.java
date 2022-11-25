@@ -28,8 +28,6 @@ public class User {
     private String email;
     @ColumnInfo(name = "password")
     private String password;
-    @ColumnInfo(name = "edad")
-    private String edad;
     @ColumnInfo(name = "directorFav")
     private String directorFav;
     @ColumnInfo(name = "generoFav")
@@ -53,16 +51,12 @@ public class User {
 
     public User(){}
 
-    public String getEdad() {
-        return edad;
-    }
 
-    public User(@NonNull Long id,String email, String username, String password, String edad, String directorFav, String generoFav, String peliculaFav, String imagen) {
+    public User(@NonNull Long id,String email, String username, String password, String directorFav, String generoFav, String peliculaFav, String imagen) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.password = password;
-        this.edad = edad;
         this.directorFav = directorFav;
         this.generoFav = generoFav;
         this.peliculaFav = peliculaFav;
@@ -77,9 +71,6 @@ public class User {
         this.email = email;
     }
 
-    public void setEdad(String edad) {
-        this.edad = edad;
-    }
 
     public String getDirectorFav() {
         return directorFav;

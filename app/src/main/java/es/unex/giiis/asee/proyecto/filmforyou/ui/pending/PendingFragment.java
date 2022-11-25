@@ -1,5 +1,7 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.pending;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,23 +9,30 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-import es.unex.giiis.asee.proyecto.filmforyou.Adapters.MoviesAdapter;
-import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
+import es.unex.giiis.asee.proyecto.filmforyou.Adapters.PendingMoviesAdapter;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
-import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
-import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentPendingBinding;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MostrarMovieActivity;
 
-public class PendingFragment extends Fragment implements MoviesAdapter.OnListInteractionListener {
+public class PendingFragment extends Fragment implements PendingMoviesAdapter.OnListInteractionListener {
 
+    private PendingViewModel pendingViewModel;
     private FragmentPendingBinding binding;
-    private final Repository mRepository = new Repository() ;
-    private MoviesAdapter adapter;
+    private PendingMoviesAdapter pendingMoviesAdapter;
+    RecyclerView recyclerMovies;
+    private LinearLayoutManager linearLayoutManager;
+    private List<UserPendingMovies> pendingMovies;
+    private PendingFragment.OnFragmentInteractionListener mListener;
 
     // Required empty public favorites constructor
     public PendingFragment() {
@@ -43,25 +52,17 @@ public class PendingFragment extends Fragment implements MoviesAdapter.OnListInt
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View vista = inflater.inflate(R.layout.fragment_favorites, container, false);
-        AppExecutors.getInstance().networkIO().execute(() -> mRepository.getTopMovies(new Repository.RepositoryListener() {
-            @Override
-            public void onTopMoviesResponse(List<Movie> top250movies) {
-                binding.pendMovieList.setLayoutManager(new LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL, false));
-                //mRepository.
-                for (Movie movie: top250movies) {
+        // pendingViewModel = new ViewModelProvider(this).get(PendingViewModel.class);
+        // binding = FragmentPendingBinding.inflate(inflater, container, false);
 
-                }
-                adapter = new MoviesAdapter(top250movies, PendingFragment.this);
-                binding.pendMovieList.setAdapter(adapter);
-            }
-            @Override
-            public void onSearchResultsExpresionResponse(List<Movie> resultsSearch) {}
-            @Override
-            public void onMovieDetailResponse(MovieDetail movieDetail) {}
-
-        }));
+        View vista = inflater.inflate(R.layout.fragment_pending, container, false);
         return vista;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     @Override
@@ -75,14 +76,17 @@ public class PendingFragment extends Fragment implements MoviesAdapter.OnListInt
 
     }
 
-    @Override
-    public boolean onQueryTextSubmit(String s) {
-        return false;
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(Uri uri);
     }
-
-    @Override
-    public boolean onQueryTextChange(String s) {
-        return false;
-    }
-
 }

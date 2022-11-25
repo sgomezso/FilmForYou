@@ -1,17 +1,26 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.login;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.MainActivity;
@@ -25,14 +34,19 @@ import es.unex.giiis.asee.proyecto.filmforyou.R;
 public class RegisterFragment extends Fragment {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
-    private static final String PASSWORD2 = "password2";
-
 
     private EditText username;
     private EditText password;
     private EditText password2;
+    private EditText email;
+    private EditText peliculaFav;
+    private EditText directorFav;
+    private EditText generoFav;
+
+
+
+
+
 
 
     public RegisterFragment() {
@@ -68,6 +82,12 @@ public class RegisterFragment extends Fragment {
         username = v.findViewById(R.id.username);
         password = v.findViewById(R.id.password);
         password2 = v.findViewById(R.id.password2);
+        email = v.findViewById(R.id.email);
+        peliculaFav = v.findViewById(R.id.FavoriteMovie);
+        directorFav = v.findViewById(R.id.FavoriteDirector);
+        generoFav = v.findViewById(R.id.FavoriteGenre);
+
+
 
         v.findViewById(R.id.register).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +98,10 @@ public class RegisterFragment extends Fragment {
                 String usernameText = username.getText().toString();
                 String passwordText = password.getText().toString();
                 String password2Text = password2.getText().toString();
+                String emailText = email.getText().toString();
+                String peliculaFavText = peliculaFav.getText().toString();
+                String directorFavText = directorFav.getText().toString();
+                String generoFavext = generoFav.getText().toString();
 
 
                 if (TextUtils.isEmpty(usernameText.trim()))
@@ -93,8 +117,8 @@ public class RegisterFragment extends Fragment {
                         @Override
                         public void run() {
                             UserRepository userRepository = new UserRepository(getActivity());
-                            userRepository.registerUser(usernameText, passwordText,"","","","","","");
-                            userRepository.preference.edit().putLong("userId", userRepository.getUserId(username.toString(), password.toString())).commit();
+                            userRepository.registerUser(usernameText, passwordText,emailText,generoFavext,peliculaFavText,directorFavText,"");
+                            userRepository.preference.edit().putLong("userId", userRepository.getUserId(username.toString(), password.toString()));
                             Intent i = new Intent(getActivity(), MainActivity.class);
                             startActivity(i);
                         }
@@ -109,4 +133,6 @@ public class RegisterFragment extends Fragment {
 
         return v;
 }
+
+
 }
