@@ -1,15 +1,12 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Adapters;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -23,7 +20,6 @@ import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MostrarMovieActivity;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.resultsSearch.ResultsSearchActivity;
 
 public class SearchMovieResultsAdapter extends RecyclerView.Adapter<SearchMovieResultsAdapter.MyViewHolder> {
     private List<Movie> mDataset;
@@ -98,11 +94,11 @@ public class SearchMovieResultsAdapter extends RecyclerView.Adapter<SearchMovieR
                         movieSelected.setRank("");
                         movieSelected.setImDbRating(movieDetail.getImdbRating());
                         movieSelected.setYear(movieDetail.getYear());
-                        movieSelected.setId(movieDetail.getId());
+                        movieSelected.setMovieId(movieDetail.getId());
                         movieSelected.setImage(movieDetail.getImage());
                         movieSelected.setCrew(movieDetail.getStars());
                         movieSelected.setImDbRatingCount(movieDetail.getImdbRatingVotes());
-                        movieSelected.setDirectors(movieDetail.getDirectors());
+//                        movieSelected.setDirectors(movieDetail.getDirectors());
 
                         Intent intent = new Intent(v.getContext(), MostrarMovieActivity.class);
                         intent.putExtra("Movie", (Serializable) movieSelected);

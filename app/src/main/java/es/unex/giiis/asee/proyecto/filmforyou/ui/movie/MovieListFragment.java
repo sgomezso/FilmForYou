@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import java.util.List;
@@ -29,6 +30,12 @@ public class MovieListFragment extends Fragment implements MoviesAdapter.OnListI
         binding = FragmentMovieListBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         AppExecutors.getInstance().networkIO().execute(() -> mRepository.getTopMovies(new Repository.RepositoryListener() {
             @Override
             public void onTopMoviesResponse(List<Movie> top250movies) {
@@ -41,9 +48,6 @@ public class MovieListFragment extends Fragment implements MoviesAdapter.OnListI
             @Override
             public void onMovieDetailResponse(MovieDetail movieDetail) {}
         }));
-
-
-        return root;
     }
 
     @Override

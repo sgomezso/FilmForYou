@@ -1,8 +1,15 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity(tableName = "movies")
 public class Movie implements Serializable {
+    @NonNull
+    @PrimaryKey
     public String id;
     public String rank;
     public String title;
@@ -12,49 +19,22 @@ public class Movie implements Serializable {
     public String crew;
     public String imDbRating;
     public String imDbRatingCount;
-    public String directors;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    public Movie(){}
 
-    public void setRank(String rank) {
+    public Movie(@NonNull String movieId, String rank, String title, String fullTitle, String year, String image, String crew, String imDbRating, String imDbRatingCount) {
+        this.id = movieId;
         this.rank = rank;
-    }
-
-    public void setTitle(String title) {
         this.title = title;
-    }
-
-    public void setFullTitle(String fullTitle) {
         this.fullTitle = fullTitle;
-    }
-
-    public void setYear(String year) {
         this.year = year;
-    }
-
-    public void setImage(String image) {
         this.image = image;
-    }
-
-    public void setCrew(String crew) {
         this.crew = crew;
-    }
-
-    public void setImDbRating(String imDbRating) {
         this.imDbRating = imDbRating;
-    }
-
-    public void setImDbRatingCount(String imDbRatingCount) {
         this.imDbRatingCount = imDbRatingCount;
     }
 
-    public void setDirectors(String directors){
-        this.directors=directors;
-    }
-
-    public String getId() {
+    public String getMovieId() {
         return id;
     }
 
@@ -90,5 +70,39 @@ public class Movie implements Serializable {
         return imDbRatingCount;
     }
 
-    public String getDirectors(){return directors;}
+    public void setMovieId(@NonNull String movieId) {
+        this.id = movieId;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setFullTitle(String fullTitle) {
+        this.fullTitle = fullTitle;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setCrew(String crew) {
+        this.crew = crew;
+    }
+
+    public void setImDbRating(String imDbRating) {
+        this.imDbRating = imDbRating;
+    }
+
+    public void setImDbRatingCount(String imDbRatingCount) {
+        this.imDbRatingCount = imDbRatingCount;
+    }
 }

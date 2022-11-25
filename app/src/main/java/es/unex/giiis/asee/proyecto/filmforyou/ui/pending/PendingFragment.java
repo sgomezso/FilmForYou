@@ -1,7 +1,6 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.pending;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,22 +8,31 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import es.unex.giiis.asee.proyecto.filmforyou.Adapters.MoviesAdapter;
-import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
-import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentFavoritesBinding;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import es.unex.giiis.asee.proyecto.filmforyou.Adapters.PendingMoviesAdapter;
+import es.unex.giiis.asee.proyecto.filmforyou.R;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentPendingBinding;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoritesViewModel;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MostrarMovieActivity;
 
-public class PendingFragment extends Fragment implements  MoviesAdapter.OnListInteractionListener {
+public class PendingFragment extends Fragment implements PendingMoviesAdapter.OnListInteractionListener {
 
+    private PendingViewModel pendingViewModel;
     private FragmentPendingBinding binding;
-    private MoviesAdapter adapter;
-    private PendingViewModel PendingViewModel;
+    private PendingMoviesAdapter pendingMoviesAdapter;
+    RecyclerView recyclerMovies;
+    private LinearLayoutManager linearLayoutManager;
+    private List<UserPendingMovies> pendingMovies;
+    private PendingFragment.OnFragmentInteractionListener mListener;
 
     // Required empty public favorites constructor
     public PendingFragment() {
@@ -44,21 +52,17 @@ public class PendingFragment extends Fragment implements  MoviesAdapter.OnListIn
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        PendingViewModel = new ViewModelProvider(this).get(PendingViewModel.class);
-        binding = FragmentPendingBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+        // pendingViewModel = new ViewModelProvider(this).get(PendingViewModel.class);
+        // binding = FragmentPendingBinding.inflate(inflater, container, false);
+
+        View vista = inflater.inflate(R.layout.fragment_pending, container, false);
+        return vista;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
-        UserMovieRepositoryPending mRepository = new UserMovieRepositoryPending(getActivity());
-        SharedPreferences settings = getActivity().getSharedPreferences("preference", Context.MODE_PRIVATE);
-        Long userId = settings.getLong("userId", -1);
-        AppExecutors.getInstance().diskIO().execute(() -> mRepository.loadPendingMoviesByUser(userId, movies -> {
-            adapter = new MoviesAdapter(movies, PendingFragment.this);
-            binding.pendingList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-            binding.pendingList.setAdapter(adapter);
-        }));
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     @Override
@@ -70,16 +74,6 @@ public class PendingFragment extends Fragment implements  MoviesAdapter.OnListIn
     @Override
     public void onListInteraction(String url) {
 
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String s) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String s) {
-        return false;
     }
 
     /**

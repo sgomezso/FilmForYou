@@ -2,6 +2,8 @@ package es.unex.giiis.asee.proyecto.filmforyou;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
 import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Interface.ImdbApiEndPoint;
@@ -9,6 +11,10 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieList;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Search;
+import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.MovieDAO;
+import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserDAO;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -88,6 +94,16 @@ public class Repository {
             }
         });
     }
+
+//    public LiveData<List<UserFavoritesMovies>> getFavoritesUserMovies() {
+//        return userDAO.getFavoriteMoviesUserLogged();
+//    }
+//
+//    public LiveData<List<UserPendingMovies>> getPendingMovies() {
+//        return userDAO.getPendingMoviesUserLogged();
+//    }
+
+
 
     public void getSearchResultsExpresion(String expresion, RepositoryListener callback){
         Call<Search> call = topImdbApiEndPointInterface.getSearchResultsExpresion(expresion);

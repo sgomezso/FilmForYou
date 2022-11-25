@@ -2,7 +2,7 @@ package es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model;
 
 import java.io.Serializable;
 
-public class MovieDetail implements Serializable {
+public class MovieDetail {
     public String id;
     public String title;
     public String originalTitle;

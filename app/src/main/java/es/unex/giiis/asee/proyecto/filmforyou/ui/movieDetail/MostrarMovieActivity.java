@@ -1,10 +1,11 @@
-package es.unex.giiis.asee.proyecto.filmforyou.ui.movie;
+package es.unex.giiis.asee.proyecto.filmforyou.ui.movieDetail;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +17,6 @@ import com.squareup.picasso.Picasso;
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.UserMovieRepository;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.login.UserRepository;
 
 
@@ -25,76 +25,61 @@ public class MostrarMovieActivity extends AppCompatActivity {
     private TextView id;
     private TextView rank;
     private TextView title;
+    private TextView fullTitle;
     private TextView year;
     private ImageView image;
-    private ImageView imageReparto;
     private TextView crew;
     private TextView imDbRating;
     private TextView imDbRatingCount;
-    private TextView directors;
+    private TextView director;
+    FloatingActionButton EFbutton;
+    private Movie movie;
+    //private MostrarMovieViewModel mViewModel;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("Movie","Pasa por aqui");
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        setContentView(R.layout.movie_activity);
+        setContentView(R.layout.fragment_movie);
+
+        UserRepository userRepository = new UserRepository(this);
 
         rank = (TextView) findViewById(R.id.textRankIMDB);
         year = (TextView) findViewById(R.id.textYear);
-        directors = (TextView) findViewById(R.id.textDirector);
+        fullTitle = (TextView) findViewById(R.id.textDirector);
         imDbRating = (TextView) findViewById(R.id.textRating);
         imDbRatingCount = (TextView) findViewById(R.id.textRatingCount);
         crew = (TextView) findViewById(R.id.textReparto);
         image = (ImageView) findViewById(R.id.idImagenMovie);
-        imageReparto=(ImageView) findViewById(R.id.idImagenReparto);
+        director = (TextView) findViewById(R.id.textDirector);
 
-        UserMovieRepository userMovieRepository = new UserMovieRepository(this);
-        Movie movie = (Movie) getIntent().getSerializableExtra("Movie");
+        movie = (Movie) getIntent().getSerializableExtra("movie");
+
+
+        Button addFav = findViewById(R.id.addFav);
         SharedPreferences settings = getSharedPreferences("preference", Context.MODE_PRIVATE);
-        Long userId = settings.getLong("userId",-1);
 
-        findViewById(R.id.addFavButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-//                        MovieRepository movieRepository = new MovieRepository(getBaseContext());
-//                        String movieId = movieRepository.getMovieId(movie.getFullTitle(),movie.getYear());
-                        if( userMovieRepository.checkFav(userId,movie.getMovieId())){
-                            userMovieRepository.deleteFav(userId,movie.getMovieId());
-                        } else {
-                            userMovieRepository.addFav(userId, movie.getMovieId());
-                        }
-                    }
-                });
-
-
-            }
-        });
-        if(movie != null){
-            Log.i("Pulsar", movie.getTitle() + " " + movie.getRank());
-        }
         if(movie.getRank()==null){
-            rank.setText("");
+            rank.setText("0º");
         }else{
             rank.setText(movie.getRank());
         }
 
         if(movie.getYear()==null){
-            year.setText("2022");
+            year.setText("0");
         }else{
             year.setText(movie.getYear());
         }
 
-//        if(movie.getDirectors()==null){
-//            directors.setText("No hay directores");
-//
-//        }else{
-//            directors.setText(movie.getDirectors());
-//        }
+        if(movie.getFullTitle()==null){
+            fullTitle.setText("0");
+
+        }else{
+            fullTitle.setText(movie.getFullTitle());
+        }
 
         if(movie.getImDbRating()==null){
             imDbRating.setText("0");
@@ -105,22 +90,14 @@ public class MostrarMovieActivity extends AppCompatActivity {
         if(movie.getImDbRatingCount()==null){
             imDbRatingCount.setText("0");
         }else{
-            imDbRatingCount.setText(movie.getImDbRatingCount());
+            imDbRating.setText(movie.getImDbRatingCount());
         }
 
         if(movie.getImage() != null){
             Picasso.get().load(movie.getImage()).into(image);
         }else{
-            Picasso.get().load("https://png.pngtree.com/element_our/png_detail/20181227/movie-icon-which-is-designed-for-all-application-purpose-new-png_287896.jpg").into(image);
+            Picasso.get().load("https://http2.mlstatic.com/storage/mshops-appearance-api/images/15/254304515/logo-2020060212005277900.png").into(image);
         }
-
-        if(movie.getCrew()==null){
-            crew.setText("Ninguno");
-        }else{
-            crew.setText(movie.getCrew());
-        }
-
-        Picasso.get().load("https://cdn-icons-png.flaticon.com/512/74/74472.png").into(imageReparto);
 
     }
 

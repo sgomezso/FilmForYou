@@ -12,7 +12,7 @@ import retrofit2.http.Path;
 
 public interface ImdbApiEndPoint {
     //Key access for the API
-    String apiKey= "k_r5m0mrhk";
+    String apiKey= "k_ny4wa3u3";
 
     //Get top 250 ImdbApiEndPoint
     @GET("Top250Movies/" + apiKey)
@@ -25,6 +25,12 @@ public interface ImdbApiEndPoint {
     //Get the ImdbApiEndPoint results of the search
     @GET("SearchMovie/" + apiKey + "/{title}")
     Call<MovieList> getSearchResults(@Path("title") String id);
+
+//    @GET("FavoritesMovies/" + apiKey + "/{idUser}")
+//    Call<MovieList> getFavoritesUserMovies(@Path("idUser") String idUser);
+
+    @GET("PendingMovies/" + apiKey + "/{idUser}")
+    Call<MovieList> getPendingUserMovies(@Path("idUser") String idUser);
 
     //Get the ImdbApiEndPoint results of the search with title, year, director, ..
     @GET("Search/" + apiKey + "/{expresion}")
