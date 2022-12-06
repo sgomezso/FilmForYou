@@ -25,4 +25,5 @@ public abstract class Database extends RoomDatabase {
     public abstract UserDAO userDAO();
 
     public abstract UserFavoriteMoviesDAO userFavoriteMoviesDAO() ;
+    public abstract  UserPendingMoviesDAO userPendingMoviesDAO();
 }

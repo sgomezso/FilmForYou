@@ -13,6 +13,8 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieList;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Search;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.MovieDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserDAO;
+import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserFavoriteMoviesDAO;
+import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserPendingMoviesDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 import retrofit2.Call;
@@ -24,14 +26,35 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Repository {
 
     private ImdbApiEndPoint topImdbApiEndPointInterface = new Retrofit.Builder().baseUrl("https://imdb-api.com/en/API/").addConverterFactory(GsonConverterFactory.create()).build().create(ImdbApiEndPoint.class);
+    private static UserDAO userDAO;
+    private static MovieDAO movieDAO;
+    private static Repository sInstance;
+    private static UserFavoriteMoviesDAO userFavoriteMoviesDAO;
+    private static UserPendingMoviesDAO userPendingMoviesDAO;
+
     public interface RepositoryListener {
         public void onTopMoviesResponse (List<Movie> top250movies);
         public void onSearchResultsExpresionResponse(List<Movie> resultsSearch);
-        public  void onMovieDetailResponse (MovieDetail movieDetail);
+        public void onMovieDetailResponse (MovieDetail movieDetail);
     }
 
     public Repository (){
 
+    }
+
+    private Repository(MovieDAO mDAO, UserDAO uDAO, UserPendingMoviesDAO uPDAO, UserFavoriteMoviesDAO uFDAO) {
+        this.movieDAO = mDAO;
+        this.userDAO = uDAO;
+        this.userPendingMoviesDAO = uPDAO;
+        this.userFavoriteMoviesDAO = uFDAO;
+        //movieDAO.getTop250Movies();
+    }
+
+    public synchronized static Repository getInstance(MovieDAO mDAO, UserDAO uDAO, UserPendingMoviesDAO uPDAO, UserFavoriteMoviesDAO uFDAO) {
+        if (sInstance == null) {
+            sInstance = new Repository(mDAO, uDAO, uPDAO, uFDAO);
+        }
+        return sInstance;
     }
 
     public void getTopMovies(RepositoryListener callback){
@@ -95,15 +118,31 @@ public class Repository {
         });
     }
 
-//    public LiveData<List<UserFavoritesMovies>> getFavoritesUserMovies() {
-//        return userDAO.getFavoriteMoviesUserLogged();
-//    }
-//
-//    public LiveData<List<UserPendingMovies>> getPendingMovies() {
-//        return userDAO.getPendingMoviesUserLogged();
-//    }
+    /*public void getFavoritesUserMovies(String idUser, RepositoryListener callback) {
+        Call<UserFavoritesMovies> call = topImdbApiEndPointInterface.getTopMovies();
+        call.enqueue(new Callback<UserFavoritesMovies>() {
+            @Override
+            public void onResponse(Call<UserFavoritesMovies> call, Response<UserFavoritesMovies> response) {
+                if(!response.isSuccessful()){
+                    Log.i("Error response", "Search error");
+                }else{
+                    if(response.body().getMovies() != null) {
+                        for (Movie movie : response.body().getMovies())
+                            Log.i("Movie", movie.getFullTitle());
+                        callback.onFavoriteMovies(response.body().);
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<UserFavoritesMovies> call, Throwable t) {
+                Log.i("Error failure", t.getMessage());
+            }
+        });
+    }*/
 
-
+    public LiveData<List<UserFavoritesMovies>> getFavoritesMovies(Long userId) {
+        return userFavoriteMoviesDAO.loadFavoriteMoviesByUser(userId.toString());
+    }
 
     public void getSearchResultsExpresion(String expresion, RepositoryListener callback){
         Call<Search> call = topImdbApiEndPointInterface.getSearchResultsExpresion(expresion);

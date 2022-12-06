@@ -33,7 +33,6 @@ public interface UserDAO {
     @Query("update User set imagen = :img where id = :id")
     void updateImage(String img,String id);
 
-
 //    @Query("select * from User")
 //    public LiveData<List<UserFavoritesMovies>> getFavoriteMoviesUserLogged();
 //
