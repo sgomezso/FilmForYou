@@ -13,27 +13,15 @@ import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
 
 public class FavoritesViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private Repository mRepository;
+    private LiveData<List<UserFavoritesMovies>> listFavorites;
 
-
-    public FavoritesViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is movie fragment");
+    public FavoritesViewModel(Repository repository) {
+        this.mRepository = repository;
+        listFavorites = mRepository.getFavoritesMovies();
     }
 
-    public LiveData<String> getText() {
-        return mText;
-    }
-
-    public void getMovies (){
-        Repository repository = new Repository();
-        repository.getTopMovies(new Repository.RepositoryListener() {
-            @Override
-            public void onTopMoviesResponse(List<Movie> top250movies) {}
-            @Override
-            public void onSearchResultsExpresionResponse(List<Movie> resultsSearch) {}
-            @Override
-            public void onMovieDetailResponse(MovieDetail movieDetail) {}
-        });
+    public LiveData<List<UserFavoritesMovies>> getFavoriteMovies() {
+        return listFavorites;
     }
 }
