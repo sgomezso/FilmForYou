@@ -18,6 +18,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.UserMovieRepository;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.login.UserRepository;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.pending.UserMovieRepositoryPending;
 
 
 public class MostrarMovieActivity extends AppCompatActivity {
@@ -51,6 +52,7 @@ public class MostrarMovieActivity extends AppCompatActivity {
         imageReparto=(ImageView) findViewById(R.id.idImagenReparto);
 
         UserMovieRepository userMovieRepository = new UserMovieRepository(this);
+        UserMovieRepositoryPending userMovieRepositoryPending = new UserMovieRepositoryPending(this);
         Movie movie = (Movie) getIntent().getSerializableExtra("Movie");
         SharedPreferences settings = getSharedPreferences("preference", Context.MODE_PRIVATE);
         Long userId = settings.getLong("userId",-1);
@@ -61,12 +63,27 @@ public class MostrarMovieActivity extends AppCompatActivity {
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
-//                        MovieRepository movieRepository = new MovieRepository(getBaseContext());
-//                        String movieId = movieRepository.getMovieId(movie.getFullTitle(),movie.getYear());
                         if( userMovieRepository.checkFav(userId,movie.getMovieId())){
                             userMovieRepository.deleteFav(userId,movie.getMovieId());
                         } else {
                             userMovieRepository.addFav(userId, movie.getMovieId());
+                        }
+                    }
+                });
+
+
+            }
+        });
+        findViewById(R.id.addPendingButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(userMovieRepositoryPending.checkPending(userId,movie.getMovieId())){
+                            userMovieRepositoryPending.deletePending(userId,movie.getMovieId());
+                        } else {
+                            userMovieRepositoryPending.addPending(userId, movie.getMovieId());
                         }
                     }
                 });

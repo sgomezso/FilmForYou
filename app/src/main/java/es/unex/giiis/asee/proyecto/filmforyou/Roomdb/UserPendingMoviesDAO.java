@@ -13,5 +13,18 @@ import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 public interface UserPendingMoviesDAO {
 
     @Query("select * from userPendingMovies where idUser = :id")
-    public List<UserPendingMovies> getFavoriteMoviesUserLogged(String id);
+    public List<UserPendingMovies> getPendingMoviesUserLogged(String id);
+
+    @Query("select * from userPendingMovies where idUser = :id")
+    public List<UserPendingMovies> loadPendingMoviesByUser(String id);
+
+    @Query("select * from userPendingMovies where idUser = :idUser and idMovie = :idMovie")
+    public UserPendingMovies checkUserPendingMovie(String idUser, String idMovie);
+
+    @Query("insert into userPendingMovies(idUser, idMovie) values (:idUser, :idMovie)")
+    public void insertPending(String idUser, String idMovie);
+
+    @Query("delete from userPendingMovies where idUser = :idUser and idMovie = :idMovie")
+    public void deletePending(String idUser, String idMovie);
 }
+

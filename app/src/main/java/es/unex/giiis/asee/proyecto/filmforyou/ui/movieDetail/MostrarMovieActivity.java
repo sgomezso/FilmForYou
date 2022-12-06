@@ -31,6 +31,7 @@ public class MostrarMovieActivity extends AppCompatActivity {
     private TextView crew;
     private TextView imDbRating;
     private TextView imDbRatingCount;
+    private TextView director;
     FloatingActionButton EFbutton;
     private Movie movie;
     //private MostrarMovieViewModel mViewModel;
@@ -46,8 +47,6 @@ public class MostrarMovieActivity extends AppCompatActivity {
 
         UserRepository userRepository = new UserRepository(this);
 
-
-
         rank = (TextView) findViewById(R.id.textRankIMDB);
         year = (TextView) findViewById(R.id.textYear);
         fullTitle = (TextView) findViewById(R.id.textDirector);
@@ -55,9 +54,7 @@ public class MostrarMovieActivity extends AppCompatActivity {
         imDbRatingCount = (TextView) findViewById(R.id.textRatingCount);
         crew = (TextView) findViewById(R.id.textReparto);
         image = (ImageView) findViewById(R.id.idImagenMovie);
-
-        //AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
-       // mViewModel = new ViewModelProvider((ViewModelStoreOwner) this, (ViewModelProvider.Factory) appContainer.mostrarMovieFactory).get(MostrarMovieViewModel.class);
+        director = (TextView) findViewById(R.id.textDirector);
 
         movie = (Movie) getIntent().getSerializableExtra("movie");
 

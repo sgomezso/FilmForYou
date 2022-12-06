@@ -14,7 +14,7 @@ import retrofit2.http.Path;
 
 public interface ImdbApiEndPoint {
     //Key access for the API
-    String apiKey= "k_6fxmarhv";
+    String apiKey= "k_8pkq0uw7";
 
     //Get top 250 ImdbApiEndPoint
     @GET("Top250Movies/" + apiKey)
