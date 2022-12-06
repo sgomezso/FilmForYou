@@ -39,7 +39,7 @@ public class UserMovieRepository {
         apiRepository.getTopMovies(new Repository.RepositoryListener() {
             @Override
             public void onTopMoviesResponse(List<Movie> top250movies) {
-                List<UserFavoritesMovies> userFavoritesMoviesList = database.loadFavoriteMoviesByUser(userId.toString());
+                List<UserFavoritesMovies> userFavoritesMoviesList = (List<UserFavoritesMovies>) database.loadFavoriteMoviesByUser(userId.toString());
                 for (Movie movie : top250movies) {
                     for (UserFavoritesMovies userFavoritesMovies : userFavoritesMoviesList) {
                         if (userFavoritesMovies.getIdMovie().equals(movie.getMovieId())) {

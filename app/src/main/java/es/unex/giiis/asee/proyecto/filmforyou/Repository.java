@@ -1,5 +1,7 @@
 package es.unex.giiis.asee.proyecto.filmforyou;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -142,6 +144,10 @@ public class Repository {
 
     public LiveData<List<UserFavoritesMovies>> getFavoritesMovies(Long userId) {
         return userFavoriteMoviesDAO.loadFavoriteMoviesByUser(userId.toString());
+    }
+
+    public List<UserPendingMovies> getPendingMovies(Long userId) {
+        return userPendingMoviesDAO.loadPendingMoviesByUser(userId.toString());
     }
 
     public void getSearchResultsExpresion(String expresion, RepositoryListener callback){
