@@ -38,7 +38,7 @@ public class UserMovieRepositoryPending {
         apiRepository.getTopMovies(new Repository.RepositoryListener() {
             @Override
             public void onTopMoviesResponse(List<Movie> top250movies) {
-                List<UserPendingMovies> userPendingMoviesList = database.loadPendingMoviesByUser(userId.toString());
+                List<UserPendingMovies> userPendingMoviesList = (List<UserPendingMovies>) database.loadPendingMoviesByUser(userId.toString());
                 for (Movie movie : top250movies) {
                     for (UserPendingMovies userPendingMovies : userPendingMoviesList) {
                         if (userPendingMovies.getIdMovie().equals(movie.getMovieId())) {

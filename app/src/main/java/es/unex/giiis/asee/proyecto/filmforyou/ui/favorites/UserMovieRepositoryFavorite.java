@@ -8,17 +8,14 @@ import androidx.room.Room;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserFavoriteMoviesDAO;
-import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserPendingMoviesDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
-import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 
-public class UserMovieRepository {
+public class UserMovieRepositoryFavorite {
 
     interface UserMovieRepositoryListener {
         public void onFavoriteMovies( List<Movie> userFavoritesMoviesList);
@@ -27,7 +24,7 @@ public class UserMovieRepository {
     public UserFavoriteMoviesDAO database;
     public SharedPreferences preference;
 
-    public UserMovieRepository(Context context) {
+    public UserMovieRepositoryFavorite(Context context) {
         database = Room.databaseBuilder(context, Database.class, "database").allowMainThreadQueries().build().userFavoriteMoviesDAO();
         preference = context.getSharedPreferences("preference", Context.MODE_PRIVATE);
     }

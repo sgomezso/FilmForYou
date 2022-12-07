@@ -16,7 +16,7 @@ public interface UserPendingMoviesDAO {
     public List<UserPendingMovies> getPendingMoviesUserLogged(String id);
 
     @Query("select * from userPendingMovies where idUser = :id")
-    public List<UserPendingMovies> loadPendingMoviesByUser(String id);
+    public LiveData<List<UserPendingMovies>> loadPendingMoviesByUser(String id);
 
     @Query("select * from userPendingMovies where idUser = :idUser and idMovie = :idMovie")
     public UserPendingMovies checkUserPendingMovie(String idUser, String idMovie);

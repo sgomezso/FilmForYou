@@ -146,7 +146,7 @@ public class Repository {
         return userFavoriteMoviesDAO.loadFavoriteMoviesByUser(userId.toString());
     }
 
-    public List<UserPendingMovies> getPendingMovies(Long userId) {
+    public LiveData<List<UserPendingMovies>> getPendingMovies(Long userId) {
         return userPendingMoviesDAO.loadPendingMoviesByUser(userId.toString());
     }
 
