@@ -60,7 +60,7 @@ public class MostrarMovieActivity extends AppCompatActivity {
         director = (TextView) findViewById(R.id.textDirector);
 
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
-        mViewModel = new ViewModelProvider(this, appContainer.mostrarMovieFactory).get(MostrarMovieViewModel.class);
+        mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.mostrarMovieFactory).get(MostrarMovieViewModel.class);
 
         movie = (Movie) getIntent().getSerializableExtra("movie");
 

@@ -61,7 +61,7 @@ public class ProfileFragment extends Fragment {
             Boolean aux= false;
 
             AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
-            mViewModel = new ViewModelProvider(this, appContainer.mostrarMovieFactory).get(MostrarProfileViewModel.class);
+            mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.mostrarMovieFactory).get(MostrarProfileViewModel.class);
 
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
