@@ -1,6 +1,7 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.favorites;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +27,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentFavoritesBinding;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MostrarMovieActivity;
 
 public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListInteractionListener {
 
@@ -54,7 +57,7 @@ public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListI
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        /*View view = inflater.inflate(R.layout.fragment_favorites, container, false);
+        View view = inflater.inflate(R.layout.fragment_favorites, container, false);
         recyclerMovies = view.findViewById(R.id.favList);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerMovies.setLayoutManager(linearLayoutManager);
@@ -70,11 +73,16 @@ public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListI
         favoritesViewModel.getFavoriteMovies(userId).observe(getViewLifecycleOwner(), movies -> {
             adapter.clear();
             adapter.swap(movies);
-        });*/
+        });
 
-        favoritesViewModel = new ViewModelProvider(this).get(FavoritesViewModel.class);
+        binding.favList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        binding.favList.setAdapter(adapter);
+
+        return view;
+
+        /*favoritesViewModel = new ViewModelProvider(this).get(FavoritesViewModel.class);
         binding = FragmentFavoritesBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+        return binding.getRoot();*/
     }
 
     @Override
