@@ -109,4 +109,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MyViewHold
         mDataset = dataset;
         notifyDataSetChanged();
     }
+    public void clear(){
+        mDataset.clear();
+        notifyDataSetChanged();
+
+    }
 }

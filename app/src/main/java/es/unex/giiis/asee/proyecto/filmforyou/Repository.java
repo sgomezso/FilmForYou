@@ -1,9 +1,14 @@
 package es.unex.giiis.asee.proyecto.filmforyou;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Interface.ImdbApiEndPoint;
@@ -13,6 +18,8 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieList;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Search;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.MovieDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserDAO;
+import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserFavoriteMoviesDAO;
+import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserPendingMoviesDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 import retrofit2.Call;
@@ -27,10 +34,17 @@ public class Repository {
     private static UserDAO userDAO;
     private static MovieDAO movieDAO;
     private static Repository sInstance;
+    private static UserFavoriteMoviesDAO userFavoriteMoviesDAO;
+    private static UserPendingMoviesDAO userPendingMoviesDAO;
+    private final MutableLiveData<List<Movie>> result = new MutableLiveData<>();
+    private final MutableLiveData<List<Movie>> searchResult = new MutableLiveData<>();
 
     public interface RepositoryListener {
-        public void onTopMoviesResponse (List<Movie> top250movies);
-        public void onSearchResultsExpresionResponse(List<Movie> resultsSearch);
+        void onTopMoviesResponse(LiveData<List<Movie>> top250movies);
+        void onSearchResultsExpresionResponse(List<Movie> resultsSearch);
+
+        void onSearchResultsExpresionResponse(LiveData<List<Movie>> resultsSearch);
+
         public void onMovieDetailResponse (MovieDetail movieDetail);
     }
 
@@ -38,31 +52,31 @@ public class Repository {
 
     }
 
-    private Repository(MovieDAO mDAO) {
-        movieDAO = mDAO;
+    private Repository(MovieDAO mDAO, UserDAO uDAO, UserPendingMoviesDAO uPDAO, UserFavoriteMoviesDAO uFDAO) {
+        this.movieDAO = mDAO;
+        this.userDAO = uDAO;
+        this.userPendingMoviesDAO = uPDAO;
+        this.userFavoriteMoviesDAO = uFDAO;
         //movieDAO.getTop250Movies();
     }
 
-    public synchronized static Repository getInstance(MovieDAO dao) {
+    public synchronized static Repository getInstance(MovieDAO mDAO, UserDAO uDAO, UserPendingMoviesDAO uPDAO, UserFavoriteMoviesDAO uFDAO) {
         if (sInstance == null) {
-            sInstance = new Repository(dao);
+            sInstance = new Repository(mDAO, uDAO, uPDAO, uFDAO);
         }
         return sInstance;
     }
 
-    public void getTopMovies(RepositoryListener callback){
-        Call<MovieList> call = topImdbApiEndPointInterface.getTopMovies();
-        Log.i("Iniciando getTopMovies","Iniciando getTopMovies");
-        call.enqueue(new Callback<MovieList>() {
+     public LiveData<List<Movie>> getTopMovies(){
+         Log.i("Iniciando getTopMovies","Iniciando getTopMovies");
+         topImdbApiEndPointInterface.getTopMovies().enqueue(new Callback<MovieList>() {
             @Override
             public void onResponse(Call<MovieList> call, Response<MovieList> response) {
                 if(!response.isSuccessful()){
                     Log.i("Error response", "Get top movies failed");
                 }else{
                     if(response.body().getMovies() != null) {
-                        for (Movie movie : response.body().getMovies())
-                            Log.i("Movie", movie.getFullTitle());
-                        callback.onTopMoviesResponse(response.body().getMovies());
+                        result.postValue(response.body().getMovies());
                     }
                 }
             }
@@ -71,6 +85,7 @@ public class Repository {
                 Log.i("Error failure", t.getMessage());
             }
         });
+        return result;
     }
     public void getMovieDetail(String id, RepositoryListener callback){
         Call<MovieDetail> call = topImdbApiEndPointInterface.getMovieDetail(id);
@@ -133,18 +148,23 @@ public class Repository {
         });
     }*/
 
-    public void getSearchResultsExpresion(String expresion, RepositoryListener callback){
-        Call<Search> call = topImdbApiEndPointInterface.getSearchResultsExpresion(expresion);
-        call.enqueue(new Callback<Search>() {
+    public LiveData<List<UserFavoritesMovies>> getFavoritesMovies(Long userId) {
+        return userFavoriteMoviesDAO.loadFavoriteMoviesByUser(userId.toString());
+    }
+
+    public List<UserPendingMovies> getPendingMovies(Long userId) {
+        return userPendingMoviesDAO.loadPendingMoviesByUser(userId.toString());
+    }
+
+    public LiveData<List<Movie>> getSearchResultsExpresion(String expresion){
+        topImdbApiEndPointInterface.getSearchResultsExpresion(expresion).enqueue(new Callback<Search>() {
             @Override
             public void onResponse(Call<Search> call, Response<Search> response) {
                 if(!response.isSuccessful()){
                     Log.i("Error response", "Search expresion error");
                 }else{
                     if(response.body().getResults() != null) {
-                        for (Movie movie : response.body().getResults())
-                            Log.i("Movie search", movie.toString());
-                        callback.onSearchResultsExpresionResponse(response.body().getResults());
+                        searchResult.postValue(response.body().getResults());
                     }
                 }
             }
@@ -153,5 +173,6 @@ public class Repository {
                 Log.i("Error failure", t.getMessage());
             }
         });
+        return searchResult;
     }
 }

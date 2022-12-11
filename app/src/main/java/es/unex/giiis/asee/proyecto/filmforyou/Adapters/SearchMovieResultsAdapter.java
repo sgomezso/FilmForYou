@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -84,9 +85,15 @@ public class SearchMovieResultsAdapter extends RecyclerView.Adapter<SearchMovieR
             public void onClick(View v) {
                 AppExecutors.getInstance().networkIO().execute(() -> mRepository.getMovieDetail(holder.mItem.getFullTitle(), new Repository.RepositoryListener() {
                     @Override
-                    public void onTopMoviesResponse(List<Movie> top250movies) {}
+                    public void onTopMoviesResponse(LiveData<List<Movie>> top250movies) {}
                     @Override
                     public void onSearchResultsExpresionResponse(List<Movie> resultsSearch) {}
+
+                    @Override
+                    public void onSearchResultsExpresionResponse(LiveData<List<Movie>> resultsSearch) {
+
+                    }
+
                     @Override
                     public void onMovieDetailResponse(MovieDetail movieDetail) {
                         movieSelected.setTitle(movieDetail.getTitle());
@@ -118,6 +125,10 @@ public class SearchMovieResultsAdapter extends RecyclerView.Adapter<SearchMovieR
 
     public void swap(List<Movie> dataset){
         mDataset = dataset;
+        notifyDataSetChanged();
+    }
+    public void clear() {
+        mDataset.clear();
         notifyDataSetChanged();
     }
 }

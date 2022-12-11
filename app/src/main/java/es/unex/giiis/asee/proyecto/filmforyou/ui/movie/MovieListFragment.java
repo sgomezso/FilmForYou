@@ -1,20 +1,34 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.movie;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 import java.util.List;
 import es.unex.giiis.asee.proyecto.filmforyou.Adapters.MoviesAdapter;
+import es.unex.giiis.asee.proyecto.filmforyou.AppContainer;
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
+import es.unex.giiis.asee.proyecto.filmforyou.MyApplication;
+import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentMovieListBinding;
+import es.unex.giiis.asee.proyecto.filmforyou.loadingDialog;
 
 
 public class MovieListFragment extends Fragment implements MoviesAdapter.OnListInteractionListener {
@@ -22,28 +36,38 @@ public class MovieListFragment extends Fragment implements MoviesAdapter.OnListI
     private FragmentMovieListBinding binding;
     private final  Repository mRepository = new Repository() ;
     private MoviesAdapter adapter;
+    private MovieListViewModel movieListViewModel;
+    private RecyclerView recyclerMovies;
+    private LinearLayoutManager LayoutManager;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        loadingDialog loadingDialog = new loadingDialog(getActivity());
+        loadingDialog.startLoadingDialog();
+        View vista = inflater.inflate(R.layout.fragment_movie_list,container,false);
+        recyclerMovies = vista.findViewById(R.id.movieList);
+        LayoutManager = new LinearLayoutManager(getActivity());
+        recyclerMovies.setLayoutManager(LayoutManager);
+        AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
+        movieListViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.movieListViewModelFactory).get(MovieListViewModel.class);
 
-        binding = FragmentMovieListBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        List<Movie> movieList = new ArrayList<>();
+        adapter = new MoviesAdapter(movieList, this);
+        movieListViewModel.getTopMovies().observe(getViewLifecycleOwner(), movies -> {
+                if (movies != null) {
+                    Log.i("Update data", "NEW MOVIE LIST");
+                    adapter.swap(movies);
+                    loadingDialog.dismisDialog();
+                }
+        });
+        recyclerMovies.setAdapter(adapter);
 
-        AppExecutors.getInstance().networkIO().execute(() -> mRepository.getTopMovies(new Repository.RepositoryListener() {
-            @Override
-            public void onTopMoviesResponse(List<Movie> top250movies) {
-                binding.movieList.setLayoutManager(new LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL, false));
-                adapter = new MoviesAdapter(top250movies, MovieListFragment.this);
-                binding.movieList.setAdapter(adapter);
-            }
-            @Override
-            public void onSearchResultsExpresionResponse(List<Movie> resultsSearch) {}
-            @Override
-            public void onMovieDetailResponse(MovieDetail movieDetail) {}
-        }));
-
-
-        return root;
+        return vista;
     }
 
     @Override

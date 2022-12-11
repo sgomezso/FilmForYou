@@ -15,7 +15,7 @@ public interface UserFavoriteMoviesDAO {
     public List<UserFavoritesMovies> getFavoriteMoviesUserLogged(String id);
 
     @Query("select * from userFavoriteMovies where idUser = :id")
-    public List<UserFavoritesMovies> loadFavoriteMoviesByUser(String id);
+    public LiveData<List<UserFavoritesMovies>> loadFavoriteMoviesByUser(String id);
 
     @Query("select * from userFavoriteMovies where idUser = :idUser and idMovie = :idMovie")
     public UserFavoritesMovies checkUserFavoriteMovie(String idUser, String idMovie);

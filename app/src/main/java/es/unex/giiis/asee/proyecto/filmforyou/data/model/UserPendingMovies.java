@@ -6,8 +6,6 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.Relation;
 
-import java.util.List;
-
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 
 @Entity(tableName = "userPendingMovies", primaryKeys = {"idUser", "idMovie"})

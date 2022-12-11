@@ -4,11 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -18,6 +19,8 @@ import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.UserMovieRepository;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.login.UserRepository;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.pending.UserMovieRepositoryPending;
 
 
 public class MostrarMovieActivity extends AppCompatActivity {
@@ -32,8 +35,7 @@ public class MostrarMovieActivity extends AppCompatActivity {
     private TextView imDbRating;
     private TextView imDbRatingCount;
     private TextView directors;
-    public SharedPreferences preference;
-    private Button addFavoriteBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,27 +52,47 @@ public class MostrarMovieActivity extends AppCompatActivity {
         crew = (TextView) findViewById(R.id.textReparto);
         image = (ImageView) findViewById(R.id.idImagenMovie);
         imageReparto=(ImageView) findViewById(R.id.idImagenReparto);
+
         UserMovieRepository userMovieRepository = new UserMovieRepository(this);
-        addFavoriteBtn = findViewById(R.id.add_favorite);
+        UserMovieRepositoryPending userMovieRepositoryPending = new UserMovieRepositoryPending(this);
         Movie movie = (Movie) getIntent().getSerializableExtra("Movie");
-        SharedPreferences preference = getSharedPreferences("preference", Context.MODE_PRIVATE);
-        addFavoriteBtn.setOnClickListener(new View.OnClickListener() {
+        SharedPreferences settings = getSharedPreferences("preference", Context.MODE_PRIVATE);
+        Long userId = settings.getLong("userId",-1);
+
+        findViewById(R.id.addFavButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppExecutors.getInstance().networkIO().execute(new Runnable() {
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
-                        Long idUser = preference.getLong("idUser", -1);
-                        if(!userMovieRepository.checkFav(idUser, movie.getMovieId())) {
-                            userMovieRepository.addFav(idUser, movie.getMovieId());
+                        if( userMovieRepository.checkFav(userId,movie.getMovieId())){
+                            userMovieRepository.deleteFav(userId,movie.getMovieId());
                         } else {
-                            userMovieRepository.deleteFav(idUser, movie.getMovieId());
+                            userMovieRepository.addFav(userId, movie.getMovieId());
                         }
                     }
                 });
+
+
             }
         });
+        findViewById(R.id.addPendingButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(userMovieRepositoryPending.checkPending(userId,movie.getMovieId())){
+                            userMovieRepositoryPending.deletePending(userId,movie.getMovieId());
+                        } else {
+                            userMovieRepositoryPending.addPending(userId, movie.getMovieId());
+                        }
+                    }
+                });
 
+
+            }
+        });
         if(movie != null){
             Log.i("Pulsar", movie.getTitle() + " " + movie.getRank());
         }
@@ -116,44 +138,25 @@ public class MostrarMovieActivity extends AppCompatActivity {
         }else{
             crew.setText(movie.getCrew());
         }
+        if(movie.getFullTitle() != null){
+            getSupportActionBar().setTitle(movie.getFullTitle());
+        }
 
         Picasso.get().load("https://cdn-icons-png.flaticon.com/512/74/74472.png").into(imageReparto);
 
     }
 
-    /*private void deleteComment() {
-        movie.setComentario(null);
-        mViewModel.actualizarMovie(movie);
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        Toast.makeText(getApplicationContext(), "Comentario eliminado con éxito", Toast.LENGTH_LONG).show();
+    /*
+       CONTROLA EL BOTÓN QUE PULSAMOS EN EL MENÚ
+        */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return true;
     }
 
-    public void addComent(){
-        EditText comentario;
-        comentario = new EditText(MostrarMovieActivity.this);
-        AlertDialog.Builder alertaP = new AlertDialog.Builder(MostrarMovieActivity.this);
-        alertaP.setView(comentario)
-                .setMessage("Comentar")
-                .setCancelable(false)
-                .setPositiveButton("Comentar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        movie.setComentario(comentario.getText().toString());
-                        mViewModel.actualizarMovie(movie);
-                        Toast.makeText(getApplicationContext(), "Comentario añadido", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                    }
-                })
-                .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-        AlertDialog tituloP = alertaP.create();
-        tituloP.setTitle("Añadir comentario al movie");
-        tituloP.show();
-    }*/
 }
