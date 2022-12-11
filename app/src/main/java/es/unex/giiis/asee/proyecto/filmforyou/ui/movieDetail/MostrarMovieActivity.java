@@ -4,20 +4,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
-import es.unex.giiis.asee.proyecto.filmforyou.AppContainer;
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
-import es.unex.giiis.asee.proyecto.filmforyou.MyApplication;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.login.UserRepository;
@@ -37,7 +36,7 @@ public class MostrarMovieActivity extends AppCompatActivity {
     private TextView director;
     FloatingActionButton EFbutton;
     private Movie movie;
-    private MostrarMovieViewModel mViewModel;
+    //private MostrarMovieViewModel mViewModel;
 
 
     @Override
@@ -58,9 +57,6 @@ public class MostrarMovieActivity extends AppCompatActivity {
         crew = (TextView) findViewById(R.id.textReparto);
         image = (ImageView) findViewById(R.id.idImagenMovie);
         director = (TextView) findViewById(R.id.textDirector);
-
-        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
-        mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.mostrarMovieFactory).get(MostrarMovieViewModel.class);
 
         movie = (Movie) getIntent().getSerializableExtra("movie");
 
@@ -106,4 +102,41 @@ public class MostrarMovieActivity extends AppCompatActivity {
         }
 
     }
+
+
+    /*private void deleteComment() {
+        movie.setComentario(null);
+        mViewModel.actualizarMovie(movie);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        Toast.makeText(getApplicationContext(), "Comentario eliminado con éxito", Toast.LENGTH_LONG).show();
+    }
+
+    public void addComent(){
+        EditText comentario;
+        comentario = new EditText(MostrarMovieActivity.this);
+        AlertDialog.Builder alertaP = new AlertDialog.Builder(MostrarMovieActivity.this);
+        alertaP.setView(comentario)
+                .setMessage("Comentar")
+                .setCancelable(false)
+                .setPositiveButton("Comentar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        movie.setComentario(comentario.getText().toString());
+                        mViewModel.actualizarMovie(movie);
+                        Toast.makeText(getApplicationContext(), "Comentario añadido", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+        AlertDialog tituloP = alertaP.create();
+        tituloP.setTitle("Añadir comentario al movie");
+        tituloP.show();
+    }*/
 }

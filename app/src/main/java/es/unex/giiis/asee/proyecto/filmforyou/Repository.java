@@ -5,7 +5,10 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Interface.ImdbApiEndPoint;
@@ -33,10 +36,15 @@ public class Repository {
     private static Repository sInstance;
     private static UserFavoriteMoviesDAO userFavoriteMoviesDAO;
     private static UserPendingMoviesDAO userPendingMoviesDAO;
+    private final MutableLiveData<List<Movie>> result = new MutableLiveData<>();
+    private final MutableLiveData<List<Movie>> searchResult = new MutableLiveData<>();
 
     public interface RepositoryListener {
-        public void onTopMoviesResponse (List<Movie> top250movies);
-        public void onSearchResultsExpresionResponse(List<Movie> resultsSearch);
+        void onTopMoviesResponse(LiveData<List<Movie>> top250movies);
+        void onSearchResultsExpresionResponse(List<Movie> resultsSearch);
+
+        void onSearchResultsExpresionResponse(LiveData<List<Movie>> resultsSearch);
+
         public void onMovieDetailResponse (MovieDetail movieDetail);
     }
 
@@ -59,19 +67,16 @@ public class Repository {
         return sInstance;
     }
 
-    public void getTopMovies(RepositoryListener callback){
-        Call<MovieList> call = topImdbApiEndPointInterface.getTopMovies();
-        Log.i("Iniciando getTopMovies","Iniciando getTopMovies");
-        call.enqueue(new Callback<MovieList>() {
+     public LiveData<List<Movie>> getTopMovies(){
+         Log.i("Iniciando getTopMovies","Iniciando getTopMovies");
+         topImdbApiEndPointInterface.getTopMovies().enqueue(new Callback<MovieList>() {
             @Override
             public void onResponse(Call<MovieList> call, Response<MovieList> response) {
                 if(!response.isSuccessful()){
                     Log.i("Error response", "Get top movies failed");
                 }else{
                     if(response.body().getMovies() != null) {
-                        for (Movie movie : response.body().getMovies())
-                            Log.i("Movie", movie.getFullTitle());
-                        callback.onTopMoviesResponse(response.body().getMovies());
+                        result.postValue(response.body().getMovies());
                     }
                 }
             }
@@ -80,6 +85,7 @@ public class Repository {
                 Log.i("Error failure", t.getMessage());
             }
         });
+        return result;
     }
     public void getMovieDetail(String id, RepositoryListener callback){
         Call<MovieDetail> call = topImdbApiEndPointInterface.getMovieDetail(id);
@@ -128,18 +134,15 @@ public class Repository {
         return userPendingMoviesDAO.loadPendingMoviesByUser(userId.toString());
     }
 
-    public void getSearchResultsExpresion(String expresion, RepositoryListener callback){
-        Call<Search> call = topImdbApiEndPointInterface.getSearchResultsExpresion(expresion);
-        call.enqueue(new Callback<Search>() {
+    public LiveData<List<Movie>> getSearchResultsExpresion(String expresion){
+        topImdbApiEndPointInterface.getSearchResultsExpresion(expresion).enqueue(new Callback<Search>() {
             @Override
             public void onResponse(Call<Search> call, Response<Search> response) {
                 if(!response.isSuccessful()){
                     Log.i("Error response", "Search expresion error");
                 }else{
                     if(response.body().getResults() != null) {
-                        for (Movie movie : response.body().getResults())
-                            Log.i("Movie search", movie.toString());
-                        callback.onSearchResultsExpresionResponse(response.body().getResults());
+                        searchResult.postValue(response.body().getResults());
                     }
                 }
             }
@@ -148,5 +151,6 @@ public class Repository {
                 Log.i("Error failure", t.getMessage());
             }
         });
+        return searchResult;
     }
 }

@@ -3,6 +3,7 @@ package es.unex.giiis.asee.proyecto.filmforyou.ui.favorites;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 
 import java.util.ArrayList;
@@ -32,32 +33,15 @@ public class UserMovieRepositoryFavorite {
     public void loadFavoriteMoviesByUser(Long userId, UserMovieRepositoryListener userMovieRepositoryListener) {
         Repository apiRepository = new Repository();
         List<Movie> movies = new ArrayList<>();
-
-        apiRepository.getTopMovies(new Repository.RepositoryListener() {
-            @Override
-            public void onTopMoviesResponse(List<Movie> top250movies) {
-                List<UserFavoritesMovies> userFavoritesMoviesList = (List<UserFavoritesMovies>) database.loadFavoriteMoviesByUser(userId.toString());
-                for (Movie movie : top250movies) {
-                    for (UserFavoritesMovies userFavoritesMovies : userFavoritesMoviesList) {
-                        if (userFavoritesMovies.getIdMovie().equals(movie.getMovieId())) {
-                            movies.add(movie);
-                        }
-                    }
+        List<UserFavoritesMovies> userFavoritesMoviesList = (List<UserFavoritesMovies>) database.loadFavoriteMoviesByUser(userId.toString());
+        for (Movie movie :  apiRepository.getTopMovies().getValue()) {
+            for (UserFavoritesMovies userFavoritesMovies : userFavoritesMoviesList) {
+                if (userFavoritesMovies.getIdMovie().equals(movie.getMovieId())) {
+                    movies.add(movie);
                 }
-                userMovieRepositoryListener.onFavoriteMovies(movies);
-
             }
-
-            @Override
-            public void onSearchResultsExpresionResponse(List<Movie> resultsSearch) {
-
-            }
-
-            @Override
-            public void onMovieDetailResponse(MovieDetail movieDetail) {
-
-            }
-        });
+        }
+        userMovieRepositoryListener.onFavoriteMovies(movies);
     }
 
     public boolean checkFav(Long idUser, String idMovie) {

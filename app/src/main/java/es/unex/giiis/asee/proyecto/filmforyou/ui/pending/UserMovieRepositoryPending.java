@@ -3,6 +3,7 @@ package es.unex.giiis.asee.proyecto.filmforyou.ui.pending;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 
 import java.util.ArrayList;
@@ -34,32 +35,15 @@ public class UserMovieRepositoryPending {
     public void loadPendingMoviesByUser(Long userId, UserMovieRepositoryListener userMovieRepositoryListener) {
         Repository apiRepository = new Repository();
         List<Movie> movies = new ArrayList<>();
-
-        apiRepository.getTopMovies(new Repository.RepositoryListener() {
-            @Override
-            public void onTopMoviesResponse(List<Movie> top250movies) {
-                List<UserPendingMovies> userPendingMoviesList = (List<UserPendingMovies>) database.loadPendingMoviesByUser(userId.toString());
-                for (Movie movie : top250movies) {
-                    for (UserPendingMovies userPendingMovies : userPendingMoviesList) {
-                        if (userPendingMovies.getIdMovie().equals(movie.getMovieId())) {
-                            movies.add(movie);
-                        }
-                    }
+        List<UserPendingMovies> userPendingMoviesList = database.loadPendingMoviesByUser(userId.toString());
+        for (Movie movie : apiRepository.getTopMovies().getValue()) {
+            for (UserPendingMovies userPendingMovies : userPendingMoviesList) {
+                if (userPendingMovies.getIdMovie().equals(movie.getMovieId())) {
+                    movies.add(movie);
                 }
-                userMovieRepositoryListener.onPendingMovies(movies);
-
             }
-
-            @Override
-            public void onSearchResultsExpresionResponse(List<Movie> resultsSearch) {
-
-            }
-
-            @Override
-            public void onMovieDetailResponse(MovieDetail movieDetail) {
-
-            }
-        });
+        }
+        userMovieRepositoryListener.onPendingMovies(movies);
     }
     public boolean checkPending(Long idUser, String idMovie) {
         if (database.checkUserPendingMovie(idUser.toString(), idMovie) == null)
