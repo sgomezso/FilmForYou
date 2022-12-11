@@ -1,6 +1,7 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.movie;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentMovieListBinding;
+import es.unex.giiis.asee.proyecto.filmforyou.loadingDialog;
 
 
 public class MovieListFragment extends Fragment implements MoviesAdapter.OnListInteractionListener {
@@ -45,7 +47,8 @@ public class MovieListFragment extends Fragment implements MoviesAdapter.OnListI
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
+        loadingDialog loadingDialog = new loadingDialog(getActivity());
+        loadingDialog.startLoadingDialog();
         View vista = inflater.inflate(R.layout.fragment_movie_list,container,false);
         recyclerMovies = vista.findViewById(R.id.movieList);
         LayoutManager = new LinearLayoutManager(getActivity());
@@ -59,6 +62,7 @@ public class MovieListFragment extends Fragment implements MoviesAdapter.OnListI
                 if (movies != null) {
                     Log.i("Update data", "NEW MOVIE LIST");
                     adapter.swap(movies);
+                    loadingDialog.dismisDialog();
                 }
         });
         recyclerMovies.setAdapter(adapter);

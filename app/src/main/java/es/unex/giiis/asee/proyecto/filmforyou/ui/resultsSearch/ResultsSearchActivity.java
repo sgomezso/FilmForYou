@@ -3,6 +3,7 @@ package es.unex.giiis.asee.proyecto.filmforyou.ui.resultsSearch;
 import static androidx.core.content.ContentProviderCompat.requireContext;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.ActivityResultsSearchBinding;
+import es.unex.giiis.asee.proyecto.filmforyou.loadingDialog;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MovieListFragment;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MovieListViewModel;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.search.SearchViewModel;
@@ -45,6 +47,8 @@ public class ResultsSearchActivity extends AppCompatActivity implements SearchMo
         super.onCreate(savedInstanceState);
         binding = ActivityResultsSearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        loadingDialog loadingDialog = new loadingDialog(this);
+        loadingDialog.startLoadingDialog();
         resultSearch = (String) getIntent().getSerializableExtra("busqueda");
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         searchViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.searchViewModelFactory).get(SearchViewModel.class);
@@ -52,9 +56,18 @@ public class ResultsSearchActivity extends AppCompatActivity implements SearchMo
         List<Movie> resultsList = new ArrayList<>();
         adapter = new SearchMovieResultsAdapter(resultsList, this);
         searchViewModel.getSearchResults(resultSearch).observe(this, movies -> {
-            Log.i("Update data","Search");
-            adapter.swap(movies);
+            if(movies != null) {
+                Log.i("Update data", "Search");
+                adapter.swap(movies);
+            }
         });
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadingDialog.dismisDialog();
+            }
+        },2500);
         binding.searchResults.setAdapter(adapter);
     }
 

@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -136,44 +138,25 @@ public class MostrarMovieActivity extends AppCompatActivity {
         }else{
             crew.setText(movie.getCrew());
         }
+        if(movie.getFullTitle() != null){
+            getSupportActionBar().setTitle(movie.getFullTitle());
+        }
 
         Picasso.get().load("https://cdn-icons-png.flaticon.com/512/74/74472.png").into(imageReparto);
 
     }
 
-    /*private void deleteComment() {
-        movie.setComentario(null);
-        mViewModel.actualizarMovie(movie);
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        Toast.makeText(getApplicationContext(), "Comentario eliminado con éxito", Toast.LENGTH_LONG).show();
+    /*
+       CONTROLA EL BOTÓN QUE PULSAMOS EN EL MENÚ
+        */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return true;
     }
 
-    public void addComent(){
-        EditText comentario;
-        comentario = new EditText(MostrarMovieActivity.this);
-        AlertDialog.Builder alertaP = new AlertDialog.Builder(MostrarMovieActivity.this);
-        alertaP.setView(comentario)
-                .setMessage("Comentar")
-                .setCancelable(false)
-                .setPositiveButton("Comentar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        movie.setComentario(comentario.getText().toString());
-                        mViewModel.actualizarMovie(movie);
-                        Toast.makeText(getApplicationContext(), "Comentario añadido", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                    }
-                })
-                .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-        AlertDialog tituloP = alertaP.create();
-        tituloP.setTitle("Añadir comentario al movie");
-        tituloP.show();
-    }*/
 }
