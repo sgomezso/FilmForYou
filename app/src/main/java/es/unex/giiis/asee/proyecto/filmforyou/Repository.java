@@ -34,8 +34,6 @@ public class Repository {
     private static UserDAO userDAO;
     private static MovieDAO movieDAO;
     private static Repository sInstance;
-    private static UserFavoriteMoviesDAO userFavoriteMoviesDAO;
-    private static UserPendingMoviesDAO userPendingMoviesDAO;
     private final MutableLiveData<List<Movie>> result = new MutableLiveData<>();
     private final MutableLiveData<List<Movie>> searchResult = new MutableLiveData<>();
 
@@ -52,17 +50,15 @@ public class Repository {
 
     }
 
-    private Repository(MovieDAO mDAO, UserDAO uDAO, UserPendingMoviesDAO uPDAO, UserFavoriteMoviesDAO uFDAO) {
+    private Repository(MovieDAO mDAO, UserDAO uDAO) {
         this.movieDAO = mDAO;
         this.userDAO = uDAO;
-        this.userPendingMoviesDAO = uPDAO;
-        this.userFavoriteMoviesDAO = uFDAO;
         //movieDAO.getTop250Movies();
     }
 
-    public synchronized static Repository getInstance(MovieDAO mDAO, UserDAO uDAO, UserPendingMoviesDAO uPDAO, UserFavoriteMoviesDAO uFDAO) {
+    public synchronized static Repository getInstance(MovieDAO mDAO, UserDAO uDAO) {
         if (sInstance == null) {
-            sInstance = new Repository(mDAO, uDAO, uPDAO, uFDAO);
+            sInstance = new Repository(mDAO, uDAO);
         }
         return sInstance;
     }
@@ -124,14 +120,6 @@ public class Repository {
                 Log.i("Error failure", t.getMessage());
             }
         });
-    }
-
-    public LiveData<List<UserFavoritesMovies>> getFavoritesMovies(Long userId) {
-        return userFavoriteMoviesDAO.loadFavoriteMoviesByUser(userId.toString());
-    }
-
-    public LiveData<List<UserPendingMovies>> getPendingMovies(Long userId) {
-        return userPendingMoviesDAO.loadPendingMoviesByUser(userId.toString());
     }
 
     public LiveData<List<Movie>> getSearchResultsExpresion(String expresion){

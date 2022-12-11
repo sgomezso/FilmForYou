@@ -13,15 +13,13 @@ import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
 
 public class FavoritesViewModel extends ViewModel {
 
-    private Repository mRepository;
-    private LiveData<List<UserFavoritesMovies>> listFavorites;
+    private UserMovieRepositoryFavorite mRepository;
 
-    public FavoritesViewModel(Repository repository) {
+    public FavoritesViewModel(UserMovieRepositoryFavorite repository) {
         this.mRepository = repository;
     }
 
-    public LiveData<List<UserFavoritesMovies>> getFavoriteMovies(Long userId) {
-        listFavorites = mRepository.getFavoritesMovies(userId);
-        return listFavorites;
+    public LiveData<List<UserFavoritesMovies>> getFavoriteMovies(Long userId, UserMovieRepositoryFavorite.UserMovieRepositoryListener listener) {
+        return mRepository.loadFavoriteMoviesByUser(userId, listener);
     }
 }

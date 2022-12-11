@@ -19,15 +19,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import es.unex.giiis.asee.proyecto.filmforyou.AppContainer;
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
-import es.unex.giiis.asee.proyecto.filmforyou.MyApplication;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.User;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentProfileBinding;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.login.LoginActivity;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.login.UserRepository;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.movieDetail.MostrarMovieViewModel;
 
 public class ProfileFragment extends Fragment {
 
@@ -39,7 +36,6 @@ public class ProfileFragment extends Fragment {
     private TextView peliculaFav;
     private TextView directorFav;
     private User user;
-    private MostrarProfileViewModel mViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -59,9 +55,6 @@ public class ProfileFragment extends Fragment {
             directorFav = (TextView)binding.DirectorFavValue;
             ImageView img = binding.idImagenMovie;
             Boolean aux= false;
-
-            AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
-            mViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.mostrarMovieFactory).get(MostrarProfileViewModel.class);
 
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
@@ -93,14 +86,14 @@ public class ProfileFragment extends Fragment {
             });
 
 
-        binding.endSession.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                settings.edit().clear().commit();
-                Intent i = new Intent(getActivity(), LoginActivity.class);
-                startActivity(i);
-            }
-        });
+            binding.endSession.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    settings.edit().clear().commit();
+                    Intent i = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(i);
+                }
+            });
 
         }
         return root;

@@ -22,12 +22,12 @@ import java.util.List;
 import es.unex.giiis.asee.proyecto.filmforyou.Adapters.MoviesAdapter;
 import es.unex.giiis.asee.proyecto.filmforyou.AppContainer;
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
+import es.unex.giiis.asee.proyecto.filmforyou.LoadingDialog;
 import es.unex.giiis.asee.proyecto.filmforyou.MyApplication;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentFavoritesBinding;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MostrarMovieActivity;
 
 public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListInteractionListener {
 
@@ -57,10 +57,15 @@ public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListI
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        // Parte con errores, atascado :(
+
+        /*LoadingDialog loadingDialog = new LoadingDialog(getActivity());
+        loadingDialog.startLoadingDialog();
         View view = inflater.inflate(R.layout.fragment_favorites, container, false);
         recyclerMovies = view.findViewById(R.id.favList);
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerMovies.setLayoutManager(linearLayoutManager);
+        UserMovieRepositoryFavorite mFavRepository = new UserMovieRepositoryFavorite(getActivity());
 
         SharedPreferences settings = getActivity().getSharedPreferences("preference", Context.MODE_PRIVATE);
         Long userId = settings.getLong("userId", -1);
@@ -68,21 +73,21 @@ public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListI
         AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
         favoritesViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.favoritesViewModelFactory).get(FavoritesViewModel.class);
 
-        favoriteMovies = new ArrayList<UserFavoritesMovies>();
-        adapter = new MoviesAdapter(favoriteMovies, FavoritesFragment.this);
-        favoritesViewModel.getFavoriteMovies(userId).observe(getViewLifecycleOwner(), movies -> {
+        favoriteMovies = new ArrayList<>();
+        adapter = new MoviesAdapter(favoriteMovies, this);
+
+        favoritesViewModel.getFavoriteMovies(userId, ).observe(getViewLifecycleOwner(), movies -> {
             adapter.clear();
             adapter.swap(movies);
         });
 
-        binding.favList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         binding.favList.setAdapter(adapter);
 
-        return view;
+        return view;*/
 
-        /*favoritesViewModel = new ViewModelProvider(this).get(FavoritesViewModel.class);
+        favoritesViewModel = new ViewModelProvider(this).get(FavoritesViewModel.class);
         binding = FragmentFavoritesBinding.inflate(inflater, container, false);
-        return binding.getRoot();*/
+        return binding.getRoot();
     }
 
     @Override

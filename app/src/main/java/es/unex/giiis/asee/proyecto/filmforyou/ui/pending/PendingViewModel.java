@@ -10,15 +10,13 @@ import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 
 public class PendingViewModel extends ViewModel {
 
-    private Repository mRepository;
-    private LiveData<List<UserPendingMovies>> listPending;
+    private UserMovieRepositoryPending mRepository;
 
-    public PendingViewModel(Repository repository) {
+    public PendingViewModel(UserMovieRepositoryPending repository) {
         this.mRepository = repository;
     }
 
-    public LiveData<List<UserPendingMovies>> getPendingMovies(Long userId) {
-        listPending = mRepository.getPendingMovies(userId);
-        return listPending;
+    public LiveData<List<UserPendingMovies>> getPendingMovies(Long userId, UserMovieRepositoryPending.UserMovieRepositoryListener listener) {
+        return mRepository.loadPendingMoviesByUser(userId, listener);
     }
 }

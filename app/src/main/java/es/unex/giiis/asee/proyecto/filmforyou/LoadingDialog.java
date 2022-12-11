@@ -3,12 +3,12 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import androidx.appcompat.app.AlertDialog;
 
-public class loadingDialog {
+public class LoadingDialog {
 
     private Activity activity;
     private AlertDialog alertDialog;
 
-    public loadingDialog(Activity myactivity)
+    public LoadingDialog(Activity myactivity)
     {
         activity= myactivity;
     }

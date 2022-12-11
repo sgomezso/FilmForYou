@@ -8,9 +8,9 @@ import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoritesViewModel;
 
 public class PendingViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private final Repository mRepository;
+    private final UserMovieRepositoryPending mRepository;
 
-    public PendingViewModelFactory(Repository repository) {
+    public PendingViewModelFactory(UserMovieRepositoryPending repository) {
         this.mRepository = repository;
     }
 

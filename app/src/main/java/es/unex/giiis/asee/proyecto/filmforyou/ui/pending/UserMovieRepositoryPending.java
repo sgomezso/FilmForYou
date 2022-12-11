@@ -13,12 +13,17 @@ import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
+import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.MovieDAO;
+import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserFavoriteMoviesDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserPendingMoviesDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 
 public class UserMovieRepositoryPending {
+
+    private static UserMovieRepositoryPending sInstance;
+    private static UserPendingMoviesDAO mUserPendingMoviesDAO;
 
     interface UserMovieRepositoryListener {
         public void onPendingMovies(List<Movie> userPendingMoviesList);
@@ -32,10 +37,21 @@ public class UserMovieRepositoryPending {
         preference = context.getSharedPreferences("preference", Context.MODE_PRIVATE);
     }
 
-    public void loadPendingMoviesByUser(Long userId, UserMovieRepositoryListener userMovieRepositoryListener) {
+    private UserMovieRepositoryPending(UserPendingMoviesDAO userPendingMoviesDAO) {
+        mUserPendingMoviesDAO = userPendingMoviesDAO;
+    }
+
+    public synchronized static UserMovieRepositoryPending getInstance(UserPendingMoviesDAO userPendingMoviesDAO) {
+        if (sInstance == null) {
+            sInstance = new UserMovieRepositoryPending(userPendingMoviesDAO);
+        }
+        return sInstance;
+    }
+
+    public LiveData<List<UserPendingMovies>> loadPendingMoviesByUser(Long userId, UserMovieRepositoryListener userMovieRepositoryListener) {
         Repository apiRepository = new Repository();
         List<Movie> movies = new ArrayList<>();
-        List<UserPendingMovies> userPendingMoviesList = database.loadPendingMoviesByUser(userId.toString());
+        LiveData<List<UserPendingMovies>> userPendingMoviesList = database.loadPendingMoviesByUser(userId.toString());
         for (Movie movie : apiRepository.getTopMovies().getValue()) {
             for (UserPendingMovies userPendingMovies : userPendingMoviesList) {
                 if (userPendingMovies.getIdMovie().equals(movie.getMovieId())) {

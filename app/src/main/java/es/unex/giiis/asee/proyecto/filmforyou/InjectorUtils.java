@@ -5,26 +5,38 @@ import android.content.Context;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Search;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoritesViewModelFactory;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.UserMovieRepositoryFavorite;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MovieListViewModelFactory;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.pending.PendingViewModel;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.pending.PendingViewModelFactory;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.pending.UserMovieRepositoryPending;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.search.SearchViewModelFactory;
 
 public class InjectorUtils {
 
     public static Repository provideRepository(Context context) {
         Database database = Database.getInstance(context.getApplicationContext());
-        return Repository.getInstance(database.movieDAO(), database.userDAO(), database.userPendingMoviesDAO(), database.userFavoriteMoviesDAO());
+        return Repository.getInstance(database.movieDAO(), database.userDAO());
+    }
+
+    public static UserMovieRepositoryPending providePendRepository(Context context) {
+        Database database = Database.getInstance(context.getApplicationContext());
+        return UserMovieRepositoryPending.getInstance(database.userPendingMoviesDAO());
+    }
+
+    public static UserMovieRepositoryFavorite provideFavRepository(Context context) {
+        Database database = Database.getInstance(context.getApplicationContext());
+        return UserMovieRepositoryFavorite.getInstance(database.userFavoriteMoviesDAO());
     }
 
     public static FavoritesViewModelFactory provideFavoritesViewModelFactory(Context context) {
-        Repository repository = provideRepository(context.getApplicationContext());
-        return new FavoritesViewModelFactory(repository);
+        UserMovieRepositoryFavorite favRepository = provideFavRepository(context.getApplicationContext());
+        return new FavoritesViewModelFactory(favRepository);
     }
 
-    public static PendingViewModelFactory providePendingViewModelFactory(Context context){
-        Repository repository = provideRepository(context.getApplicationContext());
-        return new PendingViewModelFactory(repository);
+    public static PendingViewModelFactory providePendingViewModelFactory(Context context) {
+        UserMovieRepositoryPending pendRepository = providePendRepository(context.getApplicationContext());
+        return new PendingViewModelFactory(pendRepository);
     }
 
     public static SearchViewModelFactory provideSearchViewModelFactory(Context context) {

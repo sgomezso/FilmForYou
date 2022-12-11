@@ -57,23 +57,13 @@ public class MostrarMovieActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("preference", Context.MODE_PRIVATE);
         Long userId = settings.getLong("userId", -1);
 
-        findViewById(R.id.addFavButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (userMovieRepositoryFavorite.checkFav(userId, movie.getMovieId())) {
-                            userMovieRepositoryFavorite.deleteFav(userId, movie.getMovieId());
-                        } else {
-                            userMovieRepositoryFavorite.addFav(userId, movie.getMovieId());
-                        }
-                    }
-                });
-
-
+        findViewById(R.id.addFavButton).setOnClickListener(v -> AppExecutors.getInstance().diskIO().execute(() -> {
+            if (userMovieRepositoryFavorite.checkFav(userId, movie.getMovieId())) {
+                userMovieRepositoryFavorite.deleteFav(userId, movie.getMovieId());
+            } else {
+                userMovieRepositoryFavorite.addFav(userId, movie.getMovieId());
             }
-        });
+        }));
         findViewById(R.id.addPendingButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,8 +77,6 @@ public class MostrarMovieActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
             }
         });
         if (movie != null) {
