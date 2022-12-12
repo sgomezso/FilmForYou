@@ -7,7 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
-import es.unex.giiis.asee.proyecto.filmforyou.Repository;
+import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepository;
+import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepositoryListener;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Interface.ImdbApiEndPoint;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
@@ -23,7 +24,6 @@ public class RepositoryNetworkDataSource {
 
     private ImdbApiEndPoint topImdbApiEndPointInterface = new Retrofit.Builder().baseUrl("https://imdb-api.com/en/API/").addConverterFactory(GsonConverterFactory.create()).build().create(ImdbApiEndPoint.class);
     private static RepositoryNetworkDataSource sInstance;
-    private final MutableLiveData<List<Movie>> result = new MutableLiveData<>();
     private final MutableLiveData<List<Movie>> searchResult = new MutableLiveData<>();
 
     public static RepositoryNetworkDataSource getInstance() {
@@ -43,7 +43,7 @@ public class RepositoryNetworkDataSource {
 
     }
 
-    public void getTopMovies(){
+    public void getTopMovies(MoviesRepositoryListener callback){
         Log.i("Iniciando getTopMovies","Iniciando getTopMovies");
         topImdbApiEndPointInterface.getTopMovies().enqueue(new Callback<MovieList>() {
             @Override
@@ -52,36 +52,37 @@ public class RepositoryNetworkDataSource {
                     Log.i("Error response", "Get top movies failed");
                 }else{
                     if(response.body().getMovies() != null) {
-                        result.postValue(response.body().getMovies());
+                        callback.onMoviesResult(response.body().getMovies());
                     }
                 }
             }
             @Override
             public void onFailure(Call<MovieList> call, Throwable t) {
                 Log.i("Error failure", t.getMessage());
+                callback.onMovieFailure();
             }
         });
     }
-    public void getMovieDetail(String id, Repository.RepositoryListener callback){
-        Call<MovieDetail> call = topImdbApiEndPointInterface.getMovieDetail(id);
-        call.enqueue(new Callback<MovieDetail>() {
-            @Override
-            public void onResponse(Call<MovieDetail> call, Response<MovieDetail> response) {
-                if(!response.isSuccessful()){
-                    Log.i("Error response", "Get top movies failed");
-                }else{
-                    if(response.body() != null) {
-                        Log.i("Movie", response.body().toString());
-                        callback.onMovieDetailResponse(response.body());
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<MovieDetail> call, Throwable t) {
-                Log.i("Error failure", t.getMessage());
-            }
-        });
-    }
+//    public void getMovieDetail(String id, MoviesRepository.RepositoryListener callback){
+//        Call<MovieDetail> call = topImdbApiEndPointInterface.getMovieDetail(id);
+//        call.enqueue(new Callback<MovieDetail>() {
+//            @Override
+//            public void onResponse(Call<MovieDetail> call, Response<MovieDetail> response) {
+//                if(!response.isSuccessful()){
+//                    Log.i("Error response", "Get top movies failed");
+//                }else{
+//                    if(response.body() != null) {
+//                        Log.i("Movie", response.body().toString());
+//                        callback.onMovieDetailResponse(response.body());
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<MovieDetail> call, Throwable t) {
+//                Log.i("Error failure", t.getMessage());
+//            }
+//        });
+//    }
     public void getSearchResults(String title){
         Call<MovieList> call = topImdbApiEndPointInterface.getSearchResults(title);
         call.enqueue(new Callback<MovieList>() {

@@ -4,15 +4,15 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
-import es.unex.giiis.asee.proyecto.filmforyou.Repository;
+import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepository;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 
 public class PendingViewModel extends ViewModel {
 
-    private Repository mRepository;
+    private MoviesRepository mRepository;
     private List<UserPendingMovies> listPending;
 
-    public PendingViewModel(Repository repository) {
+    public PendingViewModel(MoviesRepository repository) {
         this.mRepository = repository;
     }
 

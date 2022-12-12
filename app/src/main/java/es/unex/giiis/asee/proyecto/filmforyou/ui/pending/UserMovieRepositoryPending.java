@@ -3,20 +3,13 @@ package es.unex.giiis.asee.proyecto.filmforyou.ui.pending;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
-import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
-import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserFavoriteMoviesDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserPendingMoviesDAO;
-import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
-import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 
 public class UserMovieRepositoryPending {
 
@@ -33,7 +26,7 @@ public class UserMovieRepositoryPending {
     }
 
     public void loadPendingMoviesByUser(Long userId, UserMovieRepositoryListener userMovieRepositoryListener) {
-//        Repository apiRepository = new Repository();
+//        MoviesRepository apiRepository = new MoviesRepository();
 //        List<Movie> movies = new ArrayList<>();
 //        List<UserPendingMovies> userPendingMoviesList = database.loadPendingMoviesByUser(userId.toString());
 //        for (Movie movie : apiRepository.getTopMovies().getValue()) {

@@ -3,13 +3,12 @@ package es.unex.giiis.asee.proyecto.filmforyou.ui.search;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import es.unex.giiis.asee.proyecto.filmforyou.Repository;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MovieListViewModel;
+import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepository;
 
 public class SearchViewModelFactory extends ViewModelProvider.NewInstanceFactory{
-    private final Repository mRepository;
+    private final MoviesRepository mRepository;
 
-    public SearchViewModelFactory(Repository repository) {
+    public SearchViewModelFactory(MoviesRepository repository) {
         this.mRepository = repository;
     }
 

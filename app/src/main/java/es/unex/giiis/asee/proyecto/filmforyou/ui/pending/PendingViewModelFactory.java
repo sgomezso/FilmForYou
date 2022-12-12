@@ -3,14 +3,13 @@ package es.unex.giiis.asee.proyecto.filmforyou.ui.pending;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import es.unex.giiis.asee.proyecto.filmforyou.Repository;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoritesViewModel;
+import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepository;
 
 public class PendingViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private final Repository mRepository;
+    private final MoviesRepository mRepository;
 
-    public PendingViewModelFactory(Repository repository) {
+    public PendingViewModelFactory(MoviesRepository repository) {
         this.mRepository = repository;
     }
 

@@ -1,8 +1,6 @@
 package es.unex.giiis.asee.proyecto.filmforyou;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -26,8 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Repository repository = Repository.getInstance(Database.getInstance(this).movieDAO(), RepositoryNetworkDataSource.getInstance());
-        repository.getTopMovies();
+        MoviesRepository repository = MoviesRepository.getInstance(Database.getInstance(this).movieDAO(), RepositoryNetworkDataSource.getInstance());
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

@@ -3,13 +3,13 @@ package es.unex.giiis.asee.proyecto.filmforyou.ui.favorites;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import es.unex.giiis.asee.proyecto.filmforyou.Repository;
+import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepository;
 
 public class FavoritesViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private final Repository mRepository;
+    private final MoviesRepository mRepository;
 
-    public FavoritesViewModelFactory(Repository repository) {
+    public FavoritesViewModelFactory(MoviesRepository repository) {
         this.mRepository = repository;
     }
 

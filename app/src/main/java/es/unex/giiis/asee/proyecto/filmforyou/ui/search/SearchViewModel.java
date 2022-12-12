@@ -5,15 +5,13 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
-import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
-import es.unex.giiis.asee.proyecto.filmforyou.Repository;
+import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
-import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 
 public class SearchViewModel extends ViewModel {
-    private Repository mRepository;
+    private MoviesRepository mRepository;
 
-    public SearchViewModel(Repository repository) {
+    public SearchViewModel(MoviesRepository repository) {
         this.mRepository = repository;
     }
 

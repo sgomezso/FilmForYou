@@ -3,22 +3,17 @@ package es.unex.giiis.asee.proyecto.filmforyou.ui.favorites;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
-import es.unex.giiis.asee.proyecto.filmforyou.Repository;
+import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
-import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.RepositoryNetworkDataSource;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserFavoriteMoviesDAO;
-import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserPendingMoviesDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
-import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 
 public class UserMovieRepository {
 
@@ -35,16 +30,16 @@ public class UserMovieRepository {
     }
 
     public void loadFavoriteMoviesByUser(Long userId, UserMovieRepositoryListener userMovieRepositoryListener,Context context) {
-        Repository repository = Repository.getInstance(Database.getInstance(context).movieDAO(), RepositoryNetworkDataSource.getInstance());
+        MoviesRepository repository = MoviesRepository.getInstance(Database.getInstance(context).movieDAO(), RepositoryNetworkDataSource.getInstance());
         List<Movie> movies = new ArrayList<>();
         List<UserFavoritesMovies> userFavoritesMoviesList = (List<UserFavoritesMovies>) database.loadFavoriteMoviesByUser(userId.toString());
-        for (Movie movie :  repository.getCurrentTopMovies().getValue()) {
-            for (UserFavoritesMovies userFavoritesMovies : userFavoritesMoviesList) {
-                if (userFavoritesMovies.getIdMovie().equals(movie.getMovieId())) {
-                    movies.add(movie);
-                }
-            }
-        }
+//        for (Movie movie :  repository.getCurrentTopMovies().getValue()) {
+//            for (UserFavoritesMovies userFavoritesMovies : userFavoritesMoviesList) {
+//                if (userFavoritesMovies.getIdMovie().equals(movie.getMovieId())) {
+//                    movies.add(movie);
+//                }
+//            }
+//        }
         userMovieRepositoryListener.onFavoriteMovies(movies);
     }
 

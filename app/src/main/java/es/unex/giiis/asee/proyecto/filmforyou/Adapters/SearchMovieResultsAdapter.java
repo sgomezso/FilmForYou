@@ -1,31 +1,25 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Adapters;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
 import java.util.List;
 
-import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
+import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepository;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
-import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
-import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MostrarMovieActivity;
 
 public class SearchMovieResultsAdapter extends RecyclerView.Adapter<SearchMovieResultsAdapter.MyViewHolder> {
     private List<Movie> mDataset;
     private Movie movieSelected = new Movie();
-    private  Repository mRepository;
+    private MoviesRepository mRepository;
 
     public interface OnListInteractionListener{
         public void onListInteraction(String url);
@@ -84,7 +78,7 @@ public class SearchMovieResultsAdapter extends RecyclerView.Adapter<SearchMovieR
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                AppExecutors.getInstance().networkIO().execute(() -> mRepository.getMovieDetail(holder.mItem.getFullTitle(), new Repository.RepositoryListener() {
+//                AppExecutors.getInstance().networkIO().execute(() -> mRepository.getMovieDetail(holder.mItem.getFullTitle(), new MoviesRepository.MoviesRepositoryListener() {
 //                    @Override
 //                    public void onTopMoviesResponse(LiveData<List<Movie>> top250movies) {}
 //                    @Override

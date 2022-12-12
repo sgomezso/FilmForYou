@@ -1,6 +1,8 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Roomdb;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Insert;
 import androidx.room.Query;
 
 import java.util.List;
@@ -14,7 +16,10 @@ public interface MovieDAO {
     void deleteMovies();
 
     @Query("SELECT * FROM MOVIES")
-    LiveData<List<Movie>>  getCurrentsMovies();
+    List<Movie> getCurrentsMovies();
+
+    @Insert
+    void insertMovies(List<Movie> movies);
 
 
 //    @Query("select * from movies where id = :uId")

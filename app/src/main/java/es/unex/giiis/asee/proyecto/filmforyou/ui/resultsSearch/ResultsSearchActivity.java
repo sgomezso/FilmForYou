@@ -1,20 +1,12 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.resultsSearch;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,18 +14,10 @@ import java.util.List;
 import es.unex.giiis.asee.proyecto.filmforyou.Adapters.MoviesAdapter;
 import es.unex.giiis.asee.proyecto.filmforyou.Adapters.SearchMovieResultsAdapter;
 import es.unex.giiis.asee.proyecto.filmforyou.AppContainer;
-import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.MyApplication;
-import es.unex.giiis.asee.proyecto.filmforyou.R;
-import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
-import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
-import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
-import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.ActivityResultsSearchBinding;
 import es.unex.giiis.asee.proyecto.filmforyou.loadingDialog;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MovieListFragment;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MovieListViewModel;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.search.SearchViewModel;
 
 public class ResultsSearchActivity extends AppCompatActivity implements SearchMovieResultsAdapter.OnListInteractionListener, MoviesAdapter.OnListInteractionListener {
