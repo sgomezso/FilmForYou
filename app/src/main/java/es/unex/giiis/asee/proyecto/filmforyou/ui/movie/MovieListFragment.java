@@ -27,6 +27,8 @@ import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.RepositoryNetworkDataSource;
+import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentMovieListBinding;
 import es.unex.giiis.asee.proyecto.filmforyou.loadingDialog;
 
@@ -34,7 +36,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.loadingDialog;
 public class MovieListFragment extends Fragment implements MoviesAdapter.OnListInteractionListener {
 
     private FragmentMovieListBinding binding;
-    private final  Repository mRepository = new Repository() ;
+    private  Repository mRepository;
     private MoviesAdapter adapter;
     private MovieListViewModel movieListViewModel;
     private RecyclerView recyclerMovies;
@@ -53,11 +55,14 @@ public class MovieListFragment extends Fragment implements MoviesAdapter.OnListI
         recyclerMovies = vista.findViewById(R.id.movieList);
         LayoutManager = new LinearLayoutManager(getActivity());
         recyclerMovies.setLayoutManager(LayoutManager);
+
         AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
         movieListViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.movieListViewModelFactory).get(MovieListViewModel.class);
 
         List<Movie> movieList = new ArrayList<>();
         adapter = new MoviesAdapter(movieList, this);
+        mRepository = Repository.getInstance(Database.getInstance(getContext()).movieDAO(), RepositoryNetworkDataSource.getInstance());
+        mRepository.getTopMovies();
         movieListViewModel.getTopMovies().observe(getViewLifecycleOwner(), movies -> {
                 if (movies != null) {
                     Log.i("Update data", "NEW MOVIE LIST");

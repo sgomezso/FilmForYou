@@ -6,16 +6,19 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Interface.ImdbApiEndPoint;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieList;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Search;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.RepositoryNetworkDataSource;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.MovieDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserFavoriteMoviesDAO;
@@ -31,148 +34,55 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Repository {
 
     private ImdbApiEndPoint topImdbApiEndPointInterface = new Retrofit.Builder().baseUrl("https://imdb-api.com/en/API/").addConverterFactory(GsonConverterFactory.create()).build().create(ImdbApiEndPoint.class);
-    private static UserDAO userDAO;
-    private static MovieDAO movieDAO;
+    private final MovieDAO movieDAO;
+    private final RepositoryNetworkDataSource mRepositooryNetwork;
     private static Repository sInstance;
-    private static UserFavoriteMoviesDAO userFavoriteMoviesDAO;
-    private static UserPendingMoviesDAO userPendingMoviesDAO;
     private final MutableLiveData<List<Movie>> result = new MutableLiveData<>();
-    private final MutableLiveData<List<Movie>> searchResult = new MutableLiveData<>();
+    private LiveData<List<Movie>> searchResult = new MutableLiveData<>();
+
+    public void getTopMovies() {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                movieDAO.deleteMovies();
+                mRepositooryNetwork.getTopMovies();
+            }
+        });
+    }
+
+    public LiveData<List<Movie>>  getSearchResultsExpresion(String expression) {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                searchResult = mRepositooryNetwork.getSearchResultsExpresion(expression);
+            }
+        });
+        return  searchResult;
+    }
+
+    public LiveData<List<Movie>> getCurrentTopMovies() {
+        return movieDAO.getCurrentsMovies();
+    }
 
     public interface RepositoryListener {
         void onTopMoviesResponse(LiveData<List<Movie>> top250movies);
         void onSearchResultsExpresionResponse(List<Movie> resultsSearch);
-
         void onSearchResultsExpresionResponse(LiveData<List<Movie>> resultsSearch);
 
         public void onMovieDetailResponse (MovieDetail movieDetail);
     }
 
-    public Repository (){
-
-    }
-
-    private Repository(MovieDAO mDAO, UserDAO uDAO, UserPendingMoviesDAO uPDAO, UserFavoriteMoviesDAO uFDAO) {
+    private Repository(MovieDAO mDAO,RepositoryNetworkDataSource mRepositooryNetwork) {
         this.movieDAO = mDAO;
-        this.userDAO = uDAO;
-        this.userPendingMoviesDAO = uPDAO;
-        this.userFavoriteMoviesDAO = uFDAO;
+        this.mRepositooryNetwork= mRepositooryNetwork;
         //movieDAO.getTop250Movies();
     }
 
-    public synchronized static Repository getInstance(MovieDAO mDAO, UserDAO uDAO, UserPendingMoviesDAO uPDAO, UserFavoriteMoviesDAO uFDAO) {
+    public synchronized static Repository getInstance(MovieDAO mDAO,RepositoryNetworkDataSource mRepositooryNetwork) {
         if (sInstance == null) {
-            sInstance = new Repository(mDAO, uDAO, uPDAO, uFDAO);
+            sInstance = new Repository(mDAO,mRepositooryNetwork);
         }
         return sInstance;
     }
 
-     public LiveData<List<Movie>> getTopMovies(){
-         Log.i("Iniciando getTopMovies","Iniciando getTopMovies");
-         topImdbApiEndPointInterface.getTopMovies().enqueue(new Callback<MovieList>() {
-            @Override
-            public void onResponse(Call<MovieList> call, Response<MovieList> response) {
-                if(!response.isSuccessful()){
-                    Log.i("Error response", "Get top movies failed");
-                }else{
-                    if(response.body().getMovies() != null) {
-                        result.postValue(response.body().getMovies());
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<MovieList> call, Throwable t) {
-                Log.i("Error failure", t.getMessage());
-            }
-        });
-        return result;
-    }
-    public void getMovieDetail(String id, RepositoryListener callback){
-        Call<MovieDetail> call = topImdbApiEndPointInterface.getMovieDetail(id);
-        call.enqueue(new Callback<MovieDetail>() {
-            @Override
-            public void onResponse(Call<MovieDetail> call, Response<MovieDetail> response) {
-                if(!response.isSuccessful()){
-                    Log.i("Error response", "Get top movies failed");
-                }else{
-                    if(response.body() != null) {
-                        Log.i("Movie", response.body().toString());
-                        callback.onMovieDetailResponse(response.body());
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<MovieDetail> call, Throwable t) {
-                Log.i("Error failure", t.getMessage());
-            }
-        });
-    }
-    public void getSearchResults(String title){
-        Call<MovieList> call = topImdbApiEndPointInterface.getSearchResults(title);
-        call.enqueue(new Callback<MovieList>() {
-            @Override
-            public void onResponse(Call<MovieList> call, Response<MovieList> response) {
-                if(!response.isSuccessful()){
-                    Log.i("Error response", "Search error");
-                }else{
-                    for(Movie movie : response.body().getMovies())
-                        Log.i("Movie", movie.toString());
-                }
-            }
-            @Override
-            public void onFailure(Call<MovieList> call, Throwable t) {
-                Log.i("Error failure", t.getMessage());
-            }
-        });
-    }
-
-    /*public void getFavoritesUserMovies(String idUser, RepositoryListener callback) {
-        Call<UserFavoritesMovies> call = topImdbApiEndPointInterface.getTopMovies();
-        call.enqueue(new Callback<UserFavoritesMovies>() {
-            @Override
-            public void onResponse(Call<UserFavoritesMovies> call, Response<UserFavoritesMovies> response) {
-                if(!response.isSuccessful()){
-                    Log.i("Error response", "Search error");
-                }else{
-                    if(response.body().getMovies() != null) {
-                        for (Movie movie : response.body().getMovies())
-                            Log.i("Movie", movie.getFullTitle());
-                        callback.onFavoriteMovies(response.body().);
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<UserFavoritesMovies> call, Throwable t) {
-                Log.i("Error failure", t.getMessage());
-            }
-        });
-    }*/
-
-    public LiveData<List<UserFavoritesMovies>> getFavoritesMovies(Long userId) {
-        return userFavoriteMoviesDAO.loadFavoriteMoviesByUser(userId.toString());
-    }
-
-    public List<UserPendingMovies> getPendingMovies(Long userId) {
-        return userPendingMoviesDAO.loadPendingMoviesByUser(userId.toString());
-    }
-
-    public LiveData<List<Movie>> getSearchResultsExpresion(String expresion){
-        topImdbApiEndPointInterface.getSearchResultsExpresion(expresion).enqueue(new Callback<Search>() {
-            @Override
-            public void onResponse(Call<Search> call, Response<Search> response) {
-                if(!response.isSuccessful()){
-                    Log.i("Error response", "Search expresion error");
-                }else{
-                    if(response.body().getResults() != null) {
-                        searchResult.postValue(response.body().getResults());
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<Search> call, Throwable t) {
-                Log.i("Error failure", t.getMessage());
-            }
-        });
-        return searchResult;
-    }
 }

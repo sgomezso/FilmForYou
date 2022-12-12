@@ -10,6 +10,13 @@ import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 @Dao
 public interface MovieDAO {
 
+    @Query("DELETE FROM MOVIES")
+    void deleteMovies();
+
+    @Query("SELECT * FROM MOVIES")
+    LiveData<List<Movie>>  getCurrentsMovies();
+
+
 //    @Query("select * from movies where id = :uId")
 //    public <List<Movie>> getMovie(String uId);
 

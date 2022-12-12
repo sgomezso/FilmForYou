@@ -16,8 +16,8 @@ public class PendingViewModel extends ViewModel {
         this.mRepository = repository;
     }
 
-    public List<UserPendingMovies> getPendingMovies(Long userId) {
-        listPending = mRepository.getPendingMovies(userId);
-        return listPending;
-    }
+//    public List<UserPendingMovies> getPendingMovies(Long userId) {
+//        listPending = mRepository.getPendingMovies(userId);
+//        return listPending;
+//    }
 }

@@ -33,17 +33,17 @@ public class UserMovieRepositoryPending {
     }
 
     public void loadPendingMoviesByUser(Long userId, UserMovieRepositoryListener userMovieRepositoryListener) {
-        Repository apiRepository = new Repository();
-        List<Movie> movies = new ArrayList<>();
-        List<UserPendingMovies> userPendingMoviesList = database.loadPendingMoviesByUser(userId.toString());
-        for (Movie movie : apiRepository.getTopMovies().getValue()) {
-            for (UserPendingMovies userPendingMovies : userPendingMoviesList) {
-                if (userPendingMovies.getIdMovie().equals(movie.getMovieId())) {
-                    movies.add(movie);
-                }
-            }
-        }
-        userMovieRepositoryListener.onPendingMovies(movies);
+//        Repository apiRepository = new Repository();
+//        List<Movie> movies = new ArrayList<>();
+//        List<UserPendingMovies> userPendingMoviesList = database.loadPendingMoviesByUser(userId.toString());
+//        for (Movie movie : apiRepository.getTopMovies().getValue()) {
+//            for (UserPendingMovies userPendingMovies : userPendingMoviesList) {
+//                if (userPendingMovies.getIdMovie().equals(movie.getMovieId())) {
+//                    movies.add(movie);
+//                }
+//            }
+//        }
+//        userMovieRepositoryListener.onPendingMovies(movies);
     }
     public boolean checkPending(Long idUser, String idMovie) {
         if (database.checkUserPendingMovie(idUser.toString(), idMovie) == null)

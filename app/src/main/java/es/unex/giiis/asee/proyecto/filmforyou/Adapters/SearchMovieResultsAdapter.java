@@ -25,7 +25,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MostrarMovieActivity;
 public class SearchMovieResultsAdapter extends RecyclerView.Adapter<SearchMovieResultsAdapter.MyViewHolder> {
     private List<Movie> mDataset;
     private Movie movieSelected = new Movie();
-    private final Repository mRepository = new Repository();
+    private  Repository mRepository;
 
     public interface OnListInteractionListener{
         public void onListInteraction(String url);
@@ -76,6 +76,7 @@ public class SearchMovieResultsAdapter extends RecyclerView.Adapter<SearchMovieR
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
+
         holder.mItem = mDataset.get(position);
         holder.mTitleView.setText(mDataset.get(position).getTitle());
         Picasso.get().load(mDataset.get(position).getImage()).into(holder.mImageView);
@@ -83,35 +84,35 @@ public class SearchMovieResultsAdapter extends RecyclerView.Adapter<SearchMovieR
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppExecutors.getInstance().networkIO().execute(() -> mRepository.getMovieDetail(holder.mItem.getFullTitle(), new Repository.RepositoryListener() {
-                    @Override
-                    public void onTopMoviesResponse(LiveData<List<Movie>> top250movies) {}
-                    @Override
-                    public void onSearchResultsExpresionResponse(List<Movie> resultsSearch) {}
-
-                    @Override
-                    public void onSearchResultsExpresionResponse(LiveData<List<Movie>> resultsSearch) {
-
-                    }
-
-                    @Override
-                    public void onMovieDetailResponse(MovieDetail movieDetail) {
-                        movieSelected.setTitle(movieDetail.getTitle());
-                        movieSelected.setFullTitle(movieDetail.getFullTitle());
-                        movieSelected.setRank("");
-                        movieSelected.setImDbRating(movieDetail.getImdbRating());
-                        movieSelected.setYear(movieDetail.getYear());
-                        movieSelected.setMovieId(movieDetail.getId());
-                        movieSelected.setImage(movieDetail.getImage());
-                        movieSelected.setCrew(movieDetail.getStars());
-                        movieSelected.setImDbRatingCount(movieDetail.getImdbRatingVotes());
-//                        movieSelected.setDirectors(movieDetail.getDirectors());
-
-                        Intent intent = new Intent(v.getContext(), MostrarMovieActivity.class);
-                        intent.putExtra("Movie", (Serializable) movieSelected);
-                        v.getContext().startActivity(intent);
-                    }
-                }));
+//                AppExecutors.getInstance().networkIO().execute(() -> mRepository.getMovieDetail(holder.mItem.getFullTitle(), new Repository.RepositoryListener() {
+//                    @Override
+//                    public void onTopMoviesResponse(LiveData<List<Movie>> top250movies) {}
+//                    @Override
+//                    public void onSearchResultsExpresionResponse(List<Movie> resultsSearch) {}
+//
+//                    @Override
+//                    public void onSearchResultsExpresionResponse(LiveData<List<Movie>> resultsSearch) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onMovieDetailResponse(MovieDetail movieDetail) {
+//                        movieSelected.setTitle(movieDetail.getTitle());
+//                        movieSelected.setFullTitle(movieDetail.getFullTitle());
+//                        movieSelected.setRank("");
+//                        movieSelected.setImDbRating(movieDetail.getImdbRating());
+//                        movieSelected.setYear(movieDetail.getYear());
+//                        movieSelected.setMovieId(movieDetail.getId());
+//                        movieSelected.setImage(movieDetail.getImage());
+//                        movieSelected.setCrew(movieDetail.getStars());
+//                        movieSelected.setImDbRatingCount(movieDetail.getImdbRatingVotes());
+////                        movieSelected.setDirectors(movieDetail.getDirectors());
+//
+//                        Intent intent = new Intent(v.getContext(), MostrarMovieActivity.class);
+//                        intent.putExtra("Movie", (Serializable) movieSelected);
+//                        v.getContext().startActivity(intent);
+//                    }
+//                }));
             }
         });
 

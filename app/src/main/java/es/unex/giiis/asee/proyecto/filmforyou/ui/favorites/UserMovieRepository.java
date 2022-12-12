@@ -13,6 +13,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.Repository;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.MovieDetail;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.RepositoryNetworkDataSource;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserFavoriteMoviesDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserPendingMoviesDAO;
@@ -33,11 +34,11 @@ public class UserMovieRepository {
         preference = context.getSharedPreferences("preference", Context.MODE_PRIVATE);
     }
 
-    public void loadFavoriteMoviesByUser(Long userId, UserMovieRepositoryListener userMovieRepositoryListener) {
-        Repository apiRepository = new Repository();
+    public void loadFavoriteMoviesByUser(Long userId, UserMovieRepositoryListener userMovieRepositoryListener,Context context) {
+        Repository repository = Repository.getInstance(Database.getInstance(context).movieDAO(), RepositoryNetworkDataSource.getInstance());
         List<Movie> movies = new ArrayList<>();
         List<UserFavoritesMovies> userFavoritesMoviesList = (List<UserFavoritesMovies>) database.loadFavoriteMoviesByUser(userId.toString());
-        for (Movie movie :  apiRepository.getTopMovies().getValue()) {
+        for (Movie movie :  repository.getCurrentTopMovies().getValue()) {
             for (UserFavoritesMovies userFavoritesMovies : userFavoritesMoviesList) {
                 if (userFavoritesMovies.getIdMovie().equals(movie.getMovieId())) {
                     movies.add(movie);

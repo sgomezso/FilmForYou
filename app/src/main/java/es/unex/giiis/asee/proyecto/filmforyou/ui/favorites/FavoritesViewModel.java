@@ -20,8 +20,8 @@ public class FavoritesViewModel extends ViewModel {
         this.mRepository = repository;
     }
 
-    public LiveData<List<UserFavoritesMovies>> getFavoriteMovies(Long userId) {
-        listFavorites = mRepository.getFavoritesMovies(userId);
-        return listFavorites;
-    }
+//    public LiveData<List<UserFavoritesMovies>> getFavoriteMovies(Long userId) {
+//        listFavorites = mRepository.getFavoritesMovies(userId);
+//        return listFavorites;
+//    }
 }

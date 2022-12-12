@@ -12,6 +12,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.RepositoryNetworkDataSource;
+import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        Repository repository = Repository.getInstance(Database.getInstance(this).movieDAO(), RepositoryNetworkDataSource.getInstance());
+        repository.getTopMovies();
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

@@ -3,6 +3,7 @@ package es.unex.giiis.asee.proyecto.filmforyou;
 import android.content.Context;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Search;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.RepositoryNetworkDataSource;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoritesViewModelFactory;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MovieListViewModelFactory;
@@ -14,7 +15,7 @@ public class InjectorUtils {
 
     public static Repository provideRepository(Context context) {
         Database database = Database.getInstance(context.getApplicationContext());
-        return Repository.getInstance(database.movieDAO(), database.userDAO(), database.userPendingMoviesDAO(), database.userFavoriteMoviesDAO());
+        return Repository.getInstance(database.movieDAO(), RepositoryNetworkDataSource.getInstance());
     }
 
     public static FavoritesViewModelFactory provideFavoritesViewModelFactory(Context context) {
