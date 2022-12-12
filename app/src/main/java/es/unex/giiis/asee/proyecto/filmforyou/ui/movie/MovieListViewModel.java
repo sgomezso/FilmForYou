@@ -16,6 +16,9 @@ public class MovieListViewModel extends ViewModel {
     private final MutableLiveData<List<Movie>> mTopList = new MutableLiveData<>();
     LiveData<List<Movie>> topList = mTopList;
 
+    private final MutableLiveData<Void> mDeleteMoviesEvent = new MutableLiveData<>();
+    LiveData<Void> deleteMoviesEvent = mDeleteMoviesEvent;
+
 
     public MovieListViewModel(MoviesRepository repository) {
         this.mRepository = repository;
@@ -33,5 +36,9 @@ public class MovieListViewModel extends ViewModel {
 
              }
          });
+    }
+
+    public void removeMovies() {
+        mRepository.removeMovies();
     }
 }

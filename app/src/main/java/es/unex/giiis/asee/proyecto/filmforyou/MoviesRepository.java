@@ -61,6 +61,10 @@ public class MoviesRepository {
         return  searchResult;
     }
 
+    public void removeMovies() {
+        movieDAO.deleteMovies();
+    }
+
 //    public LiveData<List<Movie>> getCurrentTopMovies() {
 //        return movieDAO.getCurrentsMovies();
 //    }

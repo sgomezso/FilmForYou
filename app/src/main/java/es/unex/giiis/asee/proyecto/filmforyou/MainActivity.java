@@ -24,19 +24,10 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        MoviesRepository repository = MoviesRepository.getInstance(Database.getInstance(this).movieDAO(), RepositoryNetworkDataSource.getInstance());
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_movieList, R.id.navigation_search, R.id.navigation_profile,R.id.navigation_favorites,R.id.navigation_pending)
-                .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
     }
-
 
 }

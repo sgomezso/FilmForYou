@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +34,6 @@ public class MovieListFragment extends Fragment implements MoviesAdapter.OnListI
     private MoviesRepository mRepository;
     private MoviesAdapter adapter;
     private MovieListViewModel movieListViewModel;
-    private RecyclerView recyclerMovies;
     private LinearLayoutManager LayoutManager;
     private loadingDialog loadingDialog;
 
@@ -50,19 +50,31 @@ public class MovieListFragment extends Fragment implements MoviesAdapter.OnListI
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerMovies = view.findViewById(R.id.movieList);
+        binding = FragmentMovieListBinding.bind(view);
+
         LayoutManager = new LinearLayoutManager(getActivity());
-        recyclerMovies.setLayoutManager(LayoutManager);
+        binding.movieList.setLayoutManager(LayoutManager);
 
         AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
         movieListViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.movieListViewModelFactory).get(MovieListViewModel.class);
 
         List<Movie> movieList = new ArrayList<>();
         adapter = new MoviesAdapter(movieList, this);
+        binding.movieList.setAdapter(adapter);
         mRepository = MoviesRepository.getInstance(Database.getInstance(getContext()).movieDAO(), RepositoryNetworkDataSource.getInstance());
         loadingDialog = new loadingDialog(getActivity());
         loadingDialog.startLoadingDialog();
         movieListViewModel.getTopMovies();
+
+        binding.movieCleanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                movieListViewModel.removeMovies();
+                Toast.makeText(getActivity(), "Películas borradas", Toast.LENGTH_SHORT).show();
+                adapter.swap(new ArrayList<>());
+                movieListViewModel.getTopMovies();
+            }
+        });
 
         observeViewModel();
     }
@@ -96,6 +108,5 @@ public class MovieListFragment extends Fragment implements MoviesAdapter.OnListI
                 loadingDialog.dismisDialog();
             }
         });
-        recyclerMovies.setAdapter(adapter);
     }
 }
