@@ -19,7 +19,7 @@ public class FavoritesViewModel extends ViewModel {
         this.mRepository = repository;
     }
 
-    public LiveData<List<UserFavoritesMovies>> getFavoriteMovies(Long userId, UserMovieRepositoryFavorite.UserMovieRepositoryListener listener) {
-        return mRepository.loadFavoriteMoviesByUser(userId, listener);
+    public LiveData<List<Movie>> getFavoriteMovies(Long userId) {
+        return mRepository.loadFavoriteMoviesByUser(userId);
     }
 }

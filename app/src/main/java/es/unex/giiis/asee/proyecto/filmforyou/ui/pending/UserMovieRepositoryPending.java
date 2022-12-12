@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class UserMovieRepositoryPending {
 
     public UserPendingMoviesDAO database;
     public SharedPreferences preference;
+    private final MutableLiveData<List<Movie>> pendMovies = new MutableLiveData<>();
 
     public UserMovieRepositoryPending(Context context) {
         database = Room.databaseBuilder(context, Database.class, "database").allowMainThreadQueries().build().userPendingMoviesDAO();
@@ -48,18 +50,19 @@ public class UserMovieRepositoryPending {
         return sInstance;
     }
 
-    public LiveData<List<UserPendingMovies>> loadPendingMoviesByUser(Long userId, UserMovieRepositoryListener userMovieRepositoryListener) {
+    public LiveData<List<Movie>> loadPendingMoviesByUser(Long userId) {
         Repository apiRepository = new Repository();
         List<Movie> movies = new ArrayList<>();
         LiveData<List<UserPendingMovies>> userPendingMoviesList = database.loadPendingMoviesByUser(userId.toString());
         for (Movie movie : apiRepository.getTopMovies().getValue()) {
-            for (UserPendingMovies userPendingMovies : userPendingMoviesList) {
+            for (UserPendingMovies userPendingMovies : userPendingMoviesList.getValue()) {
                 if (userPendingMovies.getIdMovie().equals(movie.getMovieId())) {
                     movies.add(movie);
                 }
             }
         }
-        userMovieRepositoryListener.onPendingMovies(movies);
+        pendMovies.postValue(movies);
+        return pendMovies;
     }
     public boolean checkPending(Long idUser, String idMovie) {
         if (database.checkUserPendingMovie(idUser.toString(), idMovie) == null)

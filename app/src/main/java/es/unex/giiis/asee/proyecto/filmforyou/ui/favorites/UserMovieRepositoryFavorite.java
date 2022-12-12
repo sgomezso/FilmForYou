@@ -32,6 +32,7 @@ public class UserMovieRepositoryFavorite {
     private static UserFavoriteMoviesDAO mUserFavoriteMoviesDAO;
     public UserFavoriteMoviesDAO database;
     public SharedPreferences preference;
+    private final MutableLiveData<List<Movie>> favMovies = new MutableLiveData<>();
 
     public UserMovieRepositoryFavorite(Context context) {
         database = Room.databaseBuilder(context, Database.class, "database").allowMainThreadQueries().build().userFavoriteMoviesDAO();
@@ -49,19 +50,19 @@ public class UserMovieRepositoryFavorite {
         return sInstance;
     }
 
-    public LiveData<List<UserFavoritesMovies>> loadFavoriteMoviesByUser(Long userId, UserMovieRepositoryListener userMovieRepositoryListener) {
+    public LiveData<List<Movie>> loadFavoriteMoviesByUser(Long userId) {
         Repository apiRepository = new Repository();
         List<Movie> movies = new ArrayList<>();
         LiveData<List<UserFavoritesMovies>> userFavMovies = database.loadFavoriteMoviesByUser(userId.toString());
         for (Movie movie :  apiRepository.getTopMovies().getValue()) {
-            for (UserFavoritesMovies userFavoritesMovies : userFavMovies) {
+            for (UserFavoritesMovies userFavoritesMovies : userFavMovies.getValue()) {
                 if (userFavoritesMovies.getIdMovie().equals(movie.getMovieId())) {
                     movies.add(movie);
                 }
             }
         }
-        userMovieRepositoryListener.onFavoriteMovies(movies);
-        return userFavMovies;
+        favMovies.postValue(movies);
+        return favMovies;
     }
 
     public boolean checkFav(Long idUser, String idMovie) {

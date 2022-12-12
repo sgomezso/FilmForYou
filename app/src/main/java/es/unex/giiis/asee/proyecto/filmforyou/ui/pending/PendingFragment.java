@@ -13,18 +13,31 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Adapters.MoviesAdapter;
+import es.unex.giiis.asee.proyecto.filmforyou.AppContainer;
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
+import es.unex.giiis.asee.proyecto.filmforyou.LoadingDialog;
+import es.unex.giiis.asee.proyecto.filmforyou.MyApplication;
+import es.unex.giiis.asee.proyecto.filmforyou.R;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentFavoritesBinding;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentPendingBinding;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoritesViewModel;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.UserMovieRepositoryFavorite;
 
 public class PendingFragment extends Fragment implements  MoviesAdapter.OnListInteractionListener {
 
     private FragmentPendingBinding binding;
     private MoviesAdapter adapter;
     private PendingViewModel PendingViewModel;
+    RecyclerView recyclerMovies;
+    private LinearLayoutManager linearLayoutManager;
+    private List<Movie> pendingMovies;
 
     // Required empty public favorites constructor
     public PendingFragment() {
@@ -44,21 +57,33 @@ public class PendingFragment extends Fragment implements  MoviesAdapter.OnListIn
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        PendingViewModel = new ViewModelProvider(this).get(PendingViewModel.class);
-        binding = FragmentPendingBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-    }
+        LoadingDialog loadingDialog = new LoadingDialog(getActivity());
+        loadingDialog.startLoadingDialog();
+        View view = inflater.inflate(R.layout.fragment_pending, container, false);
+        recyclerMovies = view.findViewById(R.id.pendingList);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerMovies.setLayoutManager(linearLayoutManager);
+        UserMovieRepositoryPending mPendingRepository = new UserMovieRepositoryPending(getActivity());
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
-        UserMovieRepositoryPending mRepository = new UserMovieRepositoryPending(getActivity());
         SharedPreferences settings = getActivity().getSharedPreferences("preference", Context.MODE_PRIVATE);
         Long userId = settings.getLong("userId", -1);
-        AppExecutors.getInstance().diskIO().execute(() -> mRepository.loadPendingMoviesByUser(userId, movies -> {
-            adapter = new MoviesAdapter(movies, PendingFragment.this);
-            binding.pendingList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-            binding.pendingList.setAdapter(adapter);
-        }));
+
+        AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
+        PendingViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.pendingViewModelFactory).get(PendingViewModel.class);
+
+        pendingMovies = new ArrayList<>();
+        adapter = new MoviesAdapter(pendingMovies, this);
+
+        PendingViewModel.getPendingMovies(userId).observe(getViewLifecycleOwner(), movies -> {
+            if(movies != null) {
+                adapter.clear();
+                adapter.swap(movies);
+            }
+        });
+
+        binding.pendingList.setAdapter(adapter);
+
+        return view;
     }
 
     @Override

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Repository;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
 
 public class PendingViewModel extends ViewModel {
@@ -16,7 +17,7 @@ public class PendingViewModel extends ViewModel {
         this.mRepository = repository;
     }
 
-    public LiveData<List<UserPendingMovies>> getPendingMovies(Long userId, UserMovieRepositoryPending.UserMovieRepositoryListener listener) {
-        return mRepository.loadPendingMoviesByUser(userId, listener);
+    public LiveData<List<Movie>> getPendingMovies(Long userId) {
+        return mRepository.loadPendingMoviesByUser(userId);
     }
 }
