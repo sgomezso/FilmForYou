@@ -45,6 +45,10 @@ public class UserRepository {
         return database.getUserId(username,password);
     }
 
+    public User getUser(String username, String password) {
+        return database.getUser(username,password);
+    }
+
     public void updateImage(String img, Long id) {
         database.updateImage(img,id.toString());
     }

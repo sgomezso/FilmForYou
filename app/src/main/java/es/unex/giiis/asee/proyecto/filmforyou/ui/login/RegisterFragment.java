@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -22,9 +23,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import es.unex.giiis.asee.proyecto.filmforyou.AppContainer;
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.MainActivity;
+import es.unex.giiis.asee.proyecto.filmforyou.MyApplication;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MovieListViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,6 +46,7 @@ public class RegisterFragment extends Fragment {
     private EditText peliculaFav;
     private EditText directorFav;
     private EditText generoFav;
+    private LoginViewModel loginViewModel;
 
 
 
@@ -87,6 +92,8 @@ public class RegisterFragment extends Fragment {
         directorFav = v.findViewById(R.id.FavoriteDirector);
         generoFav = v.findViewById(R.id.FavoriteGenre);
 
+        AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
+        loginViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.loginViewModelFactory).get(LoginViewModel.class);
 
 
         v.findViewById(R.id.register).setOnClickListener(new View.OnClickListener() {
@@ -116,9 +123,9 @@ public class RegisterFragment extends Fragment {
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
                         @Override
                         public void run() {
-                            UserRepository userRepository = new UserRepository(getActivity());
-                            userRepository.registerUser(usernameText, passwordText,emailText,generoFavext,peliculaFavText,directorFavText,"");
-                            userRepository.preference.edit().putLong("userId", userRepository.getUserId(username.toString(), password.toString()));
+
+                            loginViewModel.createUser(usernameText,passwordText,emailText,generoFavext,peliculaFavText,directorFavText,"");
+                            AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
                             Intent i = new Intent(getActivity(), MainActivity.class);
                             startActivity(i);
                         }
