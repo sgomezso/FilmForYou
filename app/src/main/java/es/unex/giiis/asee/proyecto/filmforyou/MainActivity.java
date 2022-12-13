@@ -22,16 +22,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupWithNavController(binding.navView, navController);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_movieList, R.id.navigation_search, R.id.navigation_profile,R.id.navigation_favorites,R.id.navigation_pending)
-                .build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
     }
 
 }

@@ -1,7 +1,10 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.movie;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -14,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
@@ -35,13 +40,14 @@ public class MostrarMovieActivity extends AppCompatActivity {
     private TextView imDbRating;
     private TextView imDbRatingCount;
     private TextView directors;
+    private TextView textFullTitle;
+    private TextView backButton;
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         setContentView(R.layout.movie_activity);
 
         rank = (TextView) findViewById(R.id.textRankIMDB);
@@ -52,6 +58,8 @@ public class MostrarMovieActivity extends AppCompatActivity {
         crew = (TextView) findViewById(R.id.textReparto);
         image = (ImageView) findViewById(R.id.idImagenMovie);
         imageReparto=(ImageView) findViewById(R.id.idImagenReparto);
+        textFullTitle = (TextView) findViewById(R.id.textFullTitle);
+        backButton = (TextView) findViewById(R.id.back);
 
         UserMovieRepository userMovieRepository = new UserMovieRepository(this);
         UserMovieRepositoryPending userMovieRepositoryPending = new UserMovieRepositoryPending(this);
@@ -139,24 +147,18 @@ public class MostrarMovieActivity extends AppCompatActivity {
             crew.setText(movie.getCrew());
         }
         if(movie.getFullTitle() != null){
-            getSupportActionBar().setTitle(movie.getFullTitle());
+            textFullTitle.setText(movie.getFullTitle());
         }
+        backButton.setText("<");
+        backButton.setTextColor(Color.BLUE);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         Picasso.get().load("https://cdn-icons-png.flaticon.com/512/74/74472.png").into(imageReparto);
 
     }
-
-    /*
-       CONTROLA EL BOTÓN QUE PULSAMOS EN EL MENÚ
-        */
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-                break;
-        }
-        return true;
-    }
-
 }
