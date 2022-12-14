@@ -1,5 +1,6 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.movieDetail;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +22,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.login.UserRepository;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MovieListViewModel;
 
 
 public class MostrarMovieActivity extends AppCompatActivity {
@@ -36,9 +39,10 @@ public class MostrarMovieActivity extends AppCompatActivity {
     private TextView director;
     FloatingActionButton EFbutton;
     private Movie movie;
-    //private MostrarMovieViewModel mViewModel;
+    private MovieListViewModel mViewModel;
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("Movie","Pasa por aqui");
@@ -57,11 +61,12 @@ public class MostrarMovieActivity extends AppCompatActivity {
         crew = (TextView) findViewById(R.id.textReparto);
         image = (ImageView) findViewById(R.id.idImagenMovie);
         director = (TextView) findViewById(R.id.textDirector);
+        EFbutton = (FloatingActionButton) findViewById(R.id.fav_Botton);
 
         movie = (Movie) getIntent().getSerializableExtra("movie");
 
 
-        Button addFav = findViewById(R.id.addFav);
+
         SharedPreferences settings = getSharedPreferences("preference", Context.MODE_PRIVATE);
 
         if(movie.getRank()==null){
@@ -101,42 +106,12 @@ public class MostrarMovieActivity extends AppCompatActivity {
             Picasso.get().load("https://http2.mlstatic.com/storage/mshops-appearance-api/images/15/254304515/logo-2020060212005277900.png").into(image);
         }
 
+        if(movie.isEsFavorito() == true){
+            EFbutton.setImageResource(R.drawable.ic_baseline_star_rate_24);
+        }
+
     }
 
 
-    /*private void deleteComment() {
-        movie.setComentario(null);
-        mViewModel.actualizarMovie(movie);
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        Toast.makeText(getApplicationContext(), "Comentario eliminado con éxito", Toast.LENGTH_LONG).show();
-    }
 
-    public void addComent(){
-        EditText comentario;
-        comentario = new EditText(MostrarMovieActivity.this);
-        AlertDialog.Builder alertaP = new AlertDialog.Builder(MostrarMovieActivity.this);
-        alertaP.setView(comentario)
-                .setMessage("Comentar")
-                .setCancelable(false)
-                .setPositiveButton("Comentar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        movie.setComentario(comentario.getText().toString());
-                        mViewModel.actualizarMovie(movie);
-                        Toast.makeText(getApplicationContext(), "Comentario añadido", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                    }
-                })
-                .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-        AlertDialog tituloP = alertaP.create();
-        tituloP.setTitle("Añadir comentario al movie");
-        tituloP.show();
-    }*/
 }

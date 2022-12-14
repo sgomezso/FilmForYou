@@ -9,9 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
@@ -35,6 +37,8 @@ public class MostrarMovieActivity extends AppCompatActivity {
     private TextView directors;
     private TextView textFullTitle;
     private TextView backButton;
+    FloatingActionButton EFbutton;
+    private MovieListViewModel mViewModel;
 
 
     @SuppressLint("MissingInflatedId")
@@ -53,6 +57,7 @@ public class MostrarMovieActivity extends AppCompatActivity {
         imageReparto=(ImageView) findViewById(R.id.idImagenReparto);
         textFullTitle = (TextView) findViewById(R.id.textFullTitle);
         backButton = (TextView) findViewById(R.id.back);
+        EFbutton = (FloatingActionButton) findViewById(R.id.fav_Botton);
 
         UserMovieFavoritesRepository userMovieFavoritesRepository = new UserMovieFavoritesRepository(this);
         UserMoviePendingRepository userMoviePendingRepository = new UserMoviePendingRepository(this);
@@ -70,6 +75,20 @@ public class MostrarMovieActivity extends AppCompatActivity {
                             userMovieFavoritesRepository.deleteFav(userId,movie.getMovieId());
                         } else {
                             userMovieFavoritesRepository.addFav(userId, movie.getMovieId());
+                        }
+
+                        if (movie.isEsFavorito() == false) {
+                            movie.setEsFavorito(true); //Favorita
+                            //Actualizar como favorita
+                            mViewModel.actualizarMovie(movie);
+                            EFbutton.setImageResource(R.drawable.ic_baseline_star_rate_24);
+                            Toast.makeText(getApplicationContext(), "Movie Añadido a Favoritos", Toast.LENGTH_LONG).show();
+                        } else {
+                            movie.setEsFavorito(false); //Favorita
+                            //Cambiarlo por actualizar a no favorito
+                            mViewModel.actualizarMovie(movie);
+                            EFbutton.setImageResource(R.drawable.ic_baseline_star_rate_25);
+                            Toast.makeText(getApplicationContext(), "Movie Eliminado de Favoritos", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
