@@ -5,6 +5,7 @@ import android.content.Context;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.RepositoryNetworkDataSource;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoritesViewModelFactory;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.UserMovieFavoritesRepository;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MovieListViewModelFactory;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.pending.PendingViewModelFactory;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.search.SearchViewModelFactory;
@@ -16,10 +17,10 @@ public class InjectorUtils {
         return MoviesRepository.getInstance(database.movieDAO(), RepositoryNetworkDataSource.getInstance());
     }
 
-    public static FavoritesViewModelFactory provideFavoritesViewModelFactory(Context context) {
-        MoviesRepository repository = provideRepository(context.getApplicationContext());
-        return new FavoritesViewModelFactory(repository);
-    }
+//    public static FavoritesViewModelFactory provideFavoritesViewModelFactory(Context context) {
+//        UserMovieFavoritesRepository repository = provideRepository(context.getApplicationContext());
+//        return new FavoritesViewModelFactory(repository);
+//    }
 
     public static PendingViewModelFactory providePendingViewModelFactory(Context context){
         MoviesRepository repository = provideRepository(context.getApplicationContext());

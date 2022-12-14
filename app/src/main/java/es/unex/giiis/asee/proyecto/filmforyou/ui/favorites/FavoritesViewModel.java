@@ -1,24 +1,38 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.favorites;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepository;
+import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepositoryListener;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
 
 public class FavoritesViewModel extends ViewModel {
 
-    private MoviesRepository mRepository;
-    private LiveData<List<UserFavoritesMovies>> listFavorites;
+    private UserMovieFavoritesRepository mRepository;
 
-    public FavoritesViewModel(MoviesRepository repository) {
+    private final MutableLiveData<List<Movie>> mListFavorites = new MutableLiveData<>();
+    LiveData<List<Movie>> listFav = mListFavorites;
+
+    public FavoritesViewModel(UserMovieFavoritesRepository repository) {
         this.mRepository = repository;
     }
 
-//    public LiveData<List<UserFavoritesMovies>> getFavoriteMovies(Long userId) {
-//        listFavorites = mRepository.getFavoritesMovies(userId);
-//        return listFavorites;
-//    }
+    public void getFavoriteMovies() {
+        mRepository.getFavoriteMovies(new MoviesRepositoryListener() {
+            @Override
+            public void onMoviesResult(List<Movie> movies) {
+                mListFavorites.postValue(movies);
+            }
+
+            @Override
+            public void onMovieFailure() {
+
+            }
+        });
+    }
 }

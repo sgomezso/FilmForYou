@@ -5,6 +5,7 @@ import android.content.Context;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.RepositoryNetworkDataSource;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoritesViewModelFactory;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.UserMovieFavoritesRepository;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.login.LoginViewModel;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.login.LoginViewModelFactory;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.login.UserRepository;
@@ -19,6 +20,7 @@ public class AppContainer {
     public MoviesRepository movieRepository;
     private Database database;
     public UserRepository userRepository;
+    public UserMovieFavoritesRepository userMovieFavoritesRepository;
     public FavoritesViewModelFactory favoritesViewModelFactory;
     public PendingViewModelFactory pendingViewModelFactory;
     public SearchViewModelFactory searchViewModelFactory;
@@ -30,9 +32,9 @@ public class AppContainer {
         database = Database.getInstance(context);
         movieRepository = MoviesRepository.getInstance(database.movieDAO(), RepositoryNetworkDataSource.getInstance());
         userRepository = UserRepository.getInstance(context.getApplicationContext());
-
+        userMovieFavoritesRepository = UserMovieFavoritesRepository.getInstance(context.getApplicationContext());
         profileViewModelFactory = new ProfileViewModelFactory(userRepository);
-        favoritesViewModelFactory = new FavoritesViewModelFactory(movieRepository);
+        favoritesViewModelFactory = new FavoritesViewModelFactory(userMovieFavoritesRepository);
         movieListViewModelFactory = new MovieListViewModelFactory(movieRepository);
         pendingViewModelFactory = new PendingViewModelFactory(movieRepository);
         searchViewModelFactory = new SearchViewModelFactory(movieRepository);
