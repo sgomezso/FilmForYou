@@ -12,6 +12,7 @@ public class MovieDetail {
     public String runtimeStr;
     public String plot;
     public String directors;
+    private boolean esFavorito;
 
     public void setId(String id) {
         this.id = id;
@@ -76,7 +77,13 @@ public class MovieDetail {
     public void setImDbRatingVotes(String imDbRatingVotes) {
         this.imDbRatingVotes = imDbRatingVotes;
     }
+    public boolean isEsFavorito() {
+        return esFavorito;
+    }
 
+    public void setEsFavorito(boolean esFavorito) {
+        this.esFavorito = esFavorito;
+    }
 
     public void setErrorMesssage(String errorMesssage) {
         this.errorMesssage = errorMesssage;

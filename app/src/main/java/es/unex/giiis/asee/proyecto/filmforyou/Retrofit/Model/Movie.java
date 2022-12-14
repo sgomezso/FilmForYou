@@ -1,6 +1,7 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -19,6 +20,7 @@ public class Movie implements Serializable {
     public String crew;
     public String imDbRating;
     public String imDbRatingCount;
+    private boolean esFavorito;
 
     public Movie(){}
 
@@ -104,5 +106,13 @@ public class Movie implements Serializable {
 
     public void setImDbRatingCount(String imDbRatingCount) {
         this.imDbRatingCount = imDbRatingCount;
+    }
+
+    public boolean isEsFavorito() {
+        return esFavorito;
+    }
+
+    public void setEsFavorito(boolean esFavorito) {
+        this.esFavorito = esFavorito;
     }
 }

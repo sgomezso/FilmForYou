@@ -9,9 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
@@ -35,6 +37,10 @@ public class MostrarMovieActivity extends AppCompatActivity {
     private TextView directors;
     private TextView textFullTitle;
     private TextView backButton;
+    FloatingActionButton EFbuttonFav;
+    FloatingActionButton EFbuttonPend;
+    private MovieListViewModel mViewModel;
+    private Movie movie;
 
 
     @SuppressLint("MissingInflatedId")
@@ -53,6 +59,8 @@ public class MostrarMovieActivity extends AppCompatActivity {
         imageReparto=(ImageView) findViewById(R.id.idImagenReparto);
         textFullTitle = (TextView) findViewById(R.id.textFullTitle);
         backButton = (TextView) findViewById(R.id.back);
+        EFbuttonFav = (FloatingActionButton) findViewById(R.id.fav_Botton);
+        EFbuttonPend = (FloatingActionButton) findViewById(R.id.addPendingButton);
 
         UserMovieFavoritesRepository userMovieFavoritesRepository = new UserMovieFavoritesRepository(this);
         UserMoviePendingRepository userMoviePendingRepository = new UserMoviePendingRepository(this);
@@ -60,7 +68,7 @@ public class MostrarMovieActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("preference", Context.MODE_PRIVATE);
         Long userId = settings.getLong("userId",-1);
 
-        findViewById(R.id.addFavButton).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.fav_Botton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
@@ -71,12 +79,23 @@ public class MostrarMovieActivity extends AppCompatActivity {
                         } else {
                             userMovieFavoritesRepository.addFav(userId, movie.getMovieId());
                         }
+
+                        if (movie.isEsFavorito() == false) {
+                            movie.setEsFavorito(true);
+                            EFbuttonFav.setImageResource(R.drawable.ic_baseline_star_rate_24);
+                        } else {
+                            movie.setEsFavorito(false);
+                            EFbuttonFav.setImageResource(R.drawable.ic_baseline_star_rate_25);
+                        }
                     }
                 });
 
 
             }
         });
+
+
+
         findViewById(R.id.addPendingButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,6 +171,7 @@ public class MostrarMovieActivity extends AppCompatActivity {
         });
 
         Picasso.get().load("https://cdn-icons-png.flaticon.com/512/74/74472.png").into(imageReparto);
+
 
     }
 }

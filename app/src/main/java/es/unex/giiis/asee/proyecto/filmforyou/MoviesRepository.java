@@ -94,4 +94,7 @@ public class MoviesRepository {
         return sInstance;
     }
 
+    public void updateMovie(Movie movie) {
+            movieDAO.updateMovie(movie);
+    }
 }
