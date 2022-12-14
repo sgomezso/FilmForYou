@@ -39,6 +39,7 @@ public class MostrarMovieActivity extends AppCompatActivity {
     private TextView backButton;
     FloatingActionButton EFbutton;
     private MovieListViewModel mViewModel;
+    private Movie movie;
 
 
     @SuppressLint("MissingInflatedId")
@@ -65,7 +66,7 @@ public class MostrarMovieActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences("preference", Context.MODE_PRIVATE);
         Long userId = settings.getLong("userId",-1);
 
-        findViewById(R.id.addFavButton).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.fav_Botton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
@@ -78,17 +79,11 @@ public class MostrarMovieActivity extends AppCompatActivity {
                         }
 
                         if (movie.isEsFavorito() == false) {
-                            movie.setEsFavorito(true); //Favorita
-                            //Actualizar como favorita
-                            mViewModel.actualizarMovie(movie);
+                            movie.setEsFavorito(true);
                             EFbutton.setImageResource(R.drawable.ic_baseline_star_rate_24);
-                            Toast.makeText(getApplicationContext(), "Movie Añadido a Favoritos", Toast.LENGTH_LONG).show();
                         } else {
-                            movie.setEsFavorito(false); //Favorita
-                            //Cambiarlo por actualizar a no favorito
-                            mViewModel.actualizarMovie(movie);
+                            movie.setEsFavorito(false);
                             EFbutton.setImageResource(R.drawable.ic_baseline_star_rate_25);
-                            Toast.makeText(getApplicationContext(), "Movie Eliminado de Favoritos", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -96,6 +91,9 @@ public class MostrarMovieActivity extends AppCompatActivity {
 
             }
         });
+
+
+
         findViewById(R.id.addPendingButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,6 +169,7 @@ public class MostrarMovieActivity extends AppCompatActivity {
         });
 
         Picasso.get().load("https://cdn-icons-png.flaticon.com/512/74/74472.png").into(imageReparto);
+
 
     }
 }
