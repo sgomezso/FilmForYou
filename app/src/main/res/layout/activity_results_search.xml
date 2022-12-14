@@ -4,11 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.resultsSearch.ResultsSearchActivity">
+    tools:context=".ui.resultsSearch.ResultsSearchActivity"
+    android:background="#FFFFE8">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchResults"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="-37dp"
+        tools:layout_editor_absoluteY="-138dp"
+        android:layout_marginTop="80dp"
+        android:background="@color/white"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/back"
+        android:layout_width="60dp"
+        android:layout_height="58dp"
+        android:clickable="true"
+        android:src="@drawable/android_arrow_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.041"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.015"
+        tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
+
+    <TextView
+        android:id="@+id/titleSearch"
+        android:layout_width="232dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="Resultados para la búsqueda:"
+        android:textSize="17dp"
+        android:textStyle="bold|italic"
+        app:layout_constraintStart_toEndOf="@+id/back"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/searchExp"
+        android:layout_width="345dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:text=""
+        android:textSize="16dp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toEndOf="@+id/back"
+        app:layout_constraintTop_toBottomOf="@+id/titleSearch"
+        tools:ignore="MissingConstraints"
+        android:fontFamily="sans-serif-condensed-medium"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

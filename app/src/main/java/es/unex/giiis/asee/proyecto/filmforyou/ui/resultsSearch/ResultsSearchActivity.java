@@ -1,12 +1,18 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.resultsSearch;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +21,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.Adapters.MoviesAdapter;
 import es.unex.giiis.asee.proyecto.filmforyou.Adapters.SearchMovieResultsAdapter;
 import es.unex.giiis.asee.proyecto.filmforyou.AppContainer;
 import es.unex.giiis.asee.proyecto.filmforyou.MyApplication;
+import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.ActivityResultsSearchBinding;
 import es.unex.giiis.asee.proyecto.filmforyou.loadingDialog;
@@ -25,6 +32,8 @@ public class ResultsSearchActivity extends AppCompatActivity implements SearchMo
     public String resultSearch;
     private SearchMovieResultsAdapter adapter;
     private SearchViewModel searchViewModel;
+    private FloatingActionButton back;
+    private TextView searchExpr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +50,7 @@ public class ResultsSearchActivity extends AppCompatActivity implements SearchMo
         adapter = new SearchMovieResultsAdapter(resultsList, this);
         searchViewModel.getSearchResults(resultSearch);
         searchViewModel.movieList.observe(this, movies -> {
-            if(movies != null) {
+            if (movies != null) {
                 Log.i("Update data", "Search");
                 adapter.swap(movies);
             }
@@ -52,10 +61,21 @@ public class ResultsSearchActivity extends AppCompatActivity implements SearchMo
             public void run() {
                 loadingDialog.dismisDialog();
             }
-        },2500);
+        }, 3000);
         binding.searchResults.setAdapter(adapter);
-    }
+        searchExpr = findViewById(R.id.searchExp);
+        searchExpr.setText(resultSearch);
+        back = findViewById(R.id.back);
+        back.setBackgroundTintList(ColorStateList.valueOf(Color.YELLOW));
+        back.setRippleColor(Color.BLACK);
 
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+    }
     @Override
     public void onListInteraction(String url) {
 

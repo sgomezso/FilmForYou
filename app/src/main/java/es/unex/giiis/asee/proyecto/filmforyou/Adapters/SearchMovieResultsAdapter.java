@@ -1,5 +1,6 @@
 package es.unex.giiis.asee.proyecto.filmforyou.Adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +74,13 @@ public class SearchMovieResultsAdapter extends RecyclerView.Adapter<SearchMovieR
 
         holder.mItem = mDataset.get(position);
         holder.mTitleView.setText(mDataset.get(position).getTitle());
-        Picasso.get().load(mDataset.get(position).getImage()).into(holder.mImageView);
+        Log.i("Search holder", mDataset.get(position).getImage());
+        if(mDataset.get(position).getImage() != null && !mDataset.get(position).getImage().isEmpty()){
+            Picasso.get().load(mDataset.get(position).getImage()).into(holder.mImageView);
+        }else{
+            holder.mImageView.setImageResource(R.drawable.pelicula_default);
+        }
+
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

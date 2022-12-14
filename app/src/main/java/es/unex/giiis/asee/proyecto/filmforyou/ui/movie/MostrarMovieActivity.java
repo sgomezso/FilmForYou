@@ -36,7 +36,7 @@ public class MostrarMovieActivity extends AppCompatActivity {
     private TextView imDbRatingCount;
     private TextView directors;
     private TextView textFullTitle;
-    private TextView backButton;
+    private ImageView backButton;
     FloatingActionButton EFbutton;
     private MovieListViewModel mViewModel;
     private Movie movie;
@@ -57,7 +57,7 @@ public class MostrarMovieActivity extends AppCompatActivity {
         image = (ImageView) findViewById(R.id.idImagenMovie);
         imageReparto=(ImageView) findViewById(R.id.idImagenReparto);
         textFullTitle = (TextView) findViewById(R.id.textFullTitle);
-        backButton = (TextView) findViewById(R.id.back);
+        backButton = (ImageView) findViewById(R.id.back);
         EFbutton = (FloatingActionButton) findViewById(R.id.fav_Botton);
 
         UserMovieFavoritesRepository userMovieFavoritesRepository = new UserMovieFavoritesRepository(this);
@@ -126,13 +126,6 @@ public class MostrarMovieActivity extends AppCompatActivity {
             year.setText(movie.getYear());
         }
 
-//        if(movie.getDirectors()==null){
-//            directors.setText("No hay directores");
-//
-//        }else{
-//            directors.setText(movie.getDirectors());
-//        }
-
         if(movie.getImDbRating()==null){
             imDbRating.setText("0");
         }else{
@@ -153,14 +146,14 @@ public class MostrarMovieActivity extends AppCompatActivity {
 
         if(movie.getCrew()==null){
             crew.setText("Ninguno");
+            directors.setText("No hay directores");
         }else{
             crew.setText(movie.getCrew());
+            directors.setText(movie.getCrew().substring(0, movie.getCrew().indexOf("(") ));
         }
         if(movie.getFullTitle() != null){
             textFullTitle.setText(movie.getFullTitle());
         }
-        backButton.setText("<");
-        backButton.setTextColor(Color.BLUE);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
