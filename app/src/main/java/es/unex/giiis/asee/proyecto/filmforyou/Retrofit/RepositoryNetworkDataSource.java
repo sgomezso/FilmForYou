@@ -63,6 +63,25 @@ public class RepositoryNetworkDataSource {
             }
         });
     }
+    public void getSearchResultsExpresion(String expresion,MoviesRepositoryListener callback){
+        topImdbApiEndPointInterface.getSearchResultsExpresion(expresion).enqueue(new Callback<Search>() {
+            @Override
+            public void onResponse(Call<Search> call, Response<Search> response) {
+                if(!response.isSuccessful()){
+                    Log.i("Error response", "Search expresion error");
+                }else{
+                    if(response.body().getResults() != null) {
+                        callback.onMoviesResult(response.body().getResults());
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<Search> call, Throwable t) {
+                Log.i("Error failure", t.getMessage());
+                callback.onMovieFailure();
+            }
+        });
+    }
 //    public void getMovieDetail(String id, MoviesRepository.RepositoryListener callback){
 //        Call<MovieDetail> call = topImdbApiEndPointInterface.getMovieDetail(id);
 //        call.enqueue(new Callback<MovieDetail>() {
@@ -104,23 +123,5 @@ public class RepositoryNetworkDataSource {
 
 
 
-    public LiveData<List<Movie>>  getSearchResultsExpresion(String expresion){
-        topImdbApiEndPointInterface.getSearchResultsExpresion(expresion).enqueue(new Callback<Search>() {
-            @Override
-            public void onResponse(Call<Search> call, Response<Search> response) {
-                if(!response.isSuccessful()){
-                    Log.i("Error response", "Search expresion error");
-                }else{
-                    if(response.body().getResults() != null) {
-                        searchResult.postValue(response.body().getResults());
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<Search> call, Throwable t) {
-                Log.i("Error failure", t.getMessage());
-            }
-        });
-        return searchResult;
-    }
+
 }

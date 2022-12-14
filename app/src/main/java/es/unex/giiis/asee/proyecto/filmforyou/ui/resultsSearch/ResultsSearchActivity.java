@@ -39,7 +39,8 @@ public class ResultsSearchActivity extends AppCompatActivity implements SearchMo
         binding.searchResults.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext(), LinearLayoutManager.VERTICAL, false));
         List<Movie> resultsList = new ArrayList<>();
         adapter = new SearchMovieResultsAdapter(resultsList, this);
-        searchViewModel.getSearchResults(resultSearch).observe(this, movies -> {
+        searchViewModel.getSearchResults(resultSearch);
+        searchViewModel.movieList.observe(this, movies -> {
             if(movies != null) {
                 Log.i("Update data", "Search");
                 adapter.swap(movies);

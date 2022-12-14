@@ -19,8 +19,6 @@ public class MoviesRepository {
     private final MovieDAO movieDAO;
     private final RepositoryNetworkDataSource mRepositoryNetwork;
     private static MoviesRepository sInstance;
-    private final MutableLiveData<List<Movie>> result = new MutableLiveData<>();
-    private LiveData<List<Movie>> searchResult = new MutableLiveData<>();
 
     public void getTopMovies(MoviesRepositoryListener callback) {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
@@ -51,14 +49,18 @@ public class MoviesRepository {
         });
     }
 
-    public LiveData<List<Movie>>  getSearchResultsExpresion(String expression) {
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+    public void getSearchResultsExpresion(String expression,MoviesRepositoryListener callback) {
+        mRepositoryNetwork.getSearchResultsExpresion(expression, new MoviesRepositoryListener() {
             @Override
-            public void run() {
-                searchResult = mRepositoryNetwork.getSearchResultsExpresion(expression);
+            public void onMoviesResult(List<Movie> movies) {
+                callback.onMoviesResult(movies);
+            }
+
+            @Override
+            public void onMovieFailure() {
+                callback.onMovieFailure();
             }
         });
-        return  searchResult;
     }
 
     public void removeMovies() {
