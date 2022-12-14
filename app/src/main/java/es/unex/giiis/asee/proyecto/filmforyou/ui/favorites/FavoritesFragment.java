@@ -36,7 +36,6 @@ public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListI
     private FavoritesViewModel favoritesViewModel;
     private FragmentFavoritesBinding binding;
     private UserMovieFavoritesRepository userMovieFavoritesRepository;
-    RecyclerView recyclerMovies;
     private LinearLayoutManager layoutManager;
     private List<UserFavoritesMovies> favoriteMovies;
     private loadingDialog loadingDialog;
@@ -84,8 +83,6 @@ public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListI
 
         observeViewModel();
     }
-
-
 
     @Override
     public void onDestroyView() {

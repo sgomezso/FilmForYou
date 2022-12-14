@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +15,26 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import es.unex.giiis.asee.proyecto.filmforyou.Adapters.MoviesAdapter;
+import es.unex.giiis.asee.proyecto.filmforyou.AppContainer;
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
+import es.unex.giiis.asee.proyecto.filmforyou.MyApplication;
+import es.unex.giiis.asee.proyecto.filmforyou.R;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentPendingBinding;
+import es.unex.giiis.asee.proyecto.filmforyou.loadingDialog;
 
 public class PendingFragment extends Fragment implements  MoviesAdapter.OnListInteractionListener {
 
     private FragmentPendingBinding binding;
+    private PendingViewModel pendingViewModel;
+    private loadingDialog loadingDialog;
     private MoviesAdapter adapter;
-    private PendingViewModel PendingViewModel;
+    private LinearLayoutManager layoutManager;
+    private UserMoviePendingRepository userMoviePendingRepository;
 
     // Required empty public favorites constructor
     public PendingFragment() {
@@ -42,21 +54,30 @@ public class PendingFragment extends Fragment implements  MoviesAdapter.OnListIn
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        PendingViewModel = new ViewModelProvider(this).get(PendingViewModel.class);
-        binding = FragmentPendingBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+        return inflater.inflate(R.layout.fragment_pending,container,false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
-        UserMoviePendingRepository mRepository = new UserMoviePendingRepository(getActivity());
-        SharedPreferences settings = getActivity().getSharedPreferences("preference", Context.MODE_PRIVATE);
-        Long userId = settings.getLong("userId", -1);
-        AppExecutors.getInstance().diskIO().execute(() -> mRepository.loadPendingMoviesByUser(userId, movies -> {
-            adapter = new MoviesAdapter(movies, PendingFragment.this);
-            binding.pendingList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-            binding.pendingList.setAdapter(adapter);
-        }));
+        super.onViewCreated(view, savedInstanceState);
+        binding = FragmentPendingBinding.bind(view);
+
+        layoutManager = new LinearLayoutManager(getActivity());
+        binding.pendingList.setLayoutManager(layoutManager);
+
+        AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
+        pendingViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.pendingViewModelFactory).get(PendingViewModel.class);
+
+        List<Movie> movieList = new ArrayList<>();
+        adapter = new MoviesAdapter(movieList,this);
+        binding.pendingList.setAdapter(adapter);
+
+        userMoviePendingRepository = UserMoviePendingRepository.getInstance(getContext());
+        loadingDialog = new loadingDialog(getActivity());
+        loadingDialog.startLoadingDialog();
+        pendingViewModel.getPendingMovies();;
+
+        observeViewModel();
     }
 
     @Override
@@ -80,17 +101,13 @@ public class PendingFragment extends Fragment implements  MoviesAdapter.OnListIn
         return false;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
+    public void observeViewModel() {
+        pendingViewModel.listPend.observe(getViewLifecycleOwner(), movies -> {
+            if (movies != null) {
+                Log.i("Update data", "NEW PENDING MOVIE");
+                adapter.swap(movies);
+                loadingDialog.dismisDialog();
+            }
+        });
     }
 }
