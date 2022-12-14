@@ -3,8 +3,6 @@ package es.unex.giiis.asee.proyecto.filmforyou.ui.favorites;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import androidx.room.Room;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +13,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserFavoriteMoviesDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
 
-public class UserMovieRepository {
+public class UserMovieFavoritesRepository {
 
     interface UserMovieRepositoryListener {
         public void onFavoriteMovies( List<Movie> userFavoritesMoviesList);
@@ -24,7 +22,7 @@ public class UserMovieRepository {
     public UserFavoriteMoviesDAO database;
     public SharedPreferences preference;
 
-    public UserMovieRepository(Context context) {
+    public UserMovieFavoritesRepository(Context context) {
         database = Database.getInstance(context).userFavoriteMoviesDAO();
         preference = context.getSharedPreferences("preference", Context.MODE_PRIVATE);
     }

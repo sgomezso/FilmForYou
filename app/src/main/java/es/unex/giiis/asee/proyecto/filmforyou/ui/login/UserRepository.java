@@ -3,13 +3,9 @@ package es.unex.giiis.asee.proyecto.filmforyou.ui.login;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import androidx.room.Room;
-
-import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.RepositoryNetworkDataSource;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.User;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.UserMovieRepository;
 
 public class UserRepository {
     public UserDAO database;

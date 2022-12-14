@@ -57,7 +57,7 @@ public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListI
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        UserMovieRepository mRepository = new UserMovieRepository(getActivity());
+        UserMovieFavoritesRepository mRepository = new UserMovieFavoritesRepository(getActivity());
         SharedPreferences settings = getActivity().getSharedPreferences("preference", Context.MODE_PRIVATE);
         Long userId = settings.getLong("userId", -1);
         AppExecutors.getInstance().diskIO().execute(() -> {

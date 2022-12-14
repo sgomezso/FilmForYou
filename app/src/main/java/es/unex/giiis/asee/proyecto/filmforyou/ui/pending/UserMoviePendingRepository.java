@@ -3,15 +3,13 @@ package es.unex.giiis.asee.proyecto.filmforyou.ui.pending;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import androidx.room.Room;
-
 import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserPendingMoviesDAO;
 
-public class UserMovieRepositoryPending {
+public class UserMoviePendingRepository {
 
     interface UserMovieRepositoryListener {
         public void onPendingMovies(List<Movie> userPendingMoviesList);
@@ -20,7 +18,7 @@ public class UserMovieRepositoryPending {
     public UserPendingMoviesDAO database;
     public SharedPreferences preference;
 
-    public UserMovieRepositoryPending(Context context) {
+    public UserMoviePendingRepository(Context context) {
         database = Database.getInstance(context).userPendingMoviesDAO();
         preference = context.getSharedPreferences("preference", Context.MODE_PRIVATE);
     }

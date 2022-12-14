@@ -16,9 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import es.unex.giiis.asee.proyecto.filmforyou.Adapters.MoviesAdapter;
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
-import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentFavoritesBinding;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentPendingBinding;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoritesViewModel;
 
 public class PendingFragment extends Fragment implements  MoviesAdapter.OnListInteractionListener {
 
@@ -51,7 +49,7 @@ public class PendingFragment extends Fragment implements  MoviesAdapter.OnListIn
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
-        UserMovieRepositoryPending mRepository = new UserMovieRepositoryPending(getActivity());
+        UserMoviePendingRepository mRepository = new UserMoviePendingRepository(getActivity());
         SharedPreferences settings = getActivity().getSharedPreferences("preference", Context.MODE_PRIVATE);
         Long userId = settings.getLong("userId", -1);
         AppExecutors.getInstance().diskIO().execute(() -> mRepository.loadPendingMoviesByUser(userId, movies -> {

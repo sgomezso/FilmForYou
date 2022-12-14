@@ -4,28 +4,21 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.UserMovieRepository;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.login.UserRepository;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.pending.UserMovieRepositoryPending;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.UserMovieFavoritesRepository;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.pending.UserMoviePendingRepository;
 
 
 public class MostrarMovieActivity extends AppCompatActivity {
@@ -61,8 +54,8 @@ public class MostrarMovieActivity extends AppCompatActivity {
         textFullTitle = (TextView) findViewById(R.id.textFullTitle);
         backButton = (TextView) findViewById(R.id.back);
 
-        UserMovieRepository userMovieRepository = new UserMovieRepository(this);
-        UserMovieRepositoryPending userMovieRepositoryPending = new UserMovieRepositoryPending(this);
+        UserMovieFavoritesRepository userMovieFavoritesRepository = new UserMovieFavoritesRepository(this);
+        UserMoviePendingRepository userMoviePendingRepository = new UserMoviePendingRepository(this);
         Movie movie = (Movie) getIntent().getSerializableExtra("Movie");
         SharedPreferences settings = getSharedPreferences("preference", Context.MODE_PRIVATE);
         Long userId = settings.getLong("userId",-1);
@@ -73,10 +66,10 @@ public class MostrarMovieActivity extends AppCompatActivity {
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
-                        if( userMovieRepository.checkFav(userId,movie.getMovieId())){
-                            userMovieRepository.deleteFav(userId,movie.getMovieId());
+                        if( userMovieFavoritesRepository.checkFav(userId,movie.getMovieId())){
+                            userMovieFavoritesRepository.deleteFav(userId,movie.getMovieId());
                         } else {
-                            userMovieRepository.addFav(userId, movie.getMovieId());
+                            userMovieFavoritesRepository.addFav(userId, movie.getMovieId());
                         }
                     }
                 });
@@ -90,10 +83,10 @@ public class MostrarMovieActivity extends AppCompatActivity {
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
-                        if(userMovieRepositoryPending.checkPending(userId,movie.getMovieId())){
-                            userMovieRepositoryPending.deletePending(userId,movie.getMovieId());
+                        if(userMoviePendingRepository.checkPending(userId,movie.getMovieId())){
+                            userMoviePendingRepository.deletePending(userId,movie.getMovieId());
                         } else {
-                            userMovieRepositoryPending.addPending(userId, movie.getMovieId());
+                            userMoviePendingRepository.addPending(userId, movie.getMovieId());
                         }
                     }
                 });
