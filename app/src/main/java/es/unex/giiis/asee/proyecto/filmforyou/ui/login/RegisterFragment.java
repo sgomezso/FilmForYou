@@ -128,6 +128,7 @@ public class RegisterFragment extends Fragment {
                             AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
                             Intent i = new Intent(getActivity(), MainActivity.class);
                             startActivity(i);
+                            requireActivity().finish();
                         }
                     });
                 } else

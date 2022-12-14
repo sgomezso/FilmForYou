@@ -47,7 +47,7 @@ public class MostrarMovieActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         setContentView(R.layout.fragment_movie);
 
-        UserRepository userRepository = new UserRepository(this);
+        UserRepository userRepository = UserRepository.getInstance(this);
 
         rank = (TextView) findViewById(R.id.textRankIMDB);
         year = (TextView) findViewById(R.id.textYear);

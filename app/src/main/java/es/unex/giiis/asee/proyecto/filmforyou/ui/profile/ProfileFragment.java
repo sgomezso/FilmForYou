@@ -17,109 +17,97 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import es.unex.giiis.asee.proyecto.filmforyou.AppContainer;
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
+import es.unex.giiis.asee.proyecto.filmforyou.MyApplication;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.User;
 import es.unex.giiis.asee.proyecto.filmforyou.databinding.FragmentProfileBinding;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.login.LoginActivity;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.login.UserRepository;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MovieListViewModel;
 
 public class ProfileFragment extends Fragment {
 
     private ProfileViewModel profileViewModel;
     private FragmentProfileBinding binding;
-    private TextView username;
-    private TextView edad;
-    private TextView generoFav;
-    private TextView peliculaFav;
-    private TextView directorFav;
-    private User user;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        profileViewModel =
-                new ViewModelProvider(this).get(ProfileViewModel.class);
 
+
+        AppContainer appContainer = ((MyApplication) getActivity().getApplication()).appContainer;
+        profileViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) appContainer.profileViewModelFactory).get(ProfileViewModel.class);
         binding = FragmentProfileBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-        SharedPreferences settings = getActivity().getSharedPreferences("preference", Context.MODE_PRIVATE);
-        UserRepository userRepository = new UserRepository(getActivity());
-        Long userId = settings.getLong("userId",-1);
+        return binding.getRoot();
+    }
 
-        if(userId!=-1){
-            username = (TextView) binding.UsernameValue;
-            generoFav = (TextView) binding.GeneroFavValue;
-            peliculaFav = (TextView) binding.PeliculaFavValue;
-            directorFav = (TextView)binding.DirectorFavValue;
-            ImageView img = binding.idImagenMovie;
-            Boolean aux= false;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-            AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                    user = userRepository.getUser(userId);
-                    username.setText(user.getUsername());
-                    generoFav.setText(user.getGeneroFav());
-                    peliculaFav.setText(user.getPeliculaFav());
-                    directorFav.setText(user.getDirectorFav());
-
-//                    AppExecutors.getInstance().mainThread().execute(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            if (!user.getImagen().equals("")){
-//                                img.setImageURI(Uri.parse(user.getImagen()));
-//                            }
-//                        }
-//                    });
-
-                }
-            });
-
-            img.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent,3);
-                }
-            });
-
+        profileViewModel.getUser();
+        profileViewModel.mUser.observe(getViewLifecycleOwner(),user -> {setUserData(user);});
 
         binding.endSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                settings.edit().clear().commit();
+                // TODO VIEMWODEL BORRAR USUARIO = BORRAR PELICULAS
+                profileViewModel.closeSession();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
+                requireActivity().finish();
             }
         });
 
-        }
-        return root;
+
+    }
+
+    private void setUserData(User user) {
+        binding.UsernameValue.setText(user.getUsername());
+        binding.GeneroFavValue.setText(user.getGeneroFav());
+        binding.PeliculaFavValue.setText(user.getPeliculaFav());
+        binding.DirectorFavValue.setText(user.getDirectorFav());
+
+        binding.idImagenMovie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 3);
+            }
+        });
+
+        AppExecutors.getInstance().mainThread().execute(new Runnable() {
+            @Override
+            public void run() {
+                if (!user.getImagen().equals("")) {
+                    binding.idImagenMovie.setImageURI(Uri.parse(user.getImagen()));
+                }
+            }
+        });
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && data!=null){
+        if (resultCode == RESULT_OK && data != null) {
             Uri selectedImage = data.getData();
             ImageView img = getActivity().findViewById(R.id.idImagenMovie);
             img.setImageURI(selectedImage);
 
-            SharedPreferences settings = getActivity().getSharedPreferences("preference", Context.MODE_PRIVATE);
-            Long userId = settings.getLong("userId",-1);
-
             //TO DO guardar en bd
-            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-//                    UserRepository userRepository = new UserRepository(getActivity());
-//                    userRepository.updateImage(selectedImage.toString(),userId);
+//                    profileViewModel.updateImage(selectedImage.toString());
                 }
             });
         }
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

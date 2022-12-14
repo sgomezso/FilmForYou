@@ -25,7 +25,7 @@ public class UserMovieRepository {
     public SharedPreferences preference;
 
     public UserMovieRepository(Context context) {
-        database = Room.databaseBuilder(context, Database.class, "database").allowMainThreadQueries().build().userFavoriteMoviesDAO();
+        database = Database.getInstance(context).userFavoriteMoviesDAO();
         preference = context.getSharedPreferences("preference", Context.MODE_PRIVATE);
     }
 

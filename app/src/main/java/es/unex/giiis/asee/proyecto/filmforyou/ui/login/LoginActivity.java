@@ -18,7 +18,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        userRepository  =  new UserRepository(this);
+        userRepository  =  UserRepository.getInstance(this);
         //llevar a otro hilo
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (userRepository.checkIsUserIsLoged() ==true){
                     Intent i = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(i);
+                    finish();
                 } else {
                     getSupportFragmentManager().beginTransaction().replace(R.id.activityLayout,new LoginFragment()).addToBackStack(null).commit();
                 }

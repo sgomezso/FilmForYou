@@ -61,7 +61,7 @@ public class LoginFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_login, container, false);
         EditText usernameET = v.findViewById(R.id.usernameLogin);
         EditText passwordET = v.findViewById(R.id.passwordLogin);
-        UserRepository userRepository = new UserRepository(getActivity());
+        UserRepository userRepository = UserRepository.getInstance(getContext());
 
         v.findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +73,7 @@ public class LoginFragment extends Fragment {
                             userRepository.preference.edit().putLong("userId", userRepository.getUserId(usernameET.getText().toString(), passwordET.getText().toString()));
                             Intent i = new Intent(getActivity(), MainActivity.class);
                             startActivity(i);
+                            requireActivity().finish();
                         }
                     }
                 });

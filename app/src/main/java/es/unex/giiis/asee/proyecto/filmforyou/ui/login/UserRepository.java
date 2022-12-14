@@ -5,17 +5,28 @@ import android.content.SharedPreferences;
 
 import androidx.room.Room;
 
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.RepositoryNetworkDataSource;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.User;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.UserMovieRepository;
 
 public class UserRepository {
     public UserDAO database;
     public SharedPreferences preference;
+    private static UserRepository sInstance;
+
 
     public UserRepository(Context context) {
-        database = Room.databaseBuilder(context, Database.class, "database").allowMainThreadQueries().build().userDAO();
+        database = Database.getInstance(context).userDAO();
         preference = context.getSharedPreferences("preference", Context.MODE_PRIVATE);
+    }
+
+    public static UserRepository getInstance(Context context) {
+        if (sInstance == null) {
+            sInstance = new UserRepository(context);
+        }
+        return sInstance;
     }
 
     public boolean checkIsUserIsLoged() {
@@ -40,6 +51,9 @@ public class UserRepository {
             preference.edit().putLong("userId",getUserId(username,Password)).commit();
 
     }
+    public User getCurrentUser(){
+        return getUser(preference.getLong("userId", 0));
+    }
 
     public long getUserId(String username, String password) {
         return database.getUserId(username,password);
@@ -49,7 +63,11 @@ public class UserRepository {
         return database.getUser(username,password);
     }
 
-    public void updateImage(String img, Long id) {
-        database.updateImage(img,id.toString());
+    public void updateImage(String img) {
+        database.updateImage(img, String.valueOf(preference.getLong("userId", 0)));
+    }
+
+    public void closeSession() {
+        preference.edit().remove("userId").apply();
     }
 }

@@ -20,8 +20,6 @@ public class LoginViewModel extends ViewModel {
 
     public void createUser (String username, String Password, String email, String generoFav, String peliculaFav, String directorFav, String imagen){
         userRepository.registerUser(username, Password,email,generoFav,peliculaFav,directorFav,imagen);
-        userRepository.preference.edit().putLong("userId", userRepository.getUserId(username, Password));
-
         user.postValue(userRepository.getUser(userRepository.getUserId(username, Password)));
     }
 
