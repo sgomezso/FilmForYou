@@ -37,7 +37,8 @@ public class MostrarMovieActivity extends AppCompatActivity {
     private TextView directors;
     private TextView textFullTitle;
     private TextView backButton;
-    FloatingActionButton EFbutton;
+    FloatingActionButton EFbuttonFav;
+    FloatingActionButton EFbuttonPend;
     private MovieListViewModel mViewModel;
     private Movie movie;
 
@@ -58,7 +59,8 @@ public class MostrarMovieActivity extends AppCompatActivity {
         imageReparto=(ImageView) findViewById(R.id.idImagenReparto);
         textFullTitle = (TextView) findViewById(R.id.textFullTitle);
         backButton = (TextView) findViewById(R.id.back);
-        EFbutton = (FloatingActionButton) findViewById(R.id.fav_Botton);
+        EFbuttonFav = (FloatingActionButton) findViewById(R.id.fav_Botton);
+        EFbuttonPend = (FloatingActionButton) findViewById(R.id.addPendingButton);
 
         UserMovieFavoritesRepository userMovieFavoritesRepository = new UserMovieFavoritesRepository(this);
         UserMoviePendingRepository userMoviePendingRepository = new UserMoviePendingRepository(this);
@@ -80,10 +82,10 @@ public class MostrarMovieActivity extends AppCompatActivity {
 
                         if (movie.isEsFavorito() == false) {
                             movie.setEsFavorito(true);
-                            EFbutton.setImageResource(R.drawable.ic_baseline_star_rate_24);
+                            EFbuttonFav.setImageResource(R.drawable.ic_baseline_star_rate_24);
                         } else {
                             movie.setEsFavorito(false);
-                            EFbutton.setImageResource(R.drawable.ic_baseline_star_rate_25);
+                            EFbuttonFav.setImageResource(R.drawable.ic_baseline_star_rate_25);
                         }
                     }
                 });
