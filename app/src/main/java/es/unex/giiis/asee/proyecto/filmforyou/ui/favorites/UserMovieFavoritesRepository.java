@@ -6,15 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
-import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepository;
 import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepositoryListener;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
-import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.RepositoryNetworkDataSource;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserFavoriteMoviesDAO;
-import es.unex.giiis.asee.proyecto.filmforyou.data.model.User;
-import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
-import es.unex.giiis.asee.proyecto.filmforyou.ui.login.UserRepository;
 
 public class UserMovieFavoritesRepository {
 
@@ -23,15 +18,11 @@ public class UserMovieFavoritesRepository {
     }
 
     public UserFavoriteMoviesDAO userFavoriteMoviesDAO;
-    public MoviesRepository moviesRepository;
-    public UserRepository userRepository;
     private static UserMovieFavoritesRepository sInstance;
 
 
     public UserMovieFavoritesRepository(Context context) {
         userFavoriteMoviesDAO = Database.getInstance(context).userFavoriteMoviesDAO();
-        this.moviesRepository = MoviesRepository.getInstance(Database.getInstance(context).movieDAO(), RepositoryNetworkDataSource.getInstance());
-        this.userRepository = UserRepository.getInstance(context);
     }
 
     public static UserMovieFavoritesRepository getInstance(Context context) {
@@ -41,31 +32,16 @@ public class UserMovieFavoritesRepository {
         return sInstance;
     }
 
-    public void getFavoriteMovies(MoviesRepositoryListener moviesRepositoryListener) {
+    public void getFavoriteMovies(MoviesRepositoryListener callback) {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                moviesRepository.getTopMovies(new MoviesRepositoryListener() {
-                    @Override
-                    public void onMoviesResult(List<Movie> movies) {
-                        User user = userRepository.getCurrentUser();
-                        List<UserFavoritesMovies> listUserFavoritesMovies = userFavoriteMoviesDAO.getFavoriteMoviesUserLogged(user.getId().toString());
-                        List<Movie> result = new ArrayList<>();
-                        for (Movie movie : movies) {
-                            for (UserFavoritesMovies userFavoritesMovies : listUserFavoritesMovies) {
-                                if (userFavoritesMovies.getIdMovie().equals(movie.getMovieId())) {
-                                    result.add(movie);
-                                }
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onMovieFailure() {
-
-                    }
-                });
-
+                List<FavoriteMovies> favoriteMovies = userFavoriteMoviesDAO.getFavoriteMovies();
+                List<Movie> movies = new ArrayList<>();
+                for (FavoriteMovies favoriteMovie : favoriteMovies) {
+                    movies.add(favoriteMovie.toMovie());
+                }
+                callback.onMoviesResult(movies);
             }
         });
     }

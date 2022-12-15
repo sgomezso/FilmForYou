@@ -63,6 +63,12 @@ public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListI
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        favoritesViewModel.getFavoriteMovies();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentFavoritesBinding.bind(view);
@@ -79,7 +85,7 @@ public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListI
         userMovieFavoritesRepository = UserMovieFavoritesRepository.getInstance(getContext());
         loadingDialog = new loadingDialog(getActivity());
         loadingDialog.startLoadingDialog();
-        favoritesViewModel.getFavoriteMovies();
+
 
         observeViewModel();
     }

@@ -7,6 +7,7 @@ import androidx.room.Query;
 import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoriteMovies;
 
 @Dao
 public interface UserFavoriteMoviesDAO {
@@ -25,4 +26,7 @@ public interface UserFavoriteMoviesDAO {
 
     @Query("delete from userFavoriteMovies where idUser = :idUser and idMovie = :idMovie")
     public void deleteFavorite(String idUser, String idMovie);
+
+    @Query("select * from movies m join userfavoritemovies f where m.id = f.idMovie")
+    public List<FavoriteMovies> getFavoriteMovies();
 }
