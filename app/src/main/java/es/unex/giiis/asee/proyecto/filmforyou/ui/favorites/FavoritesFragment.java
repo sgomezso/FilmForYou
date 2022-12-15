@@ -82,10 +82,10 @@ public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListI
         List<Movie> movieList = new ArrayList<>();
         adapter = new MoviesAdapter(movieList,this);
         binding.favList.setAdapter(adapter);
+
         userMovieFavoritesRepository = UserMovieFavoritesRepository.getInstance(getContext());
         loadingDialog = new loadingDialog(getActivity());
         loadingDialog.startLoadingDialog();
-
 
         observeViewModel();
     }

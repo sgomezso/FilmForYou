@@ -26,14 +26,10 @@ public class UserMoviePendingRepository {
     }
 
     public UserPendingMoviesDAO userPendingMoviesDAO;
-    public MoviesRepository moviesRepository;
-    public UserRepository userRepository;
     private static UserMoviePendingRepository sInstance;
 
     public UserMoviePendingRepository(Context context) {
         userPendingMoviesDAO = Database.getInstance(context).userPendingMoviesDAO();
-        this.moviesRepository = MoviesRepository.getInstance(Database.getInstance(context).movieDAO(), RepositoryNetworkDataSource.getInstance());
-        this.userRepository = UserRepository.getInstance(context);
     }
 
     public static UserMoviePendingRepository getInstance(Context context) {
@@ -43,31 +39,16 @@ public class UserMoviePendingRepository {
         return sInstance;
     }
 
-    public void getPendingMovies(MoviesRepositoryListener moviesRepositoryListener) {
+    public void getPendingMovies(MoviesRepositoryListener callback) {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                moviesRepository.getTopMovies(new MoviesRepositoryListener() {
-                    @Override
-                    public void onMoviesResult(List<Movie> movies) {
-                        User user = userRepository.getCurrentUser();
-                        List<UserPendingMovies> listUserPendingMovies = userPendingMoviesDAO.getPendingMoviesUserLogged(user.getId().toString());
-                        List<Movie> result = new ArrayList<>();
-                        for (Movie movie : movies) {
-                            for (UserPendingMovies userPendingMovies : listUserPendingMovies) {
-                                if (userPendingMovies.getIdMovie().equals(movie.getMovieId())) {
-                                    result.add(movie);
-                                }
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onMovieFailure() {
-
-                    }
-                });
-
+                List<PendingMovies> pendingMovies = userPendingMoviesDAO.getPendingMovies();
+                List<Movie> movies = new ArrayList<>();
+                for (PendingMovies pendMovie: pendingMovies) {
+                    movies.add(pendMovie.toMovie());
+                }
+                callback.onMoviesResult(movies);
             }
         });
     }

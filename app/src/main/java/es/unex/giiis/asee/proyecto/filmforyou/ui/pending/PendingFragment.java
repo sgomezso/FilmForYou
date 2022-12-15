@@ -75,9 +75,14 @@ public class PendingFragment extends Fragment implements  MoviesAdapter.OnListIn
         userMoviePendingRepository = UserMoviePendingRepository.getInstance(getContext());
         loadingDialog = new loadingDialog(getActivity());
         loadingDialog.startLoadingDialog();
-        pendingViewModel.getPendingMovies();;
 
         observeViewModel();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        pendingViewModel.getPendingMovies();
     }
 
     @Override
