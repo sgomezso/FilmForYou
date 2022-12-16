@@ -3,12 +3,14 @@ package es.unex.giiis.asee.proyecto.filmforyou.ui.movie;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepository;
 import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepositoryListener;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoritesViewModel;
 
 public class MovieListViewModel extends ViewModel {
     private MoviesRepository mRepository;
@@ -42,7 +44,4 @@ public class MovieListViewModel extends ViewModel {
         mRepository.removeMovies();
     }
 
-    public void actualizarMovie(Movie movie){
-        mRepository.updateMovie(movie);
-    }
 }

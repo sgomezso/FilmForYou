@@ -13,6 +13,7 @@ public class MovieDetail {
     public String plot;
     public String directors;
     private boolean esFavorito;
+    private boolean esPendiente;
 
     public void setId(String id) {
         this.id = id;
@@ -83,6 +84,14 @@ public class MovieDetail {
 
     public void setEsFavorito(boolean esFavorito) {
         this.esFavorito = esFavorito;
+    }
+
+    public boolean isEsPendiente() {
+        return esPendiente;
+    }
+
+    public void setEsPendiente(boolean esPendiente) {
+        this.esPendiente = esPendiente;
     }
 
     public void setErrorMesssage(String errorMesssage) {

@@ -37,7 +37,8 @@ public class MostrarMovieActivity extends AppCompatActivity {
     private TextView directors;
     private TextView textFullTitle;
     private ImageView backButton;
-    FloatingActionButton EFbutton;
+    FloatingActionButton EFbuttonFav;
+    FloatingActionButton EFbuttonPend;
     private MovieListViewModel mViewModel;
     private Movie movie;
 
@@ -58,7 +59,8 @@ public class MostrarMovieActivity extends AppCompatActivity {
         imageReparto=(ImageView) findViewById(R.id.idImagenReparto);
         textFullTitle = (TextView) findViewById(R.id.textFullTitle);
         backButton = (ImageView) findViewById(R.id.back);
-        EFbutton = (FloatingActionButton) findViewById(R.id.fav_Botton);
+        EFbuttonFav = (FloatingActionButton) findViewById(R.id.fav_Botton);
+        EFbuttonPend=(FloatingActionButton) findViewById(R.id.addPendingButton);
 
         UserMovieFavoritesRepository userMovieFavoritesRepository = new UserMovieFavoritesRepository(this);
         UserMoviePendingRepository userMoviePendingRepository = new UserMoviePendingRepository(this);
@@ -80,10 +82,10 @@ public class MostrarMovieActivity extends AppCompatActivity {
 
                         if (movie.isEsFavorito() == false) {
                             movie.setEsFavorito(true);
-                            EFbutton.setImageResource(R.drawable.ic_baseline_star_rate_24);
+                            EFbuttonFav.setColorFilter(Color.YELLOW);
                         } else {
                             movie.setEsFavorito(false);
-                            EFbutton.setImageResource(R.drawable.ic_baseline_star_rate_25);
+                            EFbuttonFav.setImageResource(R.drawable.ic_baseline_star_rate_25);
                         }
                     }
                 });
@@ -102,8 +104,16 @@ public class MostrarMovieActivity extends AppCompatActivity {
                     public void run() {
                         if(userMoviePendingRepository.checkPending(userId,movie.getMovieId())){
                             userMoviePendingRepository.deletePending(userId,movie.getMovieId());
+                            EFbuttonPend.setColorFilter(Color.BLACK);
                         } else {
                             userMoviePendingRepository.addPending(userId, movie.getMovieId());
+                            EFbuttonPend.setColorFilter(Color.YELLOW);
+                        }
+
+                        if (movie.isEsPendiente() == false) {
+                            movie.setEsPendiente(true);
+                        } else {
+                            movie.setEsPendiente(false);
                         }
                     }
                 });
@@ -163,6 +173,16 @@ public class MostrarMovieActivity extends AppCompatActivity {
 
         Picasso.get().load("https://cdn-icons-png.flaticon.com/512/74/74472.png").into(imageReparto);
 
+        if(movie.isEsPendiente()==true){
+            EFbuttonPend.setColorFilter(Color.YELLOW);
+        }else{
+            EFbuttonPend.setColorFilter(Color.BLACK);
+        }
 
+        if(movie.isEsFavorito()==true){
+            EFbuttonFav.setColorFilter(Color.YELLOW);
+        }else{
+            EFbuttonFav.setColorFilter(Color.BLACK);
+        }
     }
 }

@@ -21,6 +21,7 @@ public class Movie implements Serializable {
     public String imDbRating;
     public String imDbRatingCount;
     private boolean esFavorito;
+    private boolean esPendiente;
 
     public Movie(){}
 
@@ -112,7 +113,15 @@ public class Movie implements Serializable {
         return esFavorito;
     }
 
+    public boolean isEsPendiente() {
+        return esPendiente;
+    }
+
     public void setEsFavorito(boolean esFavorito) {
         this.esFavorito = esFavorito;
+    }
+
+    public void setEsPendiente(boolean esPendiente) {
+        this.esPendiente = esPendiente;
     }
 }
