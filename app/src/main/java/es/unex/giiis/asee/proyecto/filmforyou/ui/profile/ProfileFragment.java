@@ -99,12 +99,12 @@ public class ProfileFragment extends Fragment {
             img.setImageURI(selectedImage);
 
             //TO DO guardar en bd
-             AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                @Override
-                public void run() {
+//             AppExecutors.getInstance().diskIO().execute(new Runnable() {
+//                @Override
+//                public void run() {
 //                    profileViewModel.updateImage(selectedImage.toString());
-                }
-            });
+//                }
+//            });
         }
     }
 

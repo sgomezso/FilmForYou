@@ -8,6 +8,7 @@ import java.util.List;
 
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.pending.PendingMovies;
 
 @Dao
 public interface UserPendingMoviesDAO {
@@ -26,5 +27,8 @@ public interface UserPendingMoviesDAO {
 
     @Query("delete from userPendingMovies where idUser = :idUser and idMovie = :idMovie")
     public void deletePending(String idUser, String idMovie);
+
+    @Query("select * from movies m join userPendingMovies p where m.id = p.idMovie")
+    public List<PendingMovies> getPendingMovies();
 }
 

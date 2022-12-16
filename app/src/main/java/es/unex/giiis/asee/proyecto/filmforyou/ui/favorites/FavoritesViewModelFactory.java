@@ -7,9 +7,9 @@ import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepository;
 
 public class FavoritesViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
-    private final MoviesRepository mRepository;
+    private final UserMovieFavoritesRepository mRepository;
 
-    public FavoritesViewModelFactory(MoviesRepository repository) {
+    public FavoritesViewModelFactory(UserMovieFavoritesRepository repository) {
         this.mRepository = repository;
     }
 

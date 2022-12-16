@@ -1,58 +1,63 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.favorites;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepository;
+import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
+import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepositoryListener;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
-import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.RepositoryNetworkDataSource;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserFavoriteMoviesDAO;
-import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
 
 public class UserMovieFavoritesRepository {
 
     interface UserMovieRepositoryListener {
-        public void onFavoriteMovies( List<Movie> userFavoritesMoviesList);
+        public void onFavoriteMovies(List<Movie> userFavoritesMoviesList);
     }
 
-    public UserFavoriteMoviesDAO database;
-    public SharedPreferences preference;
+    public UserFavoriteMoviesDAO userFavoriteMoviesDAO;
+    private static UserMovieFavoritesRepository sInstance;
+
 
     public UserMovieFavoritesRepository(Context context) {
-        database = Database.getInstance(context).userFavoriteMoviesDAO();
-        preference = context.getSharedPreferences("preference", Context.MODE_PRIVATE);
+        userFavoriteMoviesDAO = Database.getInstance(context).userFavoriteMoviesDAO();
     }
 
-    public void loadFavoriteMoviesByUser(Long userId, UserMovieRepositoryListener userMovieRepositoryListener,Context context) {
-        MoviesRepository repository = MoviesRepository.getInstance(Database.getInstance(context).movieDAO(), RepositoryNetworkDataSource.getInstance());
-        List<Movie> movies = new ArrayList<>();
-        List<UserFavoritesMovies> userFavoritesMoviesList = (List<UserFavoritesMovies>) database.loadFavoriteMoviesByUser(userId.toString());
-//        for (Movie movie :  repository.getCurrentTopMovies().getValue()) {
-//            for (UserFavoritesMovies userFavoritesMovies : userFavoritesMoviesList) {
-//                if (userFavoritesMovies.getIdMovie().equals(movie.getMovieId())) {
-//                    movies.add(movie);
-//                }
-//            }
-//        }
-        userMovieRepositoryListener.onFavoriteMovies(movies);
+    public static UserMovieFavoritesRepository getInstance(Context context) {
+        if (sInstance == null) {
+            sInstance = new UserMovieFavoritesRepository(context);
+        }
+        return sInstance;
+    }
+
+    public void getFavoriteMovies(MoviesRepositoryListener callback) {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                List<FavoriteMovies> favoriteMovies = userFavoriteMoviesDAO.getFavoriteMovies();
+                List<Movie> movies = new ArrayList<>();
+                for (FavoriteMovies favoriteMovie : favoriteMovies) {
+                    movies.add(favoriteMovie.toMovie());
+                }
+                callback.onMoviesResult(movies);
+            }
+        });
     }
 
     public boolean checkFav(Long idUser, String idMovie) {
-        if (database.checkUserFavoriteMovie(idUser.toString(), idMovie) == null)
+        if (userFavoriteMoviesDAO.checkUserFavoriteMovie(idUser.toString(), idMovie) == null)
             return false;
         else
             return true;
     }
 
     public void addFav(Long idUser, String idMovie) {
-        database.insertFavorite(idUser.toString(), idMovie);
+        userFavoriteMoviesDAO.insertFavorite(idUser.toString(), idMovie);
     }
 
     public void deleteFav(Long idUser, String idMovie) {
-        database.deleteFavorite(idUser.toString(), idMovie);
+        userFavoriteMoviesDAO.deleteFavorite(idUser.toString(), idMovie);
     }
 }

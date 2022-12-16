@@ -3,11 +3,21 @@ package es.unex.giiis.asee.proyecto.filmforyou.ui.pending;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
+import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepository;
+import es.unex.giiis.asee.proyecto.filmforyou.MoviesRepositoryListener;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
+import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.RepositoryNetworkDataSource;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.Database;
 import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserPendingMoviesDAO;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.User;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
+import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.UserMovieFavoritesRepository;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.login.UserRepository;
 
 public class UserMoviePendingRepository {
 
@@ -15,39 +25,46 @@ public class UserMoviePendingRepository {
         public void onPendingMovies(List<Movie> userPendingMoviesList);
     }
 
-    public UserPendingMoviesDAO database;
-    public SharedPreferences preference;
+    public UserPendingMoviesDAO userPendingMoviesDAO;
+    private static UserMoviePendingRepository sInstance;
 
     public UserMoviePendingRepository(Context context) {
-        database = Database.getInstance(context).userPendingMoviesDAO();
-        preference = context.getSharedPreferences("preference", Context.MODE_PRIVATE);
+        userPendingMoviesDAO = Database.getInstance(context).userPendingMoviesDAO();
     }
 
-    public void loadPendingMoviesByUser(Long userId, UserMovieRepositoryListener userMovieRepositoryListener) {
-//        MoviesRepository apiRepository = new MoviesRepository();
-//        List<Movie> movies = new ArrayList<>();
-//        List<UserPendingMovies> userPendingMoviesList = database.loadPendingMoviesByUser(userId.toString());
-//        for (Movie movie : apiRepository.getTopMovies().getValue()) {
-//            for (UserPendingMovies userPendingMovies : userPendingMoviesList) {
-//                if (userPendingMovies.getIdMovie().equals(movie.getMovieId())) {
-//                    movies.add(movie);
-//                }
-//            }
-//        }
-//        userMovieRepositoryListener.onPendingMovies(movies);
+    public static UserMoviePendingRepository getInstance(Context context) {
+        if (sInstance == null) {
+            sInstance = new UserMoviePendingRepository(context);
+        }
+        return sInstance;
     }
+
+    public void getPendingMovies(MoviesRepositoryListener callback) {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                List<PendingMovies> pendingMovies = userPendingMoviesDAO.getPendingMovies();
+                List<Movie> movies = new ArrayList<>();
+                for (PendingMovies pendMovie: pendingMovies) {
+                    movies.add(pendMovie.toMovie());
+                }
+                callback.onMoviesResult(movies);
+            }
+        });
+    }
+
     public boolean checkPending(Long idUser, String idMovie) {
-        if (database.checkUserPendingMovie(idUser.toString(), idMovie) == null)
+        if (userPendingMoviesDAO.checkUserPendingMovie(idUser.toString(), idMovie) == null)
             return false;
         else
             return true;
     }
 
     public void addPending(Long idUser, String idMovie) {
-        database.insertPending(idUser.toString(), idMovie);
+        userPendingMoviesDAO.insertPending(idUser.toString(), idMovie);
     }
 
     public void deletePending(Long idUser, String idMovie) {
-        database.deletePending(idUser.toString(), idMovie);
+        userPendingMoviesDAO.deletePending(idUser.toString(), idMovie);
     }
 }

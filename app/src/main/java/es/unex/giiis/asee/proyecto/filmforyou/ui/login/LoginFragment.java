@@ -9,6 +9,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.service.controls.actions.BooleanAction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,25 +67,31 @@ public class LoginFragment extends Fragment {
         v.findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Drawable icon = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_baseline_warning_24);
+                icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
+
+                boolean success = true;
+                if (TextUtils.isEmpty(usernameET.getText().toString().trim())) {
+                    usernameET.setError("Please Enter Username", icon);
+                    success = false;
+                }
+                if (TextUtils.isEmpty(passwordET.getText().toString().trim())) {
+                    passwordET.setError("Please Enter password", icon);
+                    success = false;
+                }
+
+                if (!success) return;
+
                 AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
                         if (userRepository.checkUser(usernameET.getText().toString(), passwordET.getText().toString())) {
-                            userRepository.preference.edit().putLong("userId", userRepository.getUserId(usernameET.getText().toString(), passwordET.getText().toString()));
                             Intent i = new Intent(getActivity(), MainActivity.class);
                             startActivity(i);
                             requireActivity().finish();
                         }
                     }
                 });
-                Drawable icon = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_baseline_warning_24);
-                icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
-                if (TextUtils.isEmpty(usernameET.getText().toString().trim()))
-                    usernameET.setError("Please Enter Username", icon);
-                if (TextUtils.isEmpty(passwordET.getText().toString().trim()))
-                    passwordET.setError("Please Enter password", icon);
-                if (!TextUtils.isEmpty(passwordET.getText().toString().trim()) && !TextUtils.isEmpty(passwordET.getText().toString().trim()))
-                    passwordET.setError("Username o password incorrect", icon);
             }
         });
         v.findViewById(R.id.registerLogin).setOnClickListener(new View.OnClickListener() {

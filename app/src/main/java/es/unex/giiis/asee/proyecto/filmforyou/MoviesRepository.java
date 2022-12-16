@@ -49,7 +49,7 @@ public class MoviesRepository {
         });
     }
 
-    public void getSearchResultsExpresion(String expression,MoviesRepositoryListener callback) {
+    public void getSearchResultsExpresion(String expression, MoviesRepositoryListener callback) {
         mRepositoryNetwork.getSearchResultsExpresion(expression, new MoviesRepositoryListener() {
             @Override
             public void onMoviesResult(List<Movie> movies) {
@@ -73,10 +73,12 @@ public class MoviesRepository {
 
     public interface RepositoryListener2 {
         void onTopMoviesResponse(List<Movie> top250movies);
+
         void onSearchResultsExpresionResponse(List<Movie> resultsSearch);
+
         void onSearchResultsExpresionResponse(LiveData<List<Movie>> resultsSearch);
 
-        public void onMovieDetailResponse (MovieDetail movieDetail);
+        public void onMovieDetailResponse(MovieDetail movieDetail);
     }
 
     private MoviesRepository(MovieDAO mDAO, RepositoryNetworkDataSource mRepositooryNetwork) {
@@ -87,7 +89,7 @@ public class MoviesRepository {
 
     public synchronized static MoviesRepository getInstance(MovieDAO mDAO, RepositoryNetworkDataSource mRepositooryNetwork) {
         if (sInstance == null) {
-            sInstance = new MoviesRepository(mDAO,mRepositooryNetwork);
+            sInstance = new MoviesRepository(mDAO, mRepositooryNetwork);
         }
         return sInstance;
     }
