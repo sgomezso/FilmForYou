@@ -82,9 +82,11 @@ public class MostrarMovieActivity extends AppCompatActivity {
 
                         if (movie.isEsFavorito() == false) {
                             movie.setEsFavorito(true);
+                            mViewModel.actualizarMovie(movie);
                             EFbuttonFav.setColorFilter(Color.YELLOW);
                         } else {
                             movie.setEsFavorito(false);
+                            mViewModel.actualizarMovie(movie);
                             EFbuttonFav.setImageResource(R.drawable.ic_baseline_star_rate_25);
                         }
                     }
@@ -112,8 +114,10 @@ public class MostrarMovieActivity extends AppCompatActivity {
 
                         if (movie.isEsPendiente() == false) {
                             movie.setEsPendiente(true);
+                            mViewModel.actualizarMovie(movie);
                         } else {
                             movie.setEsPendiente(false);
+                            mViewModel.actualizarMovie(movie);
                         }
                     }
                 });
@@ -154,6 +158,14 @@ public class MostrarMovieActivity extends AppCompatActivity {
             Picasso.get().load("https://png.pngtree.com/element_our/png_detail/20181227/movie-icon-which-is-designed-for-all-application-purpose-new-png_287896.jpg").into(image);
         }
 
+        if(movie.isEsFavorito() == true){
+            EFbuttonFav.setColorFilter(Color.YELLOW);
+        }
+
+        if(movie.isEsPendiente() == true){
+            EFbuttonPend.setColorFilter(Color.YELLOW);
+        }
+
         if(movie.getCrew()==null){
             crew.setText("Ninguno");
             directors.setText("No hay directores");
@@ -173,16 +185,6 @@ public class MostrarMovieActivity extends AppCompatActivity {
 
         Picasso.get().load("https://cdn-icons-png.flaticon.com/512/74/74472.png").into(imageReparto);
 
-        if(movie.isEsPendiente()==true){
-            EFbuttonPend.setColorFilter(Color.YELLOW);
-        }else{
-            EFbuttonPend.setColorFilter(Color.BLACK);
-        }
 
-        if(movie.isEsFavorito()==true){
-            EFbuttonFav.setColorFilter(Color.YELLOW);
-        }else{
-            EFbuttonFav.setColorFilter(Color.BLACK);
-        }
     }
 }
