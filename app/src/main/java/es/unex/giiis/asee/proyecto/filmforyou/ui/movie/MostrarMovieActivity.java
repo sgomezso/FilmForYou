@@ -68,13 +68,16 @@ public class MostrarMovieActivity extends AppCompatActivity {
 
         UserMovieFavoritesRepository userMovieFavoritesRepository = new UserMovieFavoritesRepository(this);
         UserMoviePendingRepository userMoviePendingRepository = new UserMoviePendingRepository(this);
-        Movie movie = (Movie) getIntent().getSerializableExtra("Movie");
+        movie = (Movie) getIntent().getSerializableExtra("Movie");
         SharedPreferences settings = getSharedPreferences("preference", Context.MODE_PRIVATE);
         Long userId = settings.getLong("userId",-1);
 
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         mViewModel = new ViewModelProvider((ViewModelStoreOwner) this, (ViewModelProvider.Factory) appContainer.movieFactory).get(MovieViewModel.class);
-
+        mViewModel.getMovie(movie.getMovieId());
+        mViewModel.movie.observe(this, newMovie -> {
+            movie = newMovie;
+        });
 
         findViewById(R.id.fav_Botton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,7 +195,5 @@ public class MostrarMovieActivity extends AppCompatActivity {
         });
 
         Picasso.get().load("https://cdn-icons-png.flaticon.com/512/74/74472.png").into(imageReparto);
-
-
     }
 }

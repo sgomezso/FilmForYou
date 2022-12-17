@@ -1,7 +1,6 @@
 package es.unex.giiis.asee.proyecto.filmforyou;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
@@ -94,7 +93,12 @@ public class MoviesRepository {
         return sInstance;
     }
 
-    public void updateMovie(Movie movie) {
-            movieDAO.updateMovie(movie);
+    public Movie getMovie(String id){
+        return movieDAO.getMovie(id);
     }
+
+    public void updateMovie(Movie movie) {
+        movieDAO.updateMovie(movie);
+    }
+
 }

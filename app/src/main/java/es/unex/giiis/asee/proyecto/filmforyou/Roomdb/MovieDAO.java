@@ -23,7 +23,10 @@ public interface MovieDAO {
     void insertMovies(List<Movie> movies);
 
     @Update
-    public void updateMovie(Movie item);
+    void updateMovie(Movie item);
+
+    @Query("SELECT * FROM MOVIES WHERE ID = :id")
+    Movie getMovie(String id);
 
 
 //    @Query("select * from movies where id = :uId")
