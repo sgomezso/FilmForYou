@@ -10,6 +10,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.ui.login.LoginViewModel;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.login.LoginViewModelFactory;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.login.UserRepository;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MovieListViewModelFactory;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.movie.MovieViewModelFactory;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.pending.PendingViewModelFactory;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.pending.UserMoviePendingRepository;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.profile.ProfileViewModel;
@@ -29,6 +30,7 @@ public class AppContainer {
     public MovieListViewModelFactory movieListViewModelFactory;
     public LoginViewModelFactory loginViewModelFactory;
     public ProfileViewModelFactory profileViewModelFactory;
+    public MovieViewModelFactory movieFactory;
 
     public AppContainer(Context context) {
         database = Database.getInstance(context);
@@ -42,5 +44,6 @@ public class AppContainer {
         pendingViewModelFactory = new PendingViewModelFactory(userMoviePendingRepository);
         searchViewModelFactory = new SearchViewModelFactory(movieRepository);
         loginViewModelFactory = new LoginViewModelFactory(userRepository);
+        movieFactory = new MovieViewModelFactory(movieRepository);
     }
 }

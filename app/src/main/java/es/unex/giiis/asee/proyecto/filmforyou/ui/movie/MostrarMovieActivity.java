@@ -12,11 +12,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
+import es.unex.giiis.asee.proyecto.filmforyou.AppContainer;
 import es.unex.giiis.asee.proyecto.filmforyou.AppExecutors;
+import es.unex.giiis.asee.proyecto.filmforyou.MyApplication;
 import es.unex.giiis.asee.proyecto.filmforyou.R;
 import es.unex.giiis.asee.proyecto.filmforyou.Retrofit.Model.Movie;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.UserMovieFavoritesRepository;
@@ -39,7 +43,7 @@ public class MostrarMovieActivity extends AppCompatActivity {
     private ImageView backButton;
     FloatingActionButton EFbuttonFav;
     FloatingActionButton EFbuttonPend;
-    private MovieListViewModel mViewModel;
+    private MovieViewModel mViewModel;
     private Movie movie;
 
 
@@ -67,6 +71,10 @@ public class MostrarMovieActivity extends AppCompatActivity {
         Movie movie = (Movie) getIntent().getSerializableExtra("Movie");
         SharedPreferences settings = getSharedPreferences("preference", Context.MODE_PRIVATE);
         Long userId = settings.getLong("userId",-1);
+
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        mViewModel = new ViewModelProvider((ViewModelStoreOwner) this, (ViewModelProvider.Factory) appContainer.movieFactory).get(MovieViewModel.class);
+
 
         findViewById(R.id.fav_Botton).setOnClickListener(new View.OnClickListener() {
             @Override
