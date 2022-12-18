@@ -16,7 +16,4 @@ public class MovieViewModel extends ViewModel {
         mRepository = repository;
     }
     public void getMovie(String id){ movie.postValue(mRepository.getMovie(id));}
-    public void actualizarMovie(Movie movie){
-        mRepository.updateMovie(movie);
-    }
 }

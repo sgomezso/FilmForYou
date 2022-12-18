@@ -97,8 +97,4 @@ public class MoviesRepository {
         return movieDAO.getMovie(id);
     }
 
-    public void updateMovie(Movie movie) {
-        movieDAO.updateMovie(movie);
-    }
-
 }

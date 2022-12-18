@@ -78,7 +78,11 @@ public class MostrarMovieActivity extends AppCompatActivity {
         mViewModel.movie.observe(this, newMovie -> {
             movie = newMovie;
         });
-
+        if( userMovieFavoritesRepository.checkFav(userId,movie.getMovieId())){
+            EFbuttonFav.setColorFilter(Color.BLACK);
+        } else {
+            EFbuttonFav.setColorFilter(Color.YELLOW);
+        }
         findViewById(R.id.fav_Botton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,18 +91,10 @@ public class MostrarMovieActivity extends AppCompatActivity {
                     public void run() {
                         if( userMovieFavoritesRepository.checkFav(userId,movie.getMovieId())){
                             userMovieFavoritesRepository.deleteFav(userId,movie.getMovieId());
+                            EFbuttonFav.setColorFilter(Color.BLACK);
                         } else {
                             userMovieFavoritesRepository.addFav(userId, movie.getMovieId());
-                        }
-
-                        if (movie.isEsFavorito() == false) {
-                            movie.setEsFavorito(true);
-                            mViewModel.actualizarMovie(movie);
                             EFbuttonFav.setColorFilter(Color.YELLOW);
-                        } else {
-                            movie.setEsFavorito(false);
-                            mViewModel.actualizarMovie(movie);
-                            EFbuttonFav.setImageResource(R.drawable.ic_baseline_star_rate_25);
                         }
                     }
                 });
@@ -107,7 +103,11 @@ public class MostrarMovieActivity extends AppCompatActivity {
             }
         });
 
-
+        if(userMoviePendingRepository.checkPending(userId,movie.getMovieId())){
+            EFbuttonPend.setColorFilter(Color.BLACK);
+        } else {
+            EFbuttonPend.setColorFilter(Color.YELLOW);
+        }
 
         findViewById(R.id.addPendingButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,14 +121,6 @@ public class MostrarMovieActivity extends AppCompatActivity {
                         } else {
                             userMoviePendingRepository.addPending(userId, movie.getMovieId());
                             EFbuttonPend.setColorFilter(Color.YELLOW);
-                        }
-
-                        if (movie.isEsPendiente() == false) {
-                            movie.setEsPendiente(true);
-                            mViewModel.actualizarMovie(movie);
-                        } else {
-                            movie.setEsPendiente(false);
-                            mViewModel.actualizarMovie(movie);
                         }
                     }
                 });

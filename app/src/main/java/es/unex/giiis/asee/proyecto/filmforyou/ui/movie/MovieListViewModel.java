@@ -44,8 +44,4 @@ public class MovieListViewModel extends ViewModel {
         mRepository.removeMovies();
     }
 
-    public void actualizarMovie(Movie movie){
-        mRepository.updateMovie(movie);
-    }
-
 }

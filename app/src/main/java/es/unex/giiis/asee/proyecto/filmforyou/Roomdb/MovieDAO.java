@@ -22,9 +22,6 @@ public interface MovieDAO {
     @Insert
     void insertMovies(List<Movie> movies);
 
-    @Update
-    void updateMovie(Movie item);
-
     @Query("SELECT * FROM MOVIES WHERE ID = :id")
     Movie getMovie(String id);
 
