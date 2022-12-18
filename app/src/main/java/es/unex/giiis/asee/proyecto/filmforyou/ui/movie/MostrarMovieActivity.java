@@ -79,9 +79,9 @@ public class MostrarMovieActivity extends AppCompatActivity {
             movie = newMovie;
         });
         if( userMovieFavoritesRepository.checkFav(userId,movie.getMovieId())){
-            EFbuttonFav.setColorFilter(Color.BLACK);
-        } else {
             EFbuttonFav.setColorFilter(Color.YELLOW);
+        } else {
+            EFbuttonFav.setColorFilter(Color.BLACK);
         }
         findViewById(R.id.fav_Botton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,9 +104,11 @@ public class MostrarMovieActivity extends AppCompatActivity {
         });
 
         if(userMoviePendingRepository.checkPending(userId,movie.getMovieId())){
-            EFbuttonPend.setColorFilter(Color.BLACK);
-        } else {
             EFbuttonPend.setColorFilter(Color.YELLOW);
+
+        } else {
+            EFbuttonPend.setColorFilter(Color.BLACK);
+
         }
 
         findViewById(R.id.addPendingButton).setOnClickListener(new View.OnClickListener() {
