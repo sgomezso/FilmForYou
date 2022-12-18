@@ -65,7 +65,7 @@ public class FavoritesFragment extends Fragment implements MoviesAdapter.OnListI
     @Override
     public void onResume() {
         super.onResume();
-        favoritesViewModel.getFavoriteMovies();
+        favoritesViewModel.getFavoriteMovies(getContext());
     }
 
     @Override

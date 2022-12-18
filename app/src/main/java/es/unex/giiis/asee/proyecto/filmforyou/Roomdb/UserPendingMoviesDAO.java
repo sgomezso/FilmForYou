@@ -28,7 +28,7 @@ public interface UserPendingMoviesDAO {
     @Query("delete from userPendingMovies where idUser = :idUser and idMovie = :idMovie")
     public void deletePending(String idUser, String idMovie);
 
-    @Query("select * from movies m join userPendingMovies p where m.id = p.idMovie")
-    public List<PendingMovies> getPendingMovies();
+    @Query("select * from movies m join userPendingMovies p where m.id = p.idMovie and p.idUser = :id")
+    public List<PendingMovies> getPendingMovies(Long id);
 }
 

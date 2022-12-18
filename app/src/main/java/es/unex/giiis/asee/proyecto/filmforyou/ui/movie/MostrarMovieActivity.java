@@ -163,13 +163,6 @@ public class MostrarMovieActivity extends AppCompatActivity {
             Picasso.get().load("https://png.pngtree.com/element_our/png_detail/20181227/movie-icon-which-is-designed-for-all-application-purpose-new-png_287896.jpg").into(image);
         }
 
-        if(movie.isEsFavorito() == true){
-            EFbuttonFav.setColorFilter(Color.YELLOW);
-        }
-
-        if(movie.isEsPendiente() == true){
-            EFbuttonPend.setColorFilter(Color.YELLOW);
-        }
 
         if(movie.getCrew()==null){
             crew.setText("Ninguno");

@@ -1,5 +1,7 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.favorites;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -22,8 +24,8 @@ public class FavoritesViewModel extends ViewModel {
         this.mRepository = repository;
     }
 
-    public void getFavoriteMovies() {
-        mRepository.getFavoriteMovies(new MoviesRepositoryListener() {
+    public void getFavoriteMovies(Context context) {
+        mRepository.getFavoriteMovies(context,new MoviesRepositoryListener() {
             @Override
             public void onMoviesResult(List<Movie> movies) {
                 mListFavorites.postValue(movies);

@@ -27,6 +27,6 @@ public interface UserFavoriteMoviesDAO {
     @Query("delete from userFavoriteMovies where idUser = :idUser and idMovie = :idMovie")
     public void deleteFavorite(String idUser, String idMovie);
 
-    @Query("select * from movies m join userfavoritemovies f where m.id = f.idMovie")
-    public List<FavoriteMovies> getFavoriteMovies();
+    @Query("select * from movies m join userfavoritemovies f where m.id = f.idMovie AND f.idUser = :id")
+    public List<FavoriteMovies> getFavoriteMovies(Long id);
 }

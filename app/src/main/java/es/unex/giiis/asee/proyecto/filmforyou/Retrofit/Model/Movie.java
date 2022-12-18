@@ -20,10 +20,10 @@ public class Movie implements Serializable {
     public String crew;
     public String imDbRating;
     public String imDbRatingCount;
-    private boolean esFavorito;
-    private boolean esPendiente;
 
-    public Movie(){}
+
+    public Movie() {
+    }
 
     public Movie(@NonNull String movieId, String rank, String title, String fullTitle, String year, String image, String crew, String imDbRating, String imDbRatingCount) {
         this.id = movieId;
@@ -107,21 +107,5 @@ public class Movie implements Serializable {
 
     public void setImDbRatingCount(String imDbRatingCount) {
         this.imDbRatingCount = imDbRatingCount;
-    }
-
-    public boolean isEsFavorito() {
-        return esFavorito;
-    }
-
-    public boolean isEsPendiente() {
-        return esPendiente;
-    }
-
-    public void setEsFavorito(boolean esFavorito) {
-        this.esFavorito = esFavorito;
-    }
-
-    public void setEsPendiente(boolean esPendiente) {
-        this.esPendiente = esPendiente;
     }
 }

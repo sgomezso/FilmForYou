@@ -82,7 +82,7 @@ public class PendingFragment extends Fragment implements  MoviesAdapter.OnListIn
     @Override
     public void onResume() {
         super.onResume();
-        pendingViewModel.getPendingMovies();
+        pendingViewModel.getPendingMovies(getContext());
     }
 
     @Override

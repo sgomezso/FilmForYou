@@ -1,5 +1,7 @@
 package es.unex.giiis.asee.proyecto.filmforyou.ui.pending;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -23,8 +25,8 @@ public class PendingViewModel extends ViewModel {
         this.mRepository = repository;
     }
 
-    public void getPendingMovies() {
-        mRepository.getPendingMovies(new MoviesRepositoryListener() {
+    public void getPendingMovies(Context context) {
+        mRepository.getPendingMovies(context,new MoviesRepositoryListener() {
             @Override
             public void onMoviesResult(List<Movie> movies) {
                 mListPending.postValue(movies);

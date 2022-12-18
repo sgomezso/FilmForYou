@@ -16,6 +16,7 @@ import es.unex.giiis.asee.proyecto.filmforyou.Roomdb.UserPendingMoviesDAO;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.User;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserFavoritesMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.data.model.UserPendingMovies;
+import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.FavoriteMovies;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.favorites.UserMovieFavoritesRepository;
 import es.unex.giiis.asee.proyecto.filmforyou.ui.login.UserRepository;
 
@@ -39,11 +40,12 @@ public class UserMoviePendingRepository {
         return sInstance;
     }
 
-    public void getPendingMovies(MoviesRepositoryListener callback) {
+    public void getPendingMovies(Context context,MoviesRepositoryListener callback) {
         AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
-                List<PendingMovies> pendingMovies = userPendingMoviesDAO.getPendingMovies();
+                SharedPreferences preference = context.getSharedPreferences("preference", Context.MODE_PRIVATE);
+                List<PendingMovies> pendingMovies = userPendingMoviesDAO.getPendingMovies(preference.getLong("userId", 0));
                 List<Movie> movies = new ArrayList<>();
                 for (PendingMovies pendMovie: pendingMovies) {
                     movies.add(pendMovie.toMovie());
